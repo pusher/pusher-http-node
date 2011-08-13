@@ -1,0 +1,14 @@
+{
+  "name": "node-pusher",
+  "description": "Node library for Pusher API",
+  "version": "0.0.1",
+  "author": "Jaewoong Kim <jwoongkim@gmail.com>",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "keywords": ["pusher", "websockets", "realtime"],
+  "repository": "git://github.com/crossbreeze/node-pusher",
+  "main": "index",
+  "engines": { "node": ">= 0.4.3" }
+}

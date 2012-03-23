@@ -34,7 +34,7 @@ pusher.trigger(channel, event, data, socket_id, function(err, req, res) {
 // auth function returns the object with the auth field which can be returned from our sever
 // to authorize the socket to subscribe to a private or presence channel
 // http://pusher.com/docs/auth_signatures
-pusher.auth(socket_id, channel);
+pusher.auth(socket_id, channel, channelData);
 ```
 
 ## Credits

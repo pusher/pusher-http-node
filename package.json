@@ -1,7 +1,7 @@
 {
   "name": "node-pusher",
   "description": "Node library for Pusher API",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Jaewoong Kim <jwoongkim@gmail.com>",
   "dependencies": {
   },

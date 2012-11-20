@@ -14,7 +14,8 @@
     }
   ],
   "dependencies": {
-    "vows": "=0.7.0"
+    "vows": "=0.7.0",
+    "request": "=2.9.203"
   },
   "devDependencies": {
   },

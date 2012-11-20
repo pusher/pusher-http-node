@@ -1,6 +1,6 @@
 var vows = require('vows'),
     assert = require('assert'),
-    Pusher = require('../lib/node-pusher'),
+    Pusher = require('../lib/pusher'),
     fs = require('fs');
 
 var data = fs.readFileSync(__dirname + '/config.json');
@@ -35,7 +35,6 @@ vows.describe('Trigger').addBatch({
     	topic: function() {
     		var buf = new Buffer(1024*11);
     		var str = buf.toString();
-    		console.log( str );
 
     		pusher.trigger( 'test_channel', 'my_event', str, null, this.callback );
     	},

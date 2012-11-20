@@ -1,1 +1,1 @@
-module.exports = require('./lib/node-pusher');
+module.exports = require('./lib/pusher');

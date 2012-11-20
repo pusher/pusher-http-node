@@ -1,14 +1,25 @@
 {
-  "name": "node-pusher",
-  "description": "Node library for Pusher API",
-  "version": "0.0.2",
-  "author": "Jaewoong Kim <jwoongkim@gmail.com>",
+  "name": "pusher-node-server",
+  "description": "Node library for the Pusher server API",
+  "version": "0.0.3",
+  "author": "Pusher <support@pusher.com>",
+  "contributors": [
+    {
+      "name": "Jaewoong Kim",
+      "email": "jwoongkim@gmail.com"
+    },
+    {
+      "name": "Phil Leggetter",
+      "email": "phil@leggetter.co.uk"
+    }
+  ],
   "dependencies": {
+    "vows": "=0.7.0"
   },
   "devDependencies": {
   },
   "keywords": ["pusher", "websockets", "realtime"],
-  "repository": "git://github.com/crossbreeze/node-pusher",
+  "repository": "git://github.com/pusher/pusher-node-server",
   "main": "index",
   "engines": { "node": ">= 0.4.3" }
 }

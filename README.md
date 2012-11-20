@@ -1,4 +1,4 @@
-# A node library for Pusher API
+# A node.js library for Pusher API
 
 ## Installation
 ```
@@ -37,9 +37,19 @@ pusher.trigger(channel, event, data, socket_id, function(err, req, res) {
 pusher.auth(socket_id, channel, channelData);
 ```
 
+## Tests
+
+The tests run using [Vows](http://vowsjs.org/) and were added in 0.0.3. To run:
+
+1. `cp tests/config.example.json tests/config.json` and update with your own Pusher application credentials.
+2. `npm update` to ensure you have vows in `node_modules`
+3. Run the tests using `node_modules/vows/bin/vows tests/*.js`
+
 ## Credits
 
-This library is based on the work of Christian Bäuerlein and his library pusher
+This library is based on the work of:
+* Christian Bäuerlein and his library pusher.
+* Jaewoong Kim and the node-pusher library.
 
 ## License
 

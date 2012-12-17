@@ -2,13 +2,13 @@
 
 ## Installation
 ```
-$ npm install pusher-node-server
+$ npm install pusher
 ```
 
 ## How to use
 
 ```javascript
-var Pusher = require('pusher-node-server');
+var Pusher = require('pusher');
 
 var pusher = new Pusher({
   appId: 'YOUR_PUSHER_APP_ID',

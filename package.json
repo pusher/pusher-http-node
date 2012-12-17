@@ -1,9 +1,13 @@
 {
-  "name": "pusher-node-server",
+  "name": "pusher",
   "description": "Node library for the Pusher server API",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": "Pusher <support@pusher.com>",
   "contributors": [
+    {
+      "name": "fabrik42",
+      "email": "fabrik42@gmail.com"
+    },
     {
       "name": "Jaewoong Kim",
       "email": "jwoongkim@gmail.com"

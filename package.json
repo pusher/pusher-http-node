@@ -1,7 +1,7 @@
 {
   "name": "pusher",
   "description": "Node library for the Pusher server API",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Pusher <support@pusher.com>",
   "contributors": [
     {
@@ -18,10 +18,10 @@
     }
   ],
   "dependencies": {
-    "vows": "=0.7.0",
     "request": "=2.9.203"
   },
   "devDependencies": {
+    "vows": "=0.7.0"
   },
   "keywords": ["pusher", "websockets", "realtime"],
   "repository": "git://github.com/pusher/pusher-node-server",

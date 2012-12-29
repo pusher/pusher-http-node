@@ -1,10 +1,12 @@
 var vows = require('vows'),
     assert = require('assert'),
-    Pusher = require('../lib/pusher'),
+    Pusher = require('../../lib/pusher'),
     fs = require('fs');
 
-var data = fs.readFileSync(__dirname + '/config.json');
-var config = JSON.parse( data) ;
+var data = fs.readFileSync(__dirname + '/../config.json');
+var config = JSON.parse( data);
+
+var orgRequestModule = Pusher.modules.request;
 
 var pusher = new Pusher({
 					  appId: config.pusher.id,

@@ -15,50 +15,50 @@ var pusher = new Pusher({
 					});
 
 vows.describe('Trigger').addBatch({
-    'when triggering a data structure': {
-        topic: function () { 
-			pusher.trigger( 'test_channel', 'my_event', { "hello": "world" }, null, this.callback );
-        },
-
-        'the REST API call is successful': function(err, req, res) {
-        	assert.equal( res.statusCode, 202 );
-        }
+  'when triggering a data structure': {
+    topic: function () { 
+      pusher.trigger( 'test_channel', 'my_event', { "hello": "world" }, null, this.callback );
     },
-    'when triggering a String': {
-        topic: function () { 
-            pusher.trigger( 'test_channel', 'my_event', "Hello World", null, this.callback );
-        },
 
-        'the REST API call is successful': function(err, req, res) {
-            assert.equal( res.statusCode, 202 );
-        }
-    },
-    'when triggering a string over 10kB': {
-    	topic: function() {
-    		var buf = new Buffer(1024*11);
-    		var str = buf.toString();
-
-    		pusher.trigger( 'test_channel', 'my_event', str, null, this.callback );
-    	},
-
-    	'the REST API call will return 413': function(err, req, res) {
-            assert.equal( res.statusCode, 413 );
-        } 
-    },
-    'when triggering over HTTPS': {
-        topic: function () {
-            pusher.scheme = 'https';
-            pusher.port = 443;
-            pusher.trigger( 'test_channel', 'my_event', { "hello": "world" }, null, this.callback );
-        },
-
-        'the REST API call is successful': function(err, req, res) {
-            assert.equal( res.statusCode, 202 );
-        },
-
-        teardown: function() {
-            pusher.scheme = 'http';
-            pusher.port = 80;
-        }
+    'the REST API call is successful': function(err, req, res) {
+      assert.equal( res.statusCode, 202 );
     }
+  },
+  'when triggering a String': {
+    topic: function () { 
+      pusher.trigger( 'test_channel', 'my_event', "Hello World", null, this.callback );
+    },
+
+    'the REST API call is successful': function(err, req, res) {
+      assert.equal( res.statusCode, 202 );
+    }
+  },
+  'when triggering a string over 10kB': {
+  	topic: function() {
+  		var buf = new Buffer(1024*11);
+  		var str = buf.toString();
+
+  		pusher.trigger( 'test_channel', 'my_event', str, null, this.callback );
+  	},
+
+  	'the REST API call will return 413': function(err, req, res) {
+      assert.equal( res.statusCode, 413 );
+    } 
+  },
+  'when triggering over HTTPS': {
+    topic: function () {
+      pusher.scheme = 'https';
+      pusher.port = 443;
+      pusher.trigger( 'test_channel', 'my_event', { "hello": "world" }, null, this.callback );
+    },
+
+    'the REST API call is successful': function(err, req, res) {
+      assert.equal( res.statusCode, 202 );
+    },
+
+    teardown: function() {
+      pusher.scheme = 'http';
+      pusher.port = 80;
+    }
+  }
 }).export( module );

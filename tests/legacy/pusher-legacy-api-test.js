@@ -69,7 +69,7 @@ vows.describe('Legacy').addBatch({
     },
 
     'the REST API call is successful': function(err, req, res) {
-    	assert.equal( res.statusCode, 202 );
+    	assert.equal( res.statusCode, 200 );
     }
   }
 

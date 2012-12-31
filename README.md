@@ -1,4 +1,8 @@
-# A node.js library for Pusher API
+# Pusher node.js Server library
+
+This is a node.js library for interacting with the Pusher REST API.
+
+Registering at <http://pusher.com> and use the application credentails within your app as shown below.
 
 ## Installation
 ```
@@ -6,6 +10,8 @@ $ npm install pusher
 ```
 
 ## How to use
+
+### Constructor
 
 ```javascript
 var Pusher = require('pusher');
@@ -22,20 +28,62 @@ var data = {
   from: 'Jaewoong',
   content: 'Hello, World'
 };
-
-// (optional) socket_id is used to prevent getting message for myself
-// http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients
-var socket_id = '1302.1081607';
-
-pusher.trigger(channel, event, data, socket_id, function(err, req, res) {
-  // do something (this callback is optional)
-});
-
-// auth function returns the object with the auth field which can be returned from our sever
-// to authorize the socket to subscribe to a private or presence channel
-// http://pusher.com/docs/auth_signatures
-pusher.auth(socket_id, channel, channelData);
 ```
+
+### Publishing/Triggering events
+
+To trigger an event on one or more channels use the trigger function.
+
+#### A single channel
+
+```
+pusher.trigger( 'channel-1', 'test_event', { message: "hello world" } );
+```
+
+#### Multiple channels
+
+```
+pusher.trigger( [ 'channel-1', 'channel-2' ], 'test_event', { message: "hello world" } );
+```
+
+### Excluding event recipients
+
+In order to avoid the person that triggered the event also receiving it the `trigger` function can take an optional `socketId` parameter. For more informaiton see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.
+
+```
+var socketId = '1302.1081607';
+
+pusher.trigger(channel, event, data, socketId);
+```
+
+### Authenticating Private channels
+
+To authorise your users to access private channels on Pusher, you can use the `auth` function:
+
+```
+var auth = pusher.auth( socketId, channel );
+```
+
+For more information see: <http://pusher.com/docs/authenticating_users>
+
+### Authenticating Presence channels
+
+Using presence channels is similar to private channels, but you can specify extra data to identify that particular user:
+
+```
+var channelData = {
+	user_id: 'unique_user_id',
+	user_info: {
+	  name: 'Phil Leggetter'
+	  twitter_id: '@leggetter'
+	}
+};
+var auth = pusher.auth( socketId, channel, channelData );
+```
+
+The `auth` is then returned to the caller as JSON.
+
+For more information see: <http://pusher.com/docs/authenticating_users>
 
 ## Tests
 

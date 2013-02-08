@@ -91,7 +91,7 @@ The tests run using [Vows](http://vowsjs.org/) and were added in 0.0.3. To run:
 
 1. `cp tests/config.example.json tests/config.json` and update with your own Pusher application credentials.
 2. `npm update` to ensure you have vows in `node_modules`
-3. Run the tests using `node_modules/vows/bin/vows tests/*/.js`
+3. Run the tests using `node_modules/vows/bin/vows tests/*/*.js`
 
 ## Credits
 

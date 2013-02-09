@@ -20,6 +20,10 @@ vows.describe('AppState').addBatch({
 
     'the REST API call is successful': function(err, req, res) {
       assert.equal( res.statusCode, 200 );
+    },
+
+    'the REST API call returns channel information JSON in the body': function(err, req, res) {
+      assert.isObject( JSON.parse( res.body ).channels );
     }
   }
 }).export( module );

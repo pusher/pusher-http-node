@@ -21,13 +21,6 @@ var pusher = new Pusher({
   key: 'YOUR_PUSHER_APP_KEY',
   secret: 'YOUR_PUSHER_SECRET_KEY'
 });
-
-var channel = 'lobby';
-var event = 'message';
-var data = {
-  from: 'Jaewoong',
-  content: 'Hello, World'
-};
 ```
 
 ### Publishing/Triggering events

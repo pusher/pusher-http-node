@@ -85,6 +85,41 @@ The `auth` is then returned to the caller as JSON.
 
 For more information see: <http://pusher.com/docs/authenticating_users>
 
+### Application State
+
+It's possible to query the state of the application using the `pusher.get` function.
+
+    pusher.get( { path: path, params: params }, callback );
+
+The `path` property identifies the resource that the request should be made to and the `params` property should be a map of additional querystring key and value pairs.
+
+The following example provides the signature of the callback and an example of parsing the result:
+
+		pusher.get( { path: '/channels', params: {} }, function( error, request, response ) {
+			if( response.statusCode === 200 ) {
+				var result = JSON.parse( response.body );
+				var channelsInfo = result.channels;
+			}
+		} );    
+
+#### Get list of channels in an application
+
+    pusher.get( { path: '/channels', params: params }, callback );
+
+Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channels).
+
+#### Get single channel state
+
+    pusher.get( { path: '/channels/[channel_name]', params: params }, callback );
+
+Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channel).
+
+#### Get list of users on a presence channel
+
+    pusher.get( { path: '/channels/[channel_name]/users' }, callback );
+
+The `channel_name` in the path must be a [presence channel](http://pusher.com/docs/presence). The structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-users).
+
 ## Tests
 
 The tests run using [Vows](http://vowsjs.org/) and were added in 0.0.3. To run:

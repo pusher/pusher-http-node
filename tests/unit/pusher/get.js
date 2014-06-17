@@ -58,6 +58,27 @@ describe("Pusher", function() {
       });
     });
 
-    it("should use the correct scheme, domain and port");
+    it("should respect the scheme, host and port config", function(done) {
+      var pusher = new Pusher({
+        appId: 999,
+        key: "111111",
+        secret: "beef",
+        scheme: "https",
+        host: "example.com",
+        port: 1234
+      });
+      var mock = nock("https://example.com:1234")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .get(
+          "/apps/999/test?auth_key=111111&auth_timestamp=X&auth_version=1.0&auth_signature=Y"
+        )
+        .reply(200, "{\"test key\": \"test value\"}");
+
+      pusher.get({ path: "/test", params: {} }, done);
+    });
   });
 });

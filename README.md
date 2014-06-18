@@ -22,7 +22,7 @@ var pusher = new Pusher({
   secret: 'YOUR_PUSHER_SECRET_KEY',
   scheme: 'PUSHER_SCHEME', // optional, defaults to http
   host: 'PUSHER_HOST', // optional, defaults to api.pusherapp.com
-  port: 'PUSHER_PORT' // optional, defaults to 80 for http and 443 for https
+  port: PUSHER_PORT, // optional, defaults to 80 for http and 443 for https
   proxy: 'HTTP_PROXY_URL' // optional, URL to proxy the requests through
 });
 ```

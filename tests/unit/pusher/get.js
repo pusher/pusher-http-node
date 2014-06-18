@@ -80,5 +80,32 @@ describe("Pusher", function() {
 
       pusher.get({ path: "/test", params: {} }, done);
     });
+
+    it("should respect the timeout when specified", function(done) {
+      var pusher = new Pusher({
+        appId: 999,
+        key: "111111",
+        secret: "beef",
+        timeout: 100
+      });
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .get(
+          "/apps/999/test?auth_key=111111&auth_timestamp=X&auth_version=1.0&auth_signature=Y"
+        )
+        .delayConnection(200)
+        .reply(200);
+
+      pusher.get({ path: "/test", params: {} }, function(error, request, response) {
+        var expectedError = new Error("ETIMEDOUT");
+        expectedError.code = "ETIMEDOUT";
+        expect(error).to.eql(expectedError);
+        done();
+      });
+    });
   });
 });

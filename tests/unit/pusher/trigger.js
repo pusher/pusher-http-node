@@ -144,5 +144,33 @@ describe("Pusher", function() {
 
       pusher.trigger("test_channel", "my_event", { some: "data "}, "123.567", done);
     });
+
+    it("should respect the timeout when specified", function(done) {
+      var pusher = new Pusher({
+        appId: 1234,
+        key: "f00d",
+        secret: "beef",
+        timeout: 200
+      });
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=0478e1ed73804ae1be97cfa6554cf039&auth_signature=Y",
+          { name: "my_event", data: "{\"some\":\"data \"}", channels: ["test_channel"], socket_id: "123.567" }
+        )
+        .delayConnection(200)
+        .reply(200);
+
+      pusher.trigger("test_channel", "my_event", { some: "data "}, "123.567", function(error, request, response) {
+        var expectedError = new Error("ETIMEDOUT");
+        expectedError.code = "ETIMEDOUT";
+        expect(error).to.eql(expectedError);
+        done();
+      });
+    });
   });
 });

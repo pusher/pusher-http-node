@@ -13,16 +13,58 @@ $ npm install pusher
 
 ### Constructor
 
+There are 3 ways to configure the client. First one is the most basic:
+
 ```javascript
 var Pusher = require('pusher');
 
 var pusher = new Pusher({
-  appId: 'YOUR_PUSHER_APP_ID',
-  key: 'YOUR_PUSHER_APP_KEY',
-  secret: 'YOUR_PUSHER_SECRET_KEY',
-  scheme: 'PUSHER_SCHEME', // optional, defaults to http
-  host: 'PUSHER_HOST', // optional, defaults to api.pusherapp.com
-  port: PUSHER_PORT, // optional, defaults to 80 for http and 443 for https
+  appId: 'APP_ID',
+  key: 'APP_KEY',
+  secret: 'SECRET_KEY',
+  scheme: 'SCHEME', // optional, defaults to http
+  host: 'HOST', // optional, defaults to api.pusherapp.com
+  port: PORT, // optional, defaults to 80 for http and 443 for https
+});
+```
+
+For specific clusters, you can also use the cluster option:
+
+```javascript
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: 'APP_ID',
+  key: 'APP_KEY',
+  secret: 'SECRET_KEY',
+  scheme: 'SCHEME', // optional, defaults to http
+  cluster: 'CLUSTER', // will set the host to `api-CLUSTER.pusher.com`
+  port: PORT, // optional, defaults to 80 for http and 443 for https
+});
+```
+
+You can also specify auth and endpoint options by passing an URL:
+
+```javascript
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  url: "SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID"
+});
+```
+
+This is useful for example on Heroku, which sets the PUSHER_URL environment
+variable to such an URL, if you have the Pusher addon installed.
+
+#### Additional constructor options
+
+There are 2 additional options: one for HTTP proxy support and one for timeouts:
+
+```javascript
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  // you can set other options in any of the 3 ways described above
   proxy: 'HTTP_PROXY_URL', // optional, URL to proxy the requests through
   timeout: TIMEOUT // optional, timeout for all requests in milliseconds
 });

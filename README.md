@@ -54,7 +54,7 @@ var pusher = new Pusher({
 ```
 
 This is useful for example on Heroku, which sets the PUSHER_URL environment
-variable to such an URL, if you have the Pusher addon installed.
+variable to such URL, if you have the Pusher addon installed.
 
 #### Additional constructor options
 
@@ -166,11 +166,24 @@ The `channel_name` in the path must be a [presence channel](http://pusher.com/do
 
 ## Tests
 
-The tests run using [Vows](http://vowsjs.org/) and were added in 0.0.3. To run:
+The tests run using [Mocha](http://visionmedia.github.io/mocha/). Make sure
+you've got all required modules installed:
 
-1. `cp tests/config.example.json tests/config.json` and update with your own Pusher application credentials.
-2. `npm update` to ensure you have vows in `node_modules`
-3. Run the tests using `node_modules/vows/bin/vows tests/*/*.js`
+    npm install
+
+### Unit tests
+
+You can run unit tests without setting up a Pusher app:
+
+    node_modules/.bin/mocha tests/unit/**/*.js
+
+### Full test suite
+
+In order to run the full test suite, first you need a Pusher app. When starting
+mocha, you need to set the PUSHER_URL environment variable to contain your
+app credentials, like following:
+
+    `PUSHER_URL='http://KEY:SECRET@api.pusherapp.com/' node_modules/.bin/mocha tests/**/*.js`
 
 ## Credits
 

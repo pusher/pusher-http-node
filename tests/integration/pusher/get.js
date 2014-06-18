@@ -1,18 +1,12 @@
 var expect = require("expect.js");
-var fs = require('fs');
 
 var Pusher = require("../../../lib/pusher");
 
 describe("Pusher (integration)", function() {
-  var config = JSON.parse(fs.readFileSync(__dirname + '/../../config.json'));
   var pusher;
 
   beforeEach(function() {
-    pusher = new Pusher({
-      appId: config.pusher.id,
-      key: config.pusher.key,
-      secret: config.pusher.secret
-    });
+    pusher = new Pusher({ url: process.env.PUSHER_URL });
   });
 
   describe("#get", function() {

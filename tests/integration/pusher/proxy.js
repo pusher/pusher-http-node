@@ -1,5 +1,3 @@
-var fs = require('fs');
-
 var expect = require("expect.js");
 var http_proxy = require("../../helpers/http_proxy");
 
@@ -7,7 +5,6 @@ var Pusher = require("../../../lib/pusher");
 
 describe("Pusher (integration)", function() {
   describe("with configured proxy", function() {
-    var config = JSON.parse(fs.readFileSync(__dirname + '/../../config.json'));
     var pusher;
     var proxy;
 
@@ -17,9 +14,7 @@ describe("Pusher (integration)", function() {
 
     beforeEach(function() {
       pusher = new Pusher({
-        appId: config.pusher.id,
-        key: config.pusher.key,
-        secret: config.pusher.secret,
+        url: process.env.PUSHER_URL,
         proxy: "http://localhost:8321"
       });
     });

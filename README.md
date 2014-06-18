@@ -23,7 +23,8 @@ var pusher = new Pusher({
   scheme: 'PUSHER_SCHEME', // optional, defaults to http
   host: 'PUSHER_HOST', // optional, defaults to api.pusherapp.com
   port: PUSHER_PORT, // optional, defaults to 80 for http and 443 for https
-  proxy: 'HTTP_PROXY_URL' // optional, URL to proxy the requests through
+  proxy: 'HTTP_PROXY_URL', // optional, URL to proxy the requests through
+  timeout: TIMEOUT // optional, timeout for all requests in milliseconds
 });
 ```
 

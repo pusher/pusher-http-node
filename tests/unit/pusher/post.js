@@ -102,5 +102,33 @@ describe("Pusher", function() {
 
       pusher.post({ path: "/test", body: {} }, done);
     });
+
+    it("should respect the timeout when specified", function(done) {
+      var pusher = new Pusher({
+        appId: 10000,
+        key: "aaaa",
+        secret: "beef",
+        timeout: 200
+      });
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/10000/test?auth_key=aaaa&auth_timestamp=X&auth_version=1.0&body_md5=99914b932bd37a50b983c5e7c90ae93b&auth_signature=Y",
+          {}
+        )
+        .delayConnection(200)
+        .reply(200);
+
+      pusher.post({ path: "/test", body: {} }, function(error, request, response) {
+        var expectedError = new Error("ETIMEDOUT");
+        expectedError.code = "ETIMEDOUT";
+        expect(error).to.eql(expectedError);
+        done();
+      });
+    });
   });
 });

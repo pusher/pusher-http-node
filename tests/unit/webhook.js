@@ -59,6 +59,43 @@ describe("WebHook", function() {
       }, pusher);
       expect(webhook.isValid()).to.be(false);
     });
+
+    it("should return true if webhook is signed with the extra token", function() {
+      var webhook = new WebHook({
+        headers: {
+          "x-pusher-key": "1234",
+          "x-pusher-signature": "df1465f5ff93f83238152fd002cb904f9562d39569e68f00a6bfa0d8ccf88334",
+          "content-type": "application/json"
+        },
+        rawBody: JSON.stringify({
+          time_ms: 1403175510755,
+          events: [{ channel: "test_channel", name: "channel_vacated" }]
+        })
+      }, pusher);
+      expect(webhook.isValid({ key: "1234", secret: "beef" })).to.be(true);
+    });
+
+    it("should return true if webhook is signed with one of the extra tokens", function() {
+      var webhook = new WebHook({
+        headers: {
+          "x-pusher-key": "3",
+          "x-pusher-signature": "df1465f5ff93f83238152fd002cb904f9562d39569e68f00a6bfa0d8ccf88334",
+          "content-type": "application/json"
+        },
+        rawBody: JSON.stringify({
+          time_ms: 1403175510755,
+          events: [{ channel: "test_channel", name: "channel_vacated" }]
+        })
+      }, pusher);
+      expect(
+        webhook.isValid(
+          [ { key: "1", secret: "nope" },
+            { key: "2", secret: "not really" },
+            { key: "3", secret: "beef"}
+          ]
+        )
+      ).to.be(true);
+    });
   });
 
   describe("#getData", function() {

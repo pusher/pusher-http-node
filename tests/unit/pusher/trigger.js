@@ -70,9 +70,6 @@ describe("Pusher", function() {
       pusher.trigger(["one", "two", "three"], "my_event", { some: "data "}, null, done);
     });
 
-    it("should raise an error when sending to more than 10 channels");
-    it("should call back");
-
     it("should serialize arrays into JSON", function(done) {
       var mock = nock("http://api.pusherapp.com")
         .filteringPath(function(path) {

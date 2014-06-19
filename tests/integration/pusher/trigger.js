@@ -10,19 +10,13 @@ describe("Pusher (integration)", function() {
   });
 
   describe("#trigger", function() {
-    describe("over HTTP", function() {
-      it("should return code 200", function(done) {
-        pusher.trigger("integration", "event", "test", null, function(error, request, response) {
-          expect(error).to.be(null);
-          expect(response.statusCode).to.equal(200);
-          expect(JSON.parse(response.body)).to.eql({});
-          done();
-        });
+    it("should return code 200", function(done) {
+      pusher.trigger("integration", "event", "test", null, function(error, request, response) {
+        expect(error).to.be(null);
+        expect(response.statusCode).to.equal(200);
+        expect(JSON.parse(response.body)).to.eql({});
+        done();
       });
-    });
-
-    describe("over HTTPS", function() {
-      xit("should return code 200");
     });
   });
 });

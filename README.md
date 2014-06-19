@@ -58,7 +58,7 @@ variable to such URL, if you have the Pusher addon installed.
 
 #### Additional constructor options
 
-There are 2 additional options: one for HTTP proxy support and one for timeouts:
+There are a few additional options that can be passed to the constructor:
 
 ```javascript
 var Pusher = require('pusher');
@@ -66,7 +66,8 @@ var Pusher = require('pusher');
 var pusher = new Pusher({
   // you can set other options in any of the 3 ways described above
   proxy: 'HTTP_PROXY_URL', // optional, URL to proxy the requests through
-  timeout: TIMEOUT // optional, timeout for all requests in milliseconds
+  timeout: TIMEOUT, // optional, timeout for all requests in milliseconds
+  keepAlive: KEEP_ALIVE // optional, enables keep-alive, defaults to false
 });
 ```
 

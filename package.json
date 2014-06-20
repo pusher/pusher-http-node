@@ -34,5 +34,5 @@
   "keywords": ["pusher", "websockets", "realtime"],
   "repository": "git://github.com/pusher/pusher-node-server",
   "main": "index",
-  "engines": { "node": ">= 0.4.3" }
+  "engines": { "node": ">= 0.8.0" }
 }

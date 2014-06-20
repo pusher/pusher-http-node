@@ -28,8 +28,8 @@
     "mocha": "=1.20.1",
     "expect.js": "=0.3.1",
     "sinon": "=1.10.2",
-    "nock": "=0.36.2",
-    "express": "=4.4.3"
+    "nock": "=0.28.0",
+    "express": "=3.11.0"
   },
   "keywords": ["pusher", "websockets", "realtime"],
   "repository": "git://github.com/pusher/pusher-node-server",

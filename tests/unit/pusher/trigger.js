@@ -118,6 +118,51 @@ describe("Pusher", function() {
       pusher.trigger("test_channel", "my_event", { some: "data "}, "123.567", done);
     });
 
+    it("should call back with the result", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=cf87d666b4a829a54fc44b313584b2d7&auth_signature=Y",
+          { name: "my_event", data: "{\"some\":\"data \"}", channels: ["test_channel"] }
+        )
+        .reply(200, "OK");
+
+      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, request, response) {
+        expect(error).to.be(null);
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+
+    it("should call back with a RequestError if Pusher responds with 4xx", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=cf87d666b4a829a54fc44b313584b2d7&auth_signature=Y",
+          { name: "my_event", data: "{\"some\":\"data \"}", channels: ["test_channel"] }
+        )
+        .reply(400, "Error");
+
+      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, request, response) {
+        expect(error).to.be.a(Pusher.RequestError);
+        expect(error.message).to.equal("Unexpected status code 400");
+        expect(error.url).to.match(
+          /^http:\/\/api.pusherapp.com\/apps\/1234\/events\?auth_key=f00d&auth_timestamp=[0-9]+&auth_version=1\.0&body_md5=cf87d666b4a829a54fc44b313584b2d7&auth_signature=[a-f0-9]+$/
+        );
+        expect(error.statusCode).to.equal(400);
+        expect(error.body).to.equal("Error");
+        done();
+      });
+    });
+
     it("should respect the scheme, host and port config", function(done) {
       var pusher = new Pusher({
         appId: 1234,
@@ -165,7 +210,15 @@ describe("Pusher", function() {
       pusher.trigger("test_channel", "my_event", { some: "data "}, "123.567", function(error, request, response) {
         var expectedError = new Error("ETIMEDOUT");
         expectedError.code = "ETIMEDOUT";
-        expect(error).to.eql(expectedError);
+
+        expect(error).to.be.a(Pusher.RequestError);
+        expect(error.message).to.equal("Request failed with an error");
+        expect(error.error).to.eql(expectedError);
+        expect(error.url).to.match(
+          /^http:\/\/api.pusherapp.com\/apps\/1234\/events\?auth_key=f00d&auth_timestamp=[0-9]+&auth_version=1\.0&body_md5=0478e1ed73804ae1be97cfa6554cf039&auth_signature=[a-f0-9]+$/
+        );
+        expect(error.statusCode).to.equal(null);
+        expect(error.body).to.equal(null);
         done();
       });
     });

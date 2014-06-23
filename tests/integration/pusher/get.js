@@ -35,8 +35,9 @@ describe("Pusher (integration)", function() {
     describe("/channels/CHANNEL/users", function() {
       it("should return code 400 for non-presence channels", function(done) {
         pusher.get({ path: "/channels/CHANNEL/users" }, function(error, request, response) {
-          expect(error).to.be(null);
-          expect(response.statusCode).to.equal(400);
+          expect(error).to.be.a(Pusher.RequestError);
+          expect(error.message).to.equal("Unexpected status code 400");
+          expect(error.statusCode).to.equal(400);
           done();
         });
       });

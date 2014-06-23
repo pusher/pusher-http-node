@@ -98,6 +98,60 @@ describe("WebHook", function() {
     });
   });
 
+  describe("#isContentTypeValid", function() {
+    it("should return true if content type is `application/json`", function() {
+      var webhook = new WebHook({
+        headers: {
+          "content-type": "application/json",
+        },
+        rawBody: JSON.stringify({})
+      });
+      expect(webhook.isContentTypeValid()).to.be(true);
+    });
+
+    it("should return false if content type is not `application/json`", function() {
+      var webhook = new WebHook({
+        headers: {
+          "content-type": "application/weird",
+        },
+        rawBody: JSON.stringify({})
+      });
+      expect(webhook.isContentTypeValid()).to.be(false);
+    });
+  });
+
+  describe("#isBodyValid", function() {
+    it("should return true if content type is `application/json` and body is valid JSON", function() {
+      var webhook = new WebHook({
+        headers: {
+          "content-type": "application/json",
+        },
+        rawBody: JSON.stringify({})
+      });
+      expect(webhook.isBodyValid()).to.be(true);
+    });
+
+    it("should return false if content type is `application/json` and body is not valid JSON", function() {
+      var webhook = new WebHook({
+        headers: {
+          "content-type": "application/json",
+        },
+        rawBody: "not json!"
+      });
+      expect(webhook.isBodyValid()).to.be(false);
+    });
+
+    it("should return false if content type is not `application/json`", function() {
+      var webhook = new WebHook({
+        headers: {
+          "content-type": "application/weird",
+        },
+        rawBody: JSON.stringify({})
+      });
+      expect(webhook.isContentTypeValid()).to.be(false);
+    });
+  });
+
   describe("#getData", function() {
     it("should return a parsed JSON body", function() {
       var webhook = new WebHook({
@@ -108,23 +162,41 @@ describe("WebHook", function() {
     });
 
     it("should throw an error if content type is not `application/json`", function() {
+      var body = JSON.stringify({foo: 9});
       var webhook = new WebHook({
-        headers: { "content-type": "application/weird" },
-        rawBody: JSON.stringify({foo: 9})
+        headers: {
+          "content-type": "application/weird",
+          "x-pusher-signature": "f000000"
+        },
+        rawBody: body
       });
       expect(function() {
         webhook.getData();
-      }).to.throwError();
+      }).to.throwError(function(e) {
+        expect(e).to.be.a(Pusher.WebHookError);
+        expect(e.message).to.equal("Invalid WebHook body");
+        expect(e.contentType).to.equal("application/weird");
+        expect(e.body).to.equal(body);
+        expect(e.signature).to.equal("f000000");
+      });
     });
 
     it("should throw an error if body is not valid JSON", function() {
       var webhook = new WebHook({
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          "x-pusher-signature": "b00"
+       },
         rawBody: "not json"
       });
       expect(function() {
         webhook.getData();
-      }).to.throwError();
+      }).to.throwError(function(e) {
+        expect(e).to.be.a(Pusher.WebHookError);
+        expect(e.contentType).to.equal("application/json");
+        expect(e.body).to.equal("not json");
+        expect(e.signature).to.equal("b00");
+      });
     });
   });
 

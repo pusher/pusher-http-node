@@ -136,7 +136,14 @@ describe("Pusher", function() {
         }).to.throwException(/^auth_version is a required parameter and cannot be overidden$/);
       });
 
-      it("should raise an expcetion when overriding the auth_signature param");
+      it("should raise an expcetion when overriding the auth_signature param", function() {
+        expect(function() {
+          pusher.createSignedQueryString({
+            path: "/event",
+            params: { auth_signature: "NOPE" }
+          });
+        }).to.throwException(/^auth_signature is a required parameter and cannot be overidden$/);
+      });
     });
   });
 });

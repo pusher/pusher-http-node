@@ -163,6 +163,19 @@ describe("Pusher", function() {
       });
     });
 
+    it("should throw an error if called with more than 10 channels", function() {
+      expect(function() {
+        pusher.trigger(
+          ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"], "x", {}
+        );
+      }).to.throwError(function(e) {
+        expect(e).to.be.an(Error);
+        expect(e.message).to.equal(
+          "Can't trigger a message to more than 10 channels"
+        );
+      });
+    });
+
     it("should respect the scheme, host and port config", function(done) {
       var pusher = new Pusher({
         appId: 1234,

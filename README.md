@@ -259,6 +259,27 @@ Returns the Date object for the time when the WebHook was sent from Pusher. Thro
 webhook.getTime();
 ```
 
+### Generating REST API signatures
+
+If you wanted to send the REST API requests manually (e.g. using a different HTTP client), you can use the `createSignedQueryString` method to generate the whole request query string that includes the auth keys and your parameters.
+
+```javascript
+pusher.createSignedQueryString(options);
+```
+
+The only argument needs must be an object with following keys:
+- method - the HTTP request method
+- body - optional, the HTTP request body
+- params - optional, the object representing the query params
+
+Query parameters can't contain following keys, as they are used to sign the request:
+
+- auth_key
+- auth_timestamp
+- auth_version
+- auth_signature
+- body_md5
+
 ## Testing
 
 The tests run using [Mocha](http://visionmedia.github.io/mocha/). Make sure

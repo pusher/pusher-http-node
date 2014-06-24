@@ -1,17 +1,16 @@
-# Pusher node.js Server library
+# Pusher Node.js REST library
 
-This is a node.js library for interacting with the Pusher REST API.
-
-Registering at <http://pusher.com> and use the application credentails within your app as shown below.
+In order to use this library, you need to have an account on <http://pusher.com>. After registering, you will need the application credentials for your app.
 
 ## Installation
+
+You need to be running Node.js 0.8+ to use this library.
+
 ```
 $ npm install pusher
 ```
 
-## How to use
-
-### Constructor
+## Configuration
 
 There are 3 ways to configure the client. First one is the most basic:
 
@@ -71,11 +70,29 @@ var pusher = new Pusher({
 });
 ```
 
-### Publishing/Triggering events
+## Usage
 
-To trigger an event on one or more channels use the trigger function.
+### Callbacks and error handling
 
-#### A single channel
+#### API requests
+
+Asynchronous methods on the Pusher class (`trigger`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with three arguments:
+
+- error - if the request can't be performed or returns an error code, error will contain details, otherwise it will be null
+- request - the request object
+- response - the response object - can be undefined if response was not received
+
+All operational errors are wrapped into a Pusher.RequestError object.
+
+#### WebHooks
+
+In case accessing data for invalid WebHooks, an Pusher.WebHookError exception will be thrown from the called method. It is recommended to validate the WebHook before interpreting it.
+
+### Publishing events
+
+To send an event to one or more channels use the trigger function.
+
+#### Single channel
 
 ```javascript
 pusher.trigger('channel-1', 'test_event', { message: "hello world" });
@@ -87,17 +104,18 @@ pusher.trigger('channel-1', 'test_event', { message: "hello world" });
 pusher.trigger([ 'channel-1', 'channel-2' ], 'test_event', { message: "hello world" });
 ```
 
+You can trigger an event to at most 10 channels at once. Passing more than 10 channels will cause an exception to be thrown.
+
 ### Excluding event recipients
 
-In order to avoid the person that triggered the event also receiving it the `trigger` function can take an optional `socketId` parameter. For more informaiton see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.
+In order to avoid the client that triggered the event from also receiving it, the `trigger` function takes an optional `socketId` parameter. For more informaiton see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.
 
 ```javascript
 var socketId = '1302.1081607';
-
 pusher.trigger(channel, event, data, socketId);
 ```
 
-### Authenticating Private channels
+### Authenticating private channels
 
 To authorise your users to access private channels on Pusher, you can use the `auth` function:
 
@@ -107,7 +125,7 @@ var auth = pusher.auth(socketId, channel);
 
 For more information see: <http://pusher.com/docs/authenticating_users>
 
-### Authenticating Presence channels
+### Authenticating presence channels
 
 Using presence channels is similar to private channels, but you can specify extra data to identify that particular user:
 
@@ -126,13 +144,22 @@ The `auth` is then returned to the caller as JSON.
 
 For more information see: <http://pusher.com/docs/authenticating_users>
 
-### Application State
+### Application state
 
 It's possible to query the state of the application using the `pusher.get` function.
+
 ```javascript
 pusher.get({ path: path, params: params }, callback);
 ```
-The `path` property identifies the resource that the request should be made to and the `params` property should be a map of additional querystring key and value pairs.
+
+The `path` property identifies the resource that the request should be made to and the `params` property should be a map of additional query string key and value pairs.
+
+Params can't include following keys:
+- auth_key
+- auth_timestamp
+- auth_version
+- auth_signature
+- body_md5
 
 The following example provides the signature of the callback and an example of parsing the result:
 ```javascript
@@ -144,21 +171,24 @@ pusher.get({ path: '/channels', params: {} }, function(error, request, response)
 });
 ```
 
-#### Get list of channels in an application
+#### Get the list of channels in an application
+
 ```javascript
 pusher.get({ path: '/channels', params: params }, callback);
 ```
 
-Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channels).
+Information on the optional `params` and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channels).
 
-#### Get single channel state
+#### Get the state of a channel
+
 ```javascript
 pusher.get({ path: '/channels/[channel_name]', params: params }, callback);
 ```
 
 Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channel).
 
-#### Get list of users on a presence channel
+#### Get the list of users in a presence channel
+
 ```javascript
 pusher.get({ path: '/channels/[channel_name]/users' }, callback);
 ```
@@ -167,7 +197,7 @@ The `channel_name` in the path must be a [presence channel](http://pusher.com/do
 
 ### WebHooks
 
-The library provides a simple helper for WebHooks, which can be accessed via Pusher objects:
+The library provides a simple helper for WebHooks, which can be accessed via Pusher instances:
 
 ```javascript
 var webhook = pusher.webhook(request);
@@ -188,8 +218,7 @@ After instantiating the WebHook object, you can use its following methods:
 
 #### isValid
 
-Validates the signature of the WebHook and returns a boolean. Your application should validate incoming webhooks,
-otherwise they could be faked.
+Validates the content type, body format and signature of the WebHook and returns a boolean. Your application should validate incoming webhooks, otherwise they could be faked.
 
 Accepts an optional parameter containing additional application tokens (useful e.g. during migrations):
 
@@ -203,7 +232,7 @@ webhook.isValid([{ key: "x1", secret: "y1" }, { key: "x2", secret: "y2" }]);
 
 #### getData
 
-Returns the parsed WebHook body. Throws an error if the content type is not `application/json` or the body is not valid JSON.
+Returns the parsed WebHook body. Throws a Pusher.WebHookError if the WebHook is invalid, so please check the `isValid` result before accessing the data.
 
 ```javascript
 // will return an object with the WebHook data
@@ -214,7 +243,7 @@ Please read [the WebHooks documentation](http://pusher.com/docs/webhooks) to fin
 
 #### getEvents
 
-Returns events included in the WebHook as an array. Throws errors the same way as `getData`.
+Returns events included in the WebHook as an array. Throws a Pusher.WebHookError if the WebHook is invalid, so please check the `isValid` result before accessing the events.
 
 ```javascript
 // will return an array with the events
@@ -223,27 +252,27 @@ webhook.getEvents();
 
 #### getTime
 
-Returns the Date object for the time when the WebHook was sent from Pusher. Throws errors the same way as `getData`.
+Returns the Date object for the time when the WebHook was sent from Pusher. Throws a Pusher.WebHookError if the WebHook is invalid, so please check the `isValid` result before accessing the time.
 
 ```javascript
 // will return a Date object
 webhook.getTime();
 ```
 
-## Tests
+## Testing
 
 The tests run using [Mocha](http://visionmedia.github.io/mocha/). Make sure
 you've got all required modules installed:
 
     npm install
 
-### Unit tests
+### Running the unit test suite
 
 You can run unit tests without setting up a Pusher app:
 
     node_modules/.bin/mocha tests/unit/**/*.js
 
-### Full test suite
+### Running the complete test suite
 
 In order to run the full test suite, first you need a Pusher app. When starting
 mocha, you need to set the PUSHER_URL environment variable to contain your

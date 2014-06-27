@@ -6,7 +6,7 @@ describe("Pusher (integration)", function() {
   var pusher;
 
   beforeEach(function() {
-    pusher = new Pusher({ url: process.env.PUSHER_URL });
+    pusher = new Pusher.forURL(process.env.PUSHER_URL);
   });
 
   describe("#get", function() {

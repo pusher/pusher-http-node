@@ -9,14 +9,13 @@ describe("Pusher", function() {
       expect(pusher.appId).to.equal(12345);
     });
 
-    it("should support `key`", function() {
-      var pusher = new Pusher({ key: "1234567890abcdef" });
-      expect(pusher.key).to.equal("1234567890abcdef");
-    });
-
-    it("should support `secret`", function() {
-      var pusher = new Pusher({ secret: "fedcba0987654321" });
-      expect(pusher.secret).to.equal("fedcba0987654321");
+    it("should support `token`", function() {
+      var pusher = new Pusher({
+        key: "1234567890abcdef",
+        secret: "fedcba0987654321"
+      });
+      expect(pusher.token.key).to.equal("1234567890abcdef");
+      expect(pusher.token.secret).to.equal("fedcba0987654321");
     });
 
     it("should default `scheme` to 'http'", function() {
@@ -92,18 +91,12 @@ describe("Pusher", function() {
         expect(pusher.appId).to.equal(4321);
       });
 
-      it("should set `key`", function() {
+      it("should set `token`", function() {
         var pusher = new Pusher({
           url: "https://123abc:def456@example.org/apps/4321"
         });
-        expect(pusher.key).to.equal("123abc");
-      });
-
-      it("should set `secret`", function() {
-        var pusher = new Pusher({
-          url: "https://123abc:def456@example.org/apps/4321"
-        });
-        expect(pusher.secret).to.equal("def456");
+        expect(pusher.token.key).to.equal("123abc");
+        expect(pusher.token.secret).to.equal("def456");
       });
 
       it("should set `scheme`", function() {

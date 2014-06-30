@@ -18,7 +18,7 @@ describe("Pusher", function() {
     it("should pass the token to the WebHook", function() {
       expect(
         pusher.webhook({ headers: {}, body: "" }).token
-      ).to.be(pusher.token);
+      ).to.be(pusher.config.token);
     });
   });
 });

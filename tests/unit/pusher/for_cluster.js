@@ -6,7 +6,7 @@ describe("Pusher", function() {
   describe(".forCluster", function() {
     it("should generate a hostname for the cluster", function() {
       var pusher = Pusher.forCluster("test");
-      expect(pusher.host).to.equal("api-test.pusher.com");
+      expect(pusher.config.host).to.equal("api-test.pusher.com");
     });
   });
 });

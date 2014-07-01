@@ -33,6 +33,6 @@
   },
   "keywords": ["pusher", "websockets", "realtime"],
   "repository": "git://github.com/pusher/pusher-node-server",
-  "main": "index",
+  "main": "lib/pusher",
   "engines": { "node": ">= 0.8.0" }
 }

@@ -89,7 +89,7 @@ In case accessing data for invalid WebHooks, an Pusher.WebHookError exception wi
 
 ### Publishing events
 
-To send an event to one or more channels use the trigger function.
+To send an event to one or more channels use the trigger function. Channel names can contain only characters which are alphanumeric, '_' or '-' and have to be at most 200 characters long.
 
 #### Single channel
 

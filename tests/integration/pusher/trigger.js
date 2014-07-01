@@ -176,6 +176,34 @@ describe("Pusher", function() {
       });
     });
 
+    it("should throw an error if channel name is empty", function() {
+      expect(function() {
+        pusher.trigger("");
+      }).to.throwError(function(e) {
+        expect(e).to.be.an(Error);
+        expect(e.message).to.equal("Invalid channel name: ''");
+      });
+    });
+
+    it("should throw an error if channel name is invalid", function() {
+      expect(function() {
+        pusher.trigger("abc@");
+      }).to.throwError(function(e) {
+        expect(e).to.be.an(Error);
+        expect(e.message).to.equal("Invalid channel name: 'abc@'");
+      });
+    });
+
+    it("should throw an error if channel name is longer than 200 characters", function() {
+      var channel = new Array(202).join("x"); // 201 characters
+      expect(function() {
+        pusher.trigger(channel);
+      }).to.throwError(function(e) {
+        expect(e).to.be.an(Error);
+        expect(e.message).to.equal("Too long channel name: '" + channel + "'");
+      });
+    });
+
     it("should respect the scheme, host and port config", function(done) {
       var pusher = new Pusher({
         appId: 1234,

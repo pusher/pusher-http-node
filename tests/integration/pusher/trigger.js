@@ -214,12 +214,12 @@ describe("Pusher", function() {
       });
     });
 
-    it("should respect the scheme, host and port config", function(done) {
+    it("should respect the encryption, host and port config", function(done) {
       var pusher = new Pusher({
         appId: 1234,
         key: "f00d",
         secret: "beef",
-        scheme: "https",
+        encrypted: true,
         host: "example.com",
         port: 1234
       });

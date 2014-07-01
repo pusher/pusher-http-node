@@ -82,12 +82,12 @@ describe("Pusher", function() {
       });
     });
 
-    it("should respect the scheme, host and port config", function(done) {
+    it("should respect the encryption, host and port config", function(done) {
       var pusher = new Pusher({
         appId: 999,
         key: "111111",
         secret: "beef",
-        scheme: "https",
+        encrypted: true,
         host: "example.com",
         port: 1234
       });

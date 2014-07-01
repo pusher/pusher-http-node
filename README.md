@@ -21,9 +21,9 @@ var pusher = new Pusher({
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
-  scheme: 'SCHEME', // optional, defaults to http
+  encrypted: ENCRYPTED, // optional, defaults to false
   host: 'HOST', // optional, defaults to api.pusherapp.com
-  port: PORT, // optional, defaults to 80 for http and 443 for https
+  port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
 });
 ```
 
@@ -36,8 +36,8 @@ var pusher = Pusher.forCluster("CLUSTER", {
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
-  scheme: 'SCHEME', // optional, defaults to http
-  port: PORT, // optional, defaults to 80 for http and 443 for https
+  encrypted: ENCRYPTED, // optional, defaults to false
+  port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
 });
 ```
 

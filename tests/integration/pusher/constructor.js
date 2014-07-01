@@ -18,13 +18,13 @@ describe("Pusher", function() {
       expect(pusher.config.token.secret).to.equal("fedcba0987654321");
     });
 
-    it("should default `scheme` to 'http'", function() {
+    it("should default `encrypted` to false", function() {
       var pusher = new Pusher({});
       expect(pusher.config.scheme).to.equal("http");
     });
 
-    it("should support `scheme`", function() {
-      var pusher = new Pusher({ scheme: "https" });
+    it("should support `encrypted`", function() {
+      var pusher = new Pusher({ encrypted: true });
       expect(pusher.config.scheme).to.equal("https");
     });
 
@@ -39,7 +39,7 @@ describe("Pusher", function() {
     });
 
     it("should default `port` to undefined", function() {
-      var pusher = new Pusher({ scheme: "http" });
+      var pusher = new Pusher({ encrypted: true });
       expect(pusher.config.port).to.be(undefined);
     });
 
@@ -47,7 +47,7 @@ describe("Pusher", function() {
       var pusher = new Pusher({ port: 8080 });
       expect(pusher.config.port).to.equal(8080);
 
-      pusher = new Pusher({ scheme: "https", port: 8080 });
+      pusher = new Pusher({ encrypted: true, port: 8080 });
       expect(pusher.config.port).to.equal(8080);
     });
 

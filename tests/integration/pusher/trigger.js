@@ -178,7 +178,7 @@ describe("Pusher", function() {
 
     it("should throw an error if channel name is empty", function() {
       expect(function() {
-        pusher.trigger("");
+        pusher.trigger("", "test");
       }).to.throwError(function(e) {
         expect(e).to.be.an(Error);
         expect(e.message).to.equal("Invalid channel name: ''");
@@ -187,7 +187,7 @@ describe("Pusher", function() {
 
     it("should throw an error if channel name is invalid", function() {
       expect(function() {
-        pusher.trigger("abc@");
+        pusher.trigger("abc@", "test");
       }).to.throwError(function(e) {
         expect(e).to.be.an(Error);
         expect(e.message).to.equal("Invalid channel name: 'abc@'");
@@ -197,10 +197,20 @@ describe("Pusher", function() {
     it("should throw an error if channel name is longer than 200 characters", function() {
       var channel = new Array(202).join("x"); // 201 characters
       expect(function() {
-        pusher.trigger(channel);
+        pusher.trigger(channel, "test");
       }).to.throwError(function(e) {
         expect(e).to.be.an(Error);
         expect(e.message).to.equal("Too long channel name: '" + channel + "'");
+      });
+    });
+
+    it("should throw an error if event name is longer than 200 characters", function() {
+      var event = new Array(202).join("x"); // 201 characters
+      expect(function() {
+        pusher.trigger("test", event);
+      }).to.throwError(function(e) {
+        expect(e).to.be.an(Error);
+        expect(e.message).to.equal("Too long event name: '" + event + "'");
       });
     });
 

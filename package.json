@@ -1,7 +1,7 @@
 {
   "name": "pusher",
-  "description": "Node library for the Pusher server API",
-  "version": "0.1.3",
+  "description": "Node.js client to interact with the Pusher REST API",
+  "version": "1.0.0",
   "author": "Pusher <support@pusher.com>",
   "contributors": [
     {
@@ -15,16 +15,24 @@
     {
       "name": "Phil Leggetter",
       "email": "phil@leggetter.co.uk"
+    },
+    {
+      "name": "Paweł Ledwoń",
+      "email": "me@ludvik.pl"
     }
   ],
   "dependencies": {
-    "request": "=2.9.203"
+    "request": "=2.36.0"
   },
   "devDependencies": {
-    "vows": "=0.7.0"
+    "mocha": "=1.20.1",
+    "expect.js": "=0.3.1",
+    "sinon": "=1.10.2",
+    "nock": "=0.28.0",
+    "express": "=3.11.0"
   },
   "keywords": ["pusher", "websockets", "realtime"],
   "repository": "git://github.com/pusher/pusher-node-server",
-  "main": "index",
-  "engines": { "node": ">= 0.4.3" }
+  "main": "lib/pusher",
+  "engines": { "node": ">= 0.8.0" }
 }

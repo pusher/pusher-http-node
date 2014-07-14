@@ -24,6 +24,7 @@ describe("Pusher", function() {
     describe("when signing a body", function() {
       it("should set the auth_key param to the app key", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           body: "example body"
         });
@@ -32,6 +33,7 @@ describe("Pusher", function() {
 
       it("should set the auth_timestamp param to the current timestamp (in seconds)", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           body: "example body"
         });
@@ -41,6 +43,7 @@ describe("Pusher", function() {
 
       it("should set the auth_version param to 1.0", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           body: "example body"
         });
@@ -49,6 +52,7 @@ describe("Pusher", function() {
 
       it("should set the body_md5 param to a correct hash", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           body: "example body"
         });
@@ -57,17 +61,19 @@ describe("Pusher", function() {
 
       it("should set the auth_signature to a correct hash", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           body: "example body"
         });
         // Date.now is mocked, so the signature can be hardcoded
-        expect(queryString).to.match(/^(.*&)?auth_signature=83201d972a1bd504054bdcf5c4b43984ba4a6a9bb9f79900234674aad26fe359(&.*)?$/);
+        expect(queryString).to.match(/^(.*&)?auth_signature=89323a7f200fdefaa992e73e0953534dbb94c4dd2450514bcb4721b28b14fb26(&.*)?$/);
       });
     });
 
     describe("when signing params", function() {
       it("should set the auth_key param to the app key", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           params: { foo: "bar" }
         });
@@ -76,6 +82,7 @@ describe("Pusher", function() {
 
       it("should set the auth_timestamp param to the current timestamp (in seconds)", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           params: { foo: "bar" }
         });
@@ -85,6 +92,7 @@ describe("Pusher", function() {
 
       it("should set the auth_version param to 1.0", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           params: { foo: "bar" }
         });
@@ -93,6 +101,7 @@ describe("Pusher", function() {
 
       it("should set all given params", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           params: { foo: "bar", baz: 123454321 }
         });
@@ -102,16 +111,18 @@ describe("Pusher", function() {
 
       it("should set the auth_signature to a correct hash", function() {
         var queryString = pusher.createSignedQueryString({
+          method: "GET",
           path: "/event",
           params: { foo: "bar", baz: 123454321 }
         });
         // Date.now is mocked, so the signature can be hardcoded
-        expect(queryString).to.match(/^(.*&)?auth_signature=da5768eba386670a89ce6b3077668e6b9450d9931b19ab8af672c5a94ab784a6(&.*)?$/);
+        expect(queryString).to.match(/^(.*&)?auth_signature=8df535ace13ffd2e77b023f251ba9a6b0c4e5c307b3cc6a2ca42d559109db7c8(&.*)?$/);
       });
 
       it("should raise an expcetion when overriding the auth_key param", function() {
         expect(function() {
           pusher.createSignedQueryString({
+            method: "GET",
             path: "/event",
             params: { auth_key: "NOPE" }
           });
@@ -121,6 +132,7 @@ describe("Pusher", function() {
       it("should raise an expcetion when overriding the auth_timestamp param", function() {
         expect(function() {
           pusher.createSignedQueryString({
+            method: "GET",
             path: "/event",
             params: { auth_timestamp: "NOPE" }
           });
@@ -130,6 +142,7 @@ describe("Pusher", function() {
       it("should raise an expcetion when overriding the auth_version param", function() {
         expect(function() {
           pusher.createSignedQueryString({
+            method: "GET",
             path: "/event",
             params: { auth_version: "NOPE" }
           });
@@ -139,6 +152,7 @@ describe("Pusher", function() {
       it("should raise an expcetion when overriding the auth_signature param", function() {
         expect(function() {
           pusher.createSignedQueryString({
+            method: "GET",
             path: "/event",
             params: { auth_signature: "NOPE" }
           });

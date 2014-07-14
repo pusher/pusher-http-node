@@ -12,7 +12,7 @@ $ npm install pusher
 
 ## Configuration
 
-There are 3 ways to configure the client. First one is the most basic:
+There are 3 ways to configure the client. First one is just using the Pusher constructor:
 
 ```javascript
 var Pusher = require('pusher');
@@ -21,24 +21,23 @@ var pusher = new Pusher({
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
-  scheme: 'SCHEME', // optional, defaults to http
+  encrypted: ENCRYPTED, // optional, defaults to false
   host: 'HOST', // optional, defaults to api.pusherapp.com
-  port: PORT, // optional, defaults to 80 for http and 443 for https
+  port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
 });
 ```
 
-For specific clusters, you can also use the cluster option:
+For specific clusters, you can use the `forCluster` function:
 
 ```javascript
 var Pusher = require('pusher');
 
-var pusher = new Pusher({
+var pusher = Pusher.forCluster("CLUSTER", {
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
-  scheme: 'SCHEME', // optional, defaults to http
-  cluster: 'CLUSTER', // will set the host to `api-CLUSTER.pusher.com`
-  port: PORT, // optional, defaults to 80 for http and 443 for https
+  encrypted: ENCRYPTED, // optional, defaults to false
+  port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
 });
 ```
 
@@ -47,17 +46,17 @@ You can also specify auth and endpoint options by passing an URL:
 ```javascript
 var Pusher = require('pusher');
 
-var pusher = new Pusher({
-  url: "SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID"
-});
+var pusher = Pusher.forURL("SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID);
 ```
+
+You can pass the optional second argument with options, as in `forCluster` function.
 
 This is useful for example on Heroku, which sets the PUSHER_URL environment
 variable to such URL, if you have the Pusher addon installed.
 
-#### Additional constructor options
+#### Additional options
 
-There are a few additional options that can be passed to the constructor:
+There are a few additional options that can be used in all above methods:
 
 ```javascript
 var Pusher = require('pusher');
@@ -90,7 +89,7 @@ In case accessing data for invalid WebHooks, an Pusher.WebHookError exception wi
 
 ### Publishing events
 
-To send an event to one or more channels use the trigger function.
+To send an event to one or more channels use the trigger function. Channel names can contain only characters which are alphanumeric, '_' or '-' and have to be at most 200 characters long. Event name can be at most 200 characters long too.
 
 #### Single channel
 
@@ -287,11 +286,11 @@ you've got all required modules installed:
 
     npm install
 
-### Running the unit test suite
+### Running the local test suite
 
-You can run unit tests without setting up a Pusher app:
+You can run local integration tests without setting up a Pusher app:
 
-    node_modules/.bin/mocha tests/unit/**/*.js
+    node_modules/.bin/mocha tests/integration/**/*.js
 
 ### Running the complete test suite
 

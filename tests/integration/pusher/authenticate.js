@@ -51,13 +51,13 @@ describe("Pusher", function() {
       });
     });
 
-    it("should return attach user info", function() {
+    it("should return the channel data", function() {
       expect(pusher.authenticate("123.456", "test", { foo: "bar" }).channel_data).to.eql(
         "{\"foo\":\"bar\"}"
       );
     });
 
-    it("should return correct authentication signatures with and without user info", function() {
+    it("should return correct authentication signatures with and without the channel data", function() {
       expect(pusher.authenticate("123.456", "test")).to.eql({
         auth: "aaaa:d16bec9b73b4b3b9186bc5ce87daddc14e6afa714f663fd35839f94be1707ea3"
       });

@@ -13,8 +13,7 @@ describe("Pusher (integration)", function() {
     });
 
     beforeEach(function() {
-      pusher = new Pusher({
-        url: process.env.PUSHER_URL,
+      pusher = new Pusher.forURL(process.env.PUSHER_URL, {
         proxy: "http://localhost:8321"
       });
     });

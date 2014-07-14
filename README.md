@@ -46,7 +46,7 @@ You can also specify auth and endpoint options by passing an URL:
 ```javascript
 var Pusher = require('pusher');
 
-var pusher = Pusher.forURL("SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID);
+var pusher = Pusher.forURL("SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID");
 ```
 
 You can pass the optional second argument with options, as in `forCluster` function.

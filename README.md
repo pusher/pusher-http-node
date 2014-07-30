@@ -116,10 +116,10 @@ pusher.trigger(channel, event, data, socketId);
 
 ### Authenticating private channels
 
-To authorise your users to access private channels on Pusher, you can use the `auth` function:
+To authorise your users to access private channels on Pusher, you can use the `authenticate` function:
 
 ```javascript
-var auth = pusher.auth(socketId, channel);
+var auth = pusher.authenticate(socketId, channel);
 ```
 
 For more information see: <http://pusher.com/docs/authenticating_users>
@@ -136,7 +136,7 @@ var channelData = {
 	  twitter_id: '@leggetter'
 	}
 };
-var auth = pusher.auth(socketId, channel, channelData);
+var auth = pusher.authenticate(socketId, channel, channelData);
 ```
 
 The `auth` is then returned to the caller as JSON.

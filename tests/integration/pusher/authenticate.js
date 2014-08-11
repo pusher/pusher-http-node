@@ -66,5 +66,41 @@ describe("Pusher", function() {
         channel_data: "{\"foo\":\"bar\"}"
       });
     });
+
+    it("should raise an exception if socket id is not a string", function() {
+      expect(function() {
+        pusher.authenticate(undefined, "test")
+      }).to.throwException(/^Invalid socket id: 'undefined'$/);
+      expect(function() {
+        pusher.authenticate(null, "test")
+      }).to.throwException(/^Invalid socket id: 'null'$/);
+      expect(function() {
+        pusher.authenticate(111, "test")
+      }).to.throwException(/^Invalid socket id: '111'$/);
+    });
+
+    it("should raise an exception if socket id is an empty string", function() {
+      expect(function() {
+        pusher.authenticate("", "test")
+      }).to.throwException(/^Invalid socket id: ''$/);
+    });
+
+    it("should raise an exception if channel name is not a string", function() {
+      expect(function() {
+        pusher.authenticate("111.222", undefined)
+      }).to.throwException(/^Invalid channel name: 'undefined'$/);
+      expect(function() {
+        pusher.authenticate("111.222", null)
+      }).to.throwException(/^Invalid channel name: 'null'$/);
+      expect(function() {
+        pusher.authenticate("111.222", 111)
+      }).to.throwException(/^Invalid channel name: '111'$/);
+    });
+
+    it("should raise an exception if channel name is an empty string", function() {
+      expect(function() {
+        pusher.authenticate("111.222", "")
+      }).to.throwException(/^Invalid channel name: ''$/);
+    });
   });
 });

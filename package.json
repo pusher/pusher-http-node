@@ -1,7 +1,7 @@
 {
   "name": "pusher",
   "description": "Node.js client to interact with the Pusher REST API",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Pusher <support@pusher.com>",
   "contributors": [
     {
@@ -22,7 +22,7 @@
     }
   ],
   "dependencies": {
-    "request": "=2.36.0"
+    "request": "=2.45.0"
   },
   "devDependencies": {
     "mocha": "=1.20.1",

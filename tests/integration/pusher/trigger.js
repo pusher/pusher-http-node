@@ -163,6 +163,26 @@ describe("Pusher", function() {
       });
     });
 
+    it("should allow channel names with special characters: _ - = @ , . ;", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=024f0f297e27e131c8ec2c8817d153f4&auth_signature=Y",
+          { name: "my_event", data: "{\"some\":\"data \"}", channels: ["test_-=@,.;channel"] }
+        )
+        .reply(200, "OK");
+
+      pusher.trigger("test_-=@,.;channel", "my_event", { some: "data "}, null, function(error, request, response) {
+        expect(error).to.be(null);
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+
     it("should throw an error if called with more than 10 channels", function() {
       expect(function() {
         pusher.trigger(
@@ -187,10 +207,10 @@ describe("Pusher", function() {
 
     it("should throw an error if channel name is invalid", function() {
       expect(function() {
-        pusher.trigger("abc@", "test");
+        pusher.trigger("abc$", "test");
       }).to.throwError(function(e) {
         expect(e).to.be.an(Error);
-        expect(e.message).to.equal("Invalid channel name: 'abc@'");
+        expect(e.message).to.equal("Invalid channel name: 'abc$'");
       });
     });
 

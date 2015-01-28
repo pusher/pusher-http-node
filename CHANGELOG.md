@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 (2015-01-28)
+
+[FIXED] Fixed trigger not accepting '=', '@', ',', '.' and ';' in channel names
+
 ## 1.0.2 (2014-10-23)
 
 [FIXED] Upgraded `request` to 2.45.0 to prevent DoS vulnerability caused by `qs` dependency.

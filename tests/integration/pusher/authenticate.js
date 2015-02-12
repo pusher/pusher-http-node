@@ -67,6 +67,13 @@ describe("Pusher", function() {
       });
     });
 
+    it("should return correct authentication signature with utf-8 in channel data", function() {
+      expect(pusher.authenticate("1.1", "test", "ą§¶™€łü€ß£")).to.eql({
+        auth: "aaaa:0d392e309f194ebfd063409e2a35d1e5f0fb0148e6ff5e9e92233816a70f2a12",
+        channel_data: "\"ą§¶™€łü€ß£\""
+      });
+    });
+
     it("should raise an exception if socket id is not a string", function() {
       expect(function() {
         pusher.authenticate(undefined, "test")

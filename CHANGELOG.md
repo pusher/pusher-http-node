@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4 (2015-02-13)
+
+[FIXED] Auth signatures being incorrect when channel data included utf-8 characters
+
 ## 1.0.3 (2015-01-28)
 
 [FIXED] Fixed trigger not accepting '=', '@', ',', '.' and ';' in channel names

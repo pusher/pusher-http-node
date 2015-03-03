@@ -10,11 +10,28 @@ describe("Pusher (integration)", function() {
   });
 
   describe("#trigger", function() {
-    it("should return code 200", function(done) {
-      pusher.trigger("integration", "event", "test", null, function(error, request, response) {
+    it("should return a result", function(done) {
+      pusher.trigger("integration", "event", "test", null, function(error, result) {
         expect(error).to.be(null);
-        expect(response.statusCode).to.equal(200);
-        expect(JSON.parse(response.body)).to.eql({});
+        expect(result).to.be.ok();
+        done();
+      });
+    });
+
+    it("should expose the event_id of an event triggered on a single channel", function(done) {
+      pusher.trigger("integration", "event", "test", null, function(error, result) {
+        expect(error).to.be(null);
+        expect(result.event_ids["integration"]).to.be.a("string");
+        done();
+      });
+    });
+
+    it("should expose the event_id of events triggered on multiple channels", function(done) {
+      pusher.trigger(['ch1', 'ch2', 'ch3'], "event", "test", null, function(error, result) {
+        expect(error).to.be(null);
+        expect(result.event_ids['ch1']).to.be.ok();
+        expect(result.event_ids['ch2']).to.be.ok();
+        expect(result.event_ids['ch3']).to.be.ok();
         done();
       });
     });

@@ -10,7 +10,6 @@ describe("Pusher (integration)", function() {
   });
 
   describe("#trigger", function() {
-    
     it("should return a result", function(done) {
       pusher.trigger("integration", "event", "test", null, function(error, result) {
         expect(error).to.be(null);
@@ -18,16 +17,16 @@ describe("Pusher (integration)", function() {
         done();
       });
     });
-    
-    it("should expose the event_id of a event triggered on a single channel", function(done) {
+
+    it("should expose the event_id of an event triggered on a single channel", function(done) {
       pusher.trigger("integration", "event", "test", null, function(error, result) {
         expect(error).to.be(null);
-        expect(result.event_ids['integration']).to.be.ok();
+        expect(result.event_ids["integration"]).to.be.a("string");
         done();
       });
     });
-    
-    it("should expose the event_id of a events triggered on multiple channels", function(done) {
+
+    it("should expose the event_id of events triggered on multiple channels", function(done) {
       pusher.trigger(['ch1', 'ch2', 'ch3'], "event", "test", null, function(error, result) {
         expect(error).to.be(null);
         expect(result.event_ids['ch1']).to.be.ok();
@@ -36,6 +35,5 @@ describe("Pusher (integration)", function() {
         done();
       });
     });
-    
   });
 });

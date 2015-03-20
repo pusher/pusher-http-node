@@ -129,10 +129,15 @@ describe("Pusher", function() {
           "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=cf87d666b4a829a54fc44b313584b2d7&auth_signature=Y",
           { name: "my_event", data: "{\"some\":\"data \"}", channels: ["test_channel"] }
         )
-        .reply(200, "OK");
+        .reply(200, '{"event_ids": {"test_channel": "foobar"}}');
 
-      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, request, response) {
+      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, result, request, response) {
         expect(error).to.be(null);
+        expect(result).to.eql({
+          event_ids: {
+            test_channel: "foobar"
+          }
+        });
         expect(response.statusCode).to.equal(200);
         done();
       });
@@ -151,7 +156,7 @@ describe("Pusher", function() {
         )
         .reply(400, "Error");
 
-      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, request, response) {
+      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, result, request, response) {
         expect(error).to.be.a(Pusher.RequestError);
         expect(error.message).to.equal("Unexpected status code 400");
         expect(error.url).to.match(
@@ -174,9 +179,9 @@ describe("Pusher", function() {
           "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=024f0f297e27e131c8ec2c8817d153f4&auth_signature=Y",
           { name: "my_event", data: "{\"some\":\"data \"}", channels: ["test_-=@,.;channel"] }
         )
-        .reply(200, "OK");
+        .reply(200, "{}");
 
-      pusher.trigger("test_-=@,.;channel", "my_event", { some: "data "}, null, function(error, request, response) {
+      pusher.trigger("test_-=@,.;channel", "my_event", { some: "data "}, null, function(error, result, request, response) {
         expect(error).to.be(null);
         expect(response.statusCode).to.equal(200);
         done();

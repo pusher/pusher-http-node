@@ -42,11 +42,11 @@ describe("Pusher (integration)", function() {
     describe("#trigger", function() {
       it("should go through the proxy", function(done) {
         expect(proxy.requests).to.equal(0);
-        pusher.trigger("integration", "event", "test", null, function(error, request, response) {
+        pusher.trigger("integration", "event", "test", null, function(error, result, request, response) {
           expect(proxy.requests).to.equal(1);
           expect(error).to.be(null);
           expect(response.statusCode).to.equal(200);
-          expect(JSON.parse(response.body)).to.eql({});
+          expect(result.event_ids["integration"]).to.be.a("string");
           done();
         });
       });

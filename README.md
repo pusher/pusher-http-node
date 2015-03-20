@@ -75,11 +75,14 @@ var pusher = new Pusher({
 
 #### API requests
 
-Asynchronous methods on the Pusher class (`trigger`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with three arguments:
+Asynchronous methods on the Pusher class (`trigger`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with four arguments:
 
 - error - if the request can't be performed or returns an error code, error will contain details, otherwise it will be null
+- result - parsed response
 - request - the request object
 - response - the response object - can be undefined if response was not received
+
+**BREAKING CHANGE: The signature of `trigger` callback changed in version 2.0.0. In prior versions it receives only three arguments - error, request and response.**
 
 All operational errors are wrapped into a Pusher.RequestError object.
 
@@ -104,6 +107,18 @@ pusher.trigger([ 'channel-1', 'channel-2' ], 'test_event', { message: "hello wor
 ```
 
 You can trigger an event to at most 10 channels at once. Passing more than 10 channels will cause an exception to be thrown.
+
+#### Event Buffer
+
+Clusters supporting Event Buffer return identifiers for all triggered events. You can retrieve them using the result argument to the `trigger` callback:
+
+```javascript
+pusher.trigger(["chan1", "chan2"], "event", "data", function(error, result) {
+  // all event ids are strings
+  var chan1EventId = result.event_ids["chan1"];
+  var chan2EventId = result.event_ids["chan2"];
+});
+```
 
 ### Excluding event recipients
 

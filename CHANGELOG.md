@@ -1,4 +1,7 @@
-# Changelog
+
+## 2.0.0 (2015-03-26)
+
+[NEW] Support for Event Buffer + Doc
 
 ## 1.0.4 (2015-02-13)
 

@@ -33,8 +33,11 @@
   },
   "keywords": [
     "pusher",
-    "websockets",
-    "realtime"
+    "websocket",
+    "realtime",
+    "pubsub",
+    "events",
+    "messaging"
   ],
   "repository": "git://github.com/pusher/pusher-http-node",
   "main": "lib/pusher",

@@ -22,25 +22,81 @@ function cloneConfig() {
 describe("Pusher", function() {
   describe("constructor attributes", function() {
     it("should support `appId`", function() {
-      var pusher = new Pusher({ appId: 12345 });
-      expect(pusher.config.appId).to.equal(12345);
+      var config = cloneConfig();
+      config.appId = validAppId;
+      var pusher = new Pusher(config);
+      expect(pusher.config.appId).to.equal(validAppId);
     });
     
     it("should require `appId` to be an Integer", function() {
       expect(function() {
-        new Pusher({ appId: "fish" });
+        var config = cloneConfig();
+        config.appId = "fish";
+        new Pusher(config);
       }).to.throwError();
     });
     
     it("should not allow `appId` to be null", function() {
       expect(function() {
-        new Pusher({ appId: null });
+        var config = cloneConfig();
+        config.appId = null;
+        new Pusher(config);
       }).to.throwError();
     });
     
     it("should not allow `appId` to be undefined", function() {
       expect(function() {
-        new Pusher({ appId: undefined });
+        var config = cloneConfig();
+        config.appId = undefined;
+        new Pusher(config);
+      }).to.throwError();
+    });
+    
+    it("should require `key` to be an String", function() {
+      expect(function() {
+        var config = cloneConfig();
+        config.key = 12345;
+        new Pusher(config);
+      }).to.throwError();
+    });
+    
+    it("should now allow `key` to be undefined", function() {
+      expect(function() {
+        var config = cloneConfig();
+        config.key = undefined;
+        new Pusher(config);
+      }).to.throwError();
+    });
+    
+    it("should now allow `key` to be null", function() {
+      expect(function() {
+        var config = cloneConfig();
+        config.key = null;
+        new Pusher(config);
+      }).to.throwError();
+    });
+    
+    it("should require `secret` to be an String", function() {
+      expect(function() {
+        var config = cloneConfig();
+        config.secret = 12345;
+        new Pusher(config);
+      }).to.throwError();
+    });
+    
+    it("should now allow `key` to be undefined", function() {
+      expect(function() {
+        var config = cloneConfig();
+        config.secret = undefined;
+        new Pusher(config);
+      }).to.throwError();
+    });
+    
+    it("should now allow `key` to be null", function() {
+      expect(function() {
+        var config = cloneConfig();
+        config.secret = null;
+        new Pusher(config);
       }).to.throwError();
     });
 

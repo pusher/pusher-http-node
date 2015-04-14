@@ -1,7 +1,7 @@
 {
   "name": "pusher",
-  "description": "Node.js client to interact with the Pusher REST API",
-  "version": "1.0.4",
+  "description": "Node.js client to interact with the Pusher HTTP API",
+  "version": "2.0.0",
   "author": "Pusher <support@pusher.com>",
   "contributors": [
     {
@@ -31,8 +31,17 @@
     "nock": "=0.28.0",
     "express": "=3.11.0"
   },
-  "keywords": ["pusher", "websockets", "realtime"],
-  "repository": "git://github.com/pusher/pusher-rest-node",
+  "keywords": [
+    "pusher",
+    "websocket",
+    "realtime",
+    "pubsub",
+    "events",
+    "messaging"
+  ],
+  "repository": "git://github.com/pusher/pusher-http-node",
   "main": "lib/pusher",
-  "engines": { "node": ">= 0.8.0" }
+  "engines": {
+    "node": ">= 0.8.0"
+  }
 }

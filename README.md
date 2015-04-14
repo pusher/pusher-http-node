@@ -114,6 +114,34 @@ var socketId = '1302.1081607';
 pusher.trigger(channel, event, data, socketId);
 ```
 
+#### Event Buffer
+
+Version 2.0.0 of the library introduced support for [event buffering](https://pusher.com/docs/event_buffer). The purpose of this functionality is to ensure that events that are triggered whilst a client is offline for a short period of time will still be delivered.
+
+*Note: this requires your Pusher application to be on a [cluster](https://pusher.com/docs/clusters) that has the Event Buffer capability*
+
+As part of this the `trigger` function now returns a set of `event_id` values for each event triggered on a channel. These can then be used by the client upon subscribing to a channel to tell the Pusher service the last event it has received. If additional events have been triggered after that event ID the service has the opportunity to provide the client with those IDs.
+
+For detailed information please see the [Event Buffer Documentation](https://pusher.com/docs/event_buffer).
+
+The event ID values are accessed via the second callback parameter:
+
+```js
+// Trigger on single channel
+pusher.trigger('ch1', 'my-event', {some: 'data'}, null, 
+  function(err, data, req, res) {
+    var eventId = data._event_ids['ch1'];
+  });
+
+// Trigger on multiple channels
+pusher.trigger(['ch1', 'ch2', 'ch3'], 'my-event', {some: 'data'}, null, 
+  function(err, data, req, res) {
+    var eventId1 = data.event_ids['ch1'];
+    var eventId2 = data.event_ids['ch2'];
+    var eventId3 = data.event_ids['ch3'];
+  });
+```
+
 ### Authenticating private channels
 
 To authorise your users to access private channels on Pusher, you can use the `authenticate` function:

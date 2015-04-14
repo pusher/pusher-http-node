@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0 (2015-04-13)
+
+[ADDED] Event IDs can now be retreived when triggering events via `trigger`. For more information see https://pusher.com/docs/event_buffer 
+
+[CHANGED] The `trigger` callback function parameters have been changed. The 2nd parameter is now the parsed body from the HTTP response to allow you to access the event IDs of triggered events.
+
+[FIXED] `Pusher` constructor configuration is now validated and an Error is thrown if `config.appId`, `config.key` and `config.secret` are invalid.
+
 ## 1.0.4 (2015-02-13)
 
 [FIXED] Auth signatures being incorrect when channel data included utf-8 characters

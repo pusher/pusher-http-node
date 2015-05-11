@@ -298,7 +298,7 @@ In order to run the full test suite, first you need a Pusher app. When starting
 mocha, you need to set the PUSHER_URL environment variable to contain your
 app credentials, like following:
 
-    `PUSHER_URL='http://KEY:SECRET@api.pusherapp.com/' node_modules/.bin/mocha tests/**/*.js`
+    `PUSHER_URL='http://KEY:SECRET@api.pusherapp.com/apps/APP_ID' node_modules/.bin/mocha $(find tests)`
 
 ## Credits
 

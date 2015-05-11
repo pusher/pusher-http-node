@@ -220,7 +220,7 @@ describe("Pusher", function() {
         pusher.trigger(channel, "test");
       }).to.throwError(function(e) {
         expect(e).to.be.an(Error);
-        expect(e.message).to.equal("Too long channel name: '" + channel + "'");
+        expect(e.message).to.equal("Channel name too long: '" + channel + "'");
       });
     });
 

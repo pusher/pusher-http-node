@@ -92,6 +92,21 @@ describe("Pusher", function() {
       }).to.throwException(/^Invalid socket id: ''$/);
     });
 
+    it("should raise an exception if socket id is invalid", function() {
+      expect(function() {
+        pusher.authenticate("1.1:", "test")
+      }).to.throwException(/^Invalid socket id/);
+      expect(function() {
+        pusher.authenticate(":1.1", "test")
+      }).to.throwException(/^Invalid socket id/);
+      expect(function() {
+        pusher.authenticate(":\n1.1", "test")
+      }).to.throwException(/^Invalid socket id/);
+      expect(function() {
+        pusher.authenticate("1.1\n:", "test")
+      }).to.throwException(/^Invalid socket id/);
+    });
+
     it("should raise an exception if channel name is not a string", function() {
       expect(function() {
         pusher.authenticate("111.222", undefined)

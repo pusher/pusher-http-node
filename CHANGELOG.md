@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 (2015-05-12)
+
+[FIXED] Add validation to channel names and socket ids
+
 ## 1.0.4 (2015-02-13)
 
 [FIXED] Auth signatures being incorrect when channel data included utf-8 characters

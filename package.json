@@ -31,6 +31,9 @@
     "nock": "=0.28.0",
     "express": "=3.11.0"
   },
+  "scripts": {
+    "test": "node node_modules/.bin/mocha tests/integration/**/*.js"
+  },
   "keywords": ["pusher", "websockets", "realtime"],
   "repository": "git://github.com/pusher/pusher-rest-node",
   "main": "lib/pusher",

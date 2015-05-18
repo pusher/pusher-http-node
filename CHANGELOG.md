@@ -1,4 +1,11 @@
-# Changelog
+
+## 1.0.6 (2015-05-18)
+
+[FIXED] compatibility issue with node 0.12 (issue #12)
+
+Optimisation: Use Date.now() instead of (new Date).getTime()
+
+Run tests with Travis-CI
 
 ## 1.0.5 (2015-05-12)
 

@@ -51,5 +51,18 @@ describe("Pusher (integration)", function() {
         });
       });
     });
+
+    describe("#triggerBatch", function() {
+      it("should go through the proxy", function(done) {
+        expect(proxy.requests).to.equal(0);
+        pusher.triggerBatch([{channel: "integration", name: "event", data: "test"}], function(error, request, response) {
+          expect(proxy.requests).to.equal(1);
+          expect(error).to.be(null);
+          expect(response.statusCode).to.equal(200);
+          expect(JSON.parse(response.body)).to.eql({});
+          done();
+        });
+      });
+    });
   });
 });

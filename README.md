@@ -75,7 +75,7 @@ var pusher = new Pusher({
 
 #### API requests
 
-Asynchronous methods on the Pusher class (`trigger`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with three arguments:
+Asynchronous methods on the Pusher class (`trigger`, `triggerBatch`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with three arguments:
 
 - error - if the request can't be performed or returns an error code, error will contain details, otherwise it will be null
 - request - the request object
@@ -104,6 +104,17 @@ pusher.trigger([ 'channel-1', 'channel-2' ], 'test_event', { message: "hello wor
 ```
 
 You can trigger an event to at most 10 channels at once. Passing more than 10 channels will cause an exception to be thrown.
+
+#### Multiple events
+
+```js
+pusher.triggerBatch([
+  {channel: 'channel-1', event: 'event1', data: 'data1'},
+  {channel: 'channel-2', event: 'event2', data: 'data2'}
+]);
+```
+
+You can bundle up to 10 events together on the public cluster.
 
 ### Excluding event recipients
 

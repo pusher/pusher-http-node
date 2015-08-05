@@ -35,6 +35,7 @@
     "test": "node node_modules/.bin/mocha tests/integration/**/*.js"
   },
   "keywords": ["pusher", "websockets", "realtime"],
+  "license": "MIT",
   "repository": "git://github.com/pusher/pusher-rest-node",
   "main": "lib/pusher",
   "engines": { "node": ">= 0.8.0" }

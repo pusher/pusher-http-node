@@ -10,6 +10,16 @@ You need to be running Node.js 0.8+ to use this library.
 $ npm install pusher
 ```
 
+### Parse Cloud
+
+In order to use the library in a Parse Cloud module, download the file in `parse_cloud/pusher.js` into your `cloud/modules` path.
+
+To import `Pusher`:
+
+```js
+var Pusher = require('cloud/modules/pusher');
+```
+
 ## Configuration
 
 There are 3 ways to configure the client. First one is just using the Pusher constructor:

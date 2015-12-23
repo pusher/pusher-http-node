@@ -29,7 +29,8 @@
     "expect.js": "=0.3.1",
     "sinon": "=1.10.2",
     "nock": "=0.28.0",
-    "express": "=3.11.0"
+    "express": "=3.11.0",
+    "webpack": "^1.12.9"
   },
   "scripts": {
     "test": "node node_modules/.bin/mocha tests/integration/**/*.js"

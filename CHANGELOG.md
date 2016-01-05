@@ -1,3 +1,6 @@
+## 1.1.0 (2016-01-05)
+
+[ADDED] Build option for Parse Cloud.
 
 ## 1.0.6 (2015-05-18)
 

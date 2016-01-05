@@ -35,7 +35,8 @@
     "webpack": "^1.12.9"
   },
   "scripts": {
-    "test": "node node_modules/.bin/mocha tests/integration/**/*.js"
+    "test": "node node_modules/.bin/mocha tests/integration/**/*.js",
+    "parse-build": "echo 'Creating build for Parse Cloud.' && node ./node_modules/.bin/webpack --config=./parse.webpack.js"
   },
   "keywords": ["pusher", "websockets", "realtime"],
   "license": "MIT",

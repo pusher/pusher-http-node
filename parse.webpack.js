@@ -8,9 +8,9 @@ module.exports = {
   entry: "./lib/pusher",
   output: {
     library: "Pusher",
-    path: path.join(__dirname, "./parse_cloud"),
+    path: __dirname,
     libraryTarget: "commonjs2",
-    filename: "pusher.js"
+    filename: "parse.js"
   },
   target: "node",
   resolve: {

@@ -38,6 +38,16 @@ describe("Pusher", function() {
       expect(pusher.config.host).to.equal("example.org");
     });
 
+    it("should support `cluster`", function () {
+      var pusher = new Pusher({cluster: 'eu'});
+      expect(pusher.config.host).to.equal('api-eu.pusher.com')
+    });
+
+    it("should have `host` override `cluster`", function () {
+      var pusher = new Pusher({host: 'api.staging.pusher.com', cluster: 'eu'});
+      expect(pusher.config.host).to.equal('api.staging.pusher.com');
+    });
+
     it("should default `port` to undefined", function() {
       var pusher = new Pusher({ encrypted: true });
       expect(pusher.config.port).to.be(undefined);

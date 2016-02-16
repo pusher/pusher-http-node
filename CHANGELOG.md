@@ -1,3 +1,7 @@
+## 1.2.0 (2016-02-16)
+
+[ADDED] Introduce the `cluster` option in the Pusher constructor.
+
 ## 1.1.0 (2016-01-05)
 
 [ADDED] Build option for Parse Cloud.

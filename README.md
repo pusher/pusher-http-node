@@ -45,7 +45,7 @@ var pusher = new Pusher({
 });
 ```
 
-For specific clusters, you can use the `forCluster` function:
+For specific clusters, you can use the `forCluster` function. This is the same as using the `cluster` option in the constructor.
 
 ```javascript
 var Pusher = require('pusher');

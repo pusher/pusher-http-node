@@ -41,6 +41,7 @@ var pusher = new Pusher({
   encrypted: ENCRYPTED, // optional, defaults to false
   host: 'HOST', // optional, defaults to api.pusherapp.com
   port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
+  cluster: 'CLUSTER', // optional, if `host` is present, it will override the `cluster` option.
 });
 ```
 

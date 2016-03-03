@@ -281,6 +281,7 @@ describe("Pusher", function() {
       pusher.trigger("test_channel", "my_event", { some: "data "}, "123.567", function(error, request, response) {
         var expectedError = new Error("ETIMEDOUT");
         expectedError.code = "ETIMEDOUT";
+        expectedError.connect = undefined;
 
         expect(error).to.be.a(Pusher.RequestError);
         expect(error.message).to.equal("Request failed with an error");

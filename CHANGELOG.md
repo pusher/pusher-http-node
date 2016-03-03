@@ -1,3 +1,7 @@
+## 1.2.1 (2016-03-03)
+
+[FIXED] remove security vulnerability by updating requests.
+
 ## 1.2.0 (2016-02-16)
 
 [ADDED] `cluster` option in the Pusher constructor.

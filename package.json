@@ -29,14 +29,13 @@
     "expect.js": "=0.3.1",
     "sinon": "=1.10.2",
     "nock": "=0.28.0",
-    "express": "=3.11.0"
-  },
-  "optionalDependencies": {
+    "express": "=3.11.0",
     "webpack": "^1.12.9"
   },
   "scripts": {
     "test": "node node_modules/.bin/mocha tests/integration/**/*.js",
-    "parse-build": "echo 'Creating build for Parse Cloud.' && node ./node_modules/.bin/webpack --config=./parse.webpack.js"
+    "parse-build": "echo 'Creating build for Parse Cloud.' && webpack --config=./parse.webpack.js",
+    "prepublish": "npm run parse-build"
   },
   "keywords": ["pusher", "websockets", "realtime"],
   "license": "MIT",

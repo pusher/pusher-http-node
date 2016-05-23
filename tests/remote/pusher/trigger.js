@@ -19,4 +19,24 @@ describe("Pusher (integration)", function() {
       });
     });
   });
+
+  describe("#triggerBatch", function() {
+    it("should return code 200", function(){
+      pusher.triggerBatch([{
+        channel: "integration",
+        name: "event",
+        data: "test"
+      },
+      {
+        channel: "integration2",
+        name: "event2",
+        data: "test2"
+      }], function(error, request, response){
+        expect(error).to.be(null);
+        expect(response.statusCode).to.equal(200);
+        expect(JSON.parse(response.body)).to.eql({});
+        done();
+      });
+    });
+  });
 });

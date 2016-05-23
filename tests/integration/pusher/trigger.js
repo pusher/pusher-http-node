@@ -295,4 +295,31 @@ describe("Pusher", function() {
       });
     });
   });
+
+  describe("#triggerBatch", function(){
+    it("should trigger multiple events in a single call", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=fd5ab5fd40237f27555c4d2564470fdd&auth_signature=Y",
+          JSON.stringify({"batch":[{"channel":"integration","name":"event","data":"test"},{"channel":"integration2","name":"event2","data":"test2"}]})
+        )
+        .reply(200, "{}");
+
+      pusher.triggerBatch([{
+        channel: "integration",
+        name: "event",
+        data: "test"
+      },
+      {
+        channel: "integration2",
+        name: "event2",
+        data: "test2"
+      }], done);
+    });
+  })
 });

@@ -1,3 +1,7 @@
+## 1.3.0 (2016-05-24)
+
+[ADDED] Support for triggering batch events.
+
 ## 1.2.1 (2016-03-03)
 
 [FIXED] remove security vulnerability by updating requests.

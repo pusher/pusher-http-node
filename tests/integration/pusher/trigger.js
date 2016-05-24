@@ -321,5 +321,34 @@ describe("Pusher", function() {
         data: "test2"
       }], done);
     });
+
+    it("should stringify data before posting", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=ade2e9d64d936215c2b2d6a6f4606ef9&auth_signature=Y",
+          JSON.stringify({"batch":[{"channel":"integration","name":"event","data":"{\"hello\":\"world\"}"},{"channel":"integration2","name":"event2","data":"{\"hello2\":\"another world\"}"}]})
+        )
+        .reply(200, "{}");
+
+      pusher.triggerBatch([{
+        channel: "integration",
+        name: "event",
+        data: {
+          hello: "world"
+        }
+      },
+      {
+        channel: "integration2",
+        name: "event2",
+        data: {
+          hello2: "another world"
+        }
+      }], done);
+    });
   })
 });

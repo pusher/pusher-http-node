@@ -51,7 +51,7 @@ describe("Pusher", function() {
         )
         .reply(200, "{}");
 
-      pusher.trigger("one", "my_event", { some: "data "}, null, done);
+      pusher.trigger("one", "my_event", { some: "data "}, done);
     });
 
     it("should send the event to multiple channels", function(done) {
@@ -67,7 +67,7 @@ describe("Pusher", function() {
         )
         .reply(200, "{}");
 
-      pusher.trigger(["one", "two", "three"], "my_event", { some: "data "}, null, done);
+      pusher.trigger(["one", "two", "three"], "my_event", { some: "data "}, done);
     });
 
     it("should serialize arrays into JSON", function(done) {
@@ -83,7 +83,7 @@ describe("Pusher", function() {
         )
         .reply(200, "{}");
 
-      pusher.trigger("one", "my_event", [1,2,4], null, done);
+      pusher.trigger("one", "my_event", [1,2,4], done);
     });
 
     it("should not serialize strings into JSON", function(done) {
@@ -99,7 +99,7 @@ describe("Pusher", function() {
         )
         .reply(200, "{}");
 
-      pusher.trigger("test", "test_event", "test string", null, done);
+      pusher.trigger("test", "test_event", "test string", done);
     });
 
     it("should add socket_id to the request body", function(done) {
@@ -131,7 +131,7 @@ describe("Pusher", function() {
         )
         .reply(200, "OK");
 
-      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, request, response) {
+      pusher.trigger("test_channel", "my_event", { some: "data "}, function(error, request, response) {
         expect(error).to.be(null);
         expect(response.statusCode).to.equal(200);
         done();
@@ -151,7 +151,7 @@ describe("Pusher", function() {
         )
         .reply(400, "Error");
 
-      pusher.trigger("test_channel", "my_event", { some: "data "}, null, function(error, request, response) {
+      pusher.trigger("test_channel", "my_event", { some: "data "}, function(error, request, response) {
         expect(error).to.be.a(Pusher.RequestError);
         expect(error.message).to.equal("Unexpected status code 400");
         expect(error.url).to.match(
@@ -176,7 +176,7 @@ describe("Pusher", function() {
         )
         .reply(200, "OK");
 
-      pusher.trigger("test_-=@,.;channel", "my_event", { some: "data "}, null, function(error, request, response) {
+      pusher.trigger("test_-=@,.;channel", "my_event", { some: "data "}, function(error, request, response) {
         expect(error).to.be(null);
         expect(response.statusCode).to.equal(200);
         done();

@@ -157,7 +157,7 @@ pusher.trigger(channel, event, data, socketId);
 
 Pusher now allows sending native notifications to iOS and Android devices. Check out the [documentation](https://pusher.com/docs/push_notifications) for information on how to set up push notifications on Android and iOS. There is no additional setup required to use it with this library. It works out of the box wit the same Pusher instance. All you need are the same pusher credentials. To install the release candidate:
 
-    $ npm install pusher@1.4.0-rc1
+    $ npm install pusher@1.4.0-rc2
 
 #### Sending native pushes
 

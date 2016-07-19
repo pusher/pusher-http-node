@@ -163,10 +163,11 @@ Pusher now allows sending native notifications to iOS and Android devices. Check
 
 The native notifications API is hosted at `nativepushclient-cluster1.pusher.com` and only accepts https requests.
 
-You can send pushes by using the `notify` method, either globally or on the instance. The method takes two parameters:
+You can send pushes by using the `notify` method, either globally or on the instance. The method takes three parameters:
 
 - `interests`: An Array of strings which represents the interests your devices are subscribed to. These are akin to channels in the DDN with less of an epehemeral nature. Note that currently, you can only send to _one_ interest.
 - `data`: The content of the notification represented by a Hash. You must supply either the `gcm` or `apns` key. For a detailed list of the acceptable keys, take a look at the [docs](https://pusher.com/docs/push_notifications#payload).
+- `callback`: A callback function which is passed three arguments: a (possibly null) error, a request object, and a response object.
 
 Example:
 
@@ -182,7 +183,9 @@ var data = {
   }
 }
 
-pusher.notify(["my-favourite-interest"], data)
+pusher.notify(["my-favourite-interest"], data, function(error, req, res) {
+  console.log(error, req, res);
+})
 ```
 
 #### Errors

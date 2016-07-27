@@ -165,7 +165,7 @@ Pusher now allows sending native notifications to iOS and Android devices. Check
 
 #### Sending native pushes
 
-The native notifications API is hosted at `nativepushclient-cluster1.pusher.com` and only accepts https requests.
+The native notifications Server API is hosted at `nativepush-cluster1.pusher.com` and only accepts https requests.
 
 You can send pushes by using the `notify` method, either globally or on the instance. The method takes three parameters:
 

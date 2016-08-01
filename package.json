@@ -1,7 +1,10 @@
 {
   "name": "pusher",
   "description": "Node.js client to interact with the Pusher REST API",
+
+  "//": "Please keep the version up-to-date with that in ./lib/pusher_config.js",
   "version": "1.4.0-rc5",
+
   "author": "Pusher <support@pusher.com>",
   "contributors": [
     {

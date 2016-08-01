@@ -16,7 +16,7 @@ describe("NativeNotificationClient", function() {
     nock.enableNetConnect();
   });
 
-  xit("should send in the success case", function(done){
+  it("should send in the success case", function(done){
   	var mock = nock("nativepush-cluster1.pusher.com:80")
 		client.notify(['yolo'],{
 			'apns': {

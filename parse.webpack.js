@@ -17,5 +17,8 @@ module.exports = {
     alias: {
       request: "./parse_cloud/request"
     }
+  },
+  externals: {
+    "./version": "var { 'version' : '" + require('./package').version + "'}"
   }
 }

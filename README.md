@@ -2,10 +2,6 @@
 
 In order to use this library, you need to have an account on <http://pusher.com>. After registering, you will need the application credentials for your app.
 
-This branch contains the release candidate for [push notification support](https://pusher.com/push-notifications).
-
-For version 1.3.x please see the [v1.3.x branch](https://github.com/pusher/pusher-http-node/tree/v1.3.x).
-
 ## Installation
 
 You need to be running Node.js 0.8+ to use this library.

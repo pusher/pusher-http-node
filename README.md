@@ -165,7 +165,7 @@ The native notifications Server API is hosted at `nativepush-cluster1.pusher.com
 
 You can send pushes by using the `notify` method, either globally or on the instance. The method takes three parameters:
 
-- `interests`: An Array of strings which represents the interests your devices are subscribed to. These are akin to channels in the DDN with less of an epehemeral nature. Note that currently, you can only send to _one_ interest.
+- `interests`: An Array of strings which represents the interests your devices are subscribed to. These are akin to channels in the DDN with less of an epehemeral nature. Note that currently, you can only send to, at most, _ten_ interests.
 - `data`: The content of the notification represented by a Hash. You must supply either the `gcm` or `apns` key. For a detailed list of the acceptable keys, take a look at the [docs](https://pusher.com/docs/push_notifications#payload).
 - `callback`: A callback function which is passed three arguments: a (possibly null) error, a request object, and a response object.
 

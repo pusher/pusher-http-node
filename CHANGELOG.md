@@ -1,6 +1,10 @@
+## 1.5.0 (2016-08-23)
+
+[ADDED] support for publishing on up to 10 interests.
+
 ## 1.4.0 (2016-08-15)
 
-* Add support for sending push notifications.
+[ADDED] support for sending push notifications.
 
 ## 1.3.0 (2016-05-24)
 

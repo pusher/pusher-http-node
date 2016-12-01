@@ -1,3 +1,7 @@
+## 1.5.1 (2016-12-01)
+
+[FIXED] fix the version of request we are using, new minor version break backwards compatibility
+
 ## 1.5.0 (2016-08-23)
 
 [ADDED] support for publishing on up to 10 interests.

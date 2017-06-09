@@ -183,15 +183,19 @@ describe("Pusher", function() {
       });
     });
 
-    it("should throw an error if called with more than 10 channels", function() {
+    it("should throw an error if called with more than 100 channels", function() {
+      var channel = [];
+      for (var i = 1; i <= 101; i++) {
+          channel.push(i);
+      }
       expect(function() {
         pusher.trigger(
-          ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"], "x", {}
+          channel, "x", {}
         );
       }).to.throwError(function(e) {
         expect(e).to.be.an(Error);
         expect(e.message).to.equal(
-          "Can't trigger a message to more than 10 channels"
+          "Can't trigger a message to more than 100 channels"
         );
       });
     });

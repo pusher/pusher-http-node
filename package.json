@@ -22,22 +22,26 @@
     }
   ],
   "dependencies": {
-    "request": "2.74.0"
+    "request": "2.85.0"
   },
   "devDependencies": {
-    "mocha": "=1.20.1",
     "expect.js": "=0.3.1",
-    "sinon": "=1.10.2",
-    "nock": "=0.28.0",
     "express": "=3.11.0",
+    "mocha": "=1.20.1",
+    "nock": "^9.2.5",
+    "sinon": "=1.10.2",
     "webpack": "^1.12.9"
   },
   "scripts": {
-    "test": "node node_modules/.bin/mocha tests/integration/**/*.js",
+    "test": "node_modules/.bin/mocha tests/integration/**/*.js",
     "parse-build": "echo 'Creating build for Parse Cloud.' && webpack --config=./parse.webpack.js",
     "prepublish": "npm run parse-build"
   },
-  "keywords": ["pusher", "websockets", "realtime"],
+  "keywords": [
+    "pusher",
+    "websockets",
+    "realtime"
+  ],
   "license": "MIT",
   "repository": "git://github.com/pusher/pusher-rest-node",
   "main": "lib/pusher",

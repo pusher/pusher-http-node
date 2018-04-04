@@ -133,7 +133,7 @@ describe("Pusher", function() {
         appId: 10000,
         key: "aaaa",
         secret: "beef",
-        timeout: 200
+        timeout: 100
       });
       var mock = nock("http://api.pusherapp.com")
         .filteringPath(function(path) {
@@ -145,13 +145,13 @@ describe("Pusher", function() {
           "/apps/10000/test?auth_key=aaaa&auth_timestamp=X&auth_version=1.0&body_md5=99914b932bd37a50b983c5e7c90ae93b&auth_signature=Y",
           {}
         )
-        .delayConnection(200)
+        .delayConnection(101)
         .reply(200);
 
       pusher.post({ path: "/test", body: {} }, function(error, request, response) {
-        var expectedError = new Error("ETIMEDOUT");
-        expectedError.code = "ETIMEDOUT";
-        expectedError.connect = undefined;
+        var expectedError = new Error("ESOCKETTIMEDOUT");
+        expectedError.code = "ESOCKETTIMEDOUT";
+        expectedError.connect = false;
 
         expect(error).to.be.a(Pusher.RequestError);
         expect(error.message).to.equal("Request failed with an error");

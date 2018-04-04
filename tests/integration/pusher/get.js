@@ -121,13 +121,13 @@ describe("Pusher", function() {
         .get(
           "/apps/999/test?auth_key=111111&auth_timestamp=X&auth_version=1.0&auth_signature=Y"
         )
-        .delayConnection(200)
+        .delayConnection(101)
         .reply(200);
 
       pusher.get({ path: "/test", params: {} }, function(error, request, response) {
-        var expectedError = new Error("ETIMEDOUT");
-        expectedError.code = "ETIMEDOUT";
-        expectedError.connect = undefined;
+        var expectedError = new Error("ESOCKETTIMEDOUT");
+        expectedError.code = "ESOCKETTIMEDOUT";
+        expectedError.connect = false;
 
         expect(error).to.be.a(Pusher.RequestError);
         expect(error.message).to.equal("Request failed with an error");

@@ -46,6 +46,6 @@
   "repository": "git://github.com/pusher/pusher-rest-node",
   "main": "lib/pusher",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 4.0.0"
   }
 }

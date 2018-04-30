@@ -380,7 +380,7 @@ The `params` object can't contain following keys, as they are used to sign the r
 
 ## Testing
 
-The tests run using [Mocha](http://visionmedia.github.io/mocha/). Make sure
+The tests run using [Mocha](http://mochajs.org/). Make sure
 you've got all required modules installed:
 
     npm install

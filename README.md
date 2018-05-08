@@ -4,7 +4,7 @@ In order to use this library, you need to have an account on <http://pusher.com>
 
 ## Installation
 
-You need to be running Node.js 0.8+ to use this library.
+You need to be running at least Node.js 4 to use this library.
 
 ```
 $ npm install pusher

@@ -1,3 +1,9 @@
+## 2.0.0 (2018-05-08)
+
+[FIXED] remove security vulnerability by updating requests.
+
+[REMOVED] support for versions of node < 4
+
 ## 1.5.1 (2016-12-01)
 
 [FIXED] fix the version of request we are using, new minor version break backwards compatibility

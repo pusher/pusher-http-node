@@ -39,26 +39,33 @@ declare class Pusher {
 }
 
 declare namespace Pusher {
+  export function forCluster(cluster: string, opts: BaseOptions): Pusher;
+  export function forURL(connectionString: string): Pusher;
+
   export type Callback = (
     error: any,
     request: request.Request,
     response: request.Response,
   ) => void;
 
-  // TODO would be good to enforce either cluster or host. Maybe Options could
-  // be an intersection of a union of types
-  export interface Options {
+  export interface BaseOptions {
     appId: string;
     key: string;
     secret: string;
-    cluster?: string;
     encrypted?: boolean;
-    host?: string;
-    port?: string;
     proxy?: string;
     timeout?: number;
     keepAlive?: boolean;
   }
+  interface ClusterOptions extends BaseOptions {
+    cluster: string;
+  }
+  interface HostOptions extends BaseOptions {
+    host: string;
+    port?: string;
+  }
+
+  export type Options = ClusterOptions | HostOptions;
 
   export interface BatchEvent {
     channel: string;

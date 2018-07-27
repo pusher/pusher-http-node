@@ -27,6 +27,20 @@ To import `Pusher`:
 var Pusher = require('cloud/modules/node_modules/pusher/parse');
 ```
 
+## Importing
+
+It's possible to use pusher-http-node with typescript or javascript.
+
+```javascript
+const Pusher = require('pusher');
+```
+
+```typescript
+import * as Pusher from 'pusher';
+```
+
+All external APIs should have types in index.d.ts.
+
 ## Configuration
 
 There are 3 ways to configure the client. First one is just using the Pusher constructor:
@@ -39,9 +53,9 @@ var pusher = new Pusher({
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
   encrypted: ENCRYPTED, // optional, defaults to false
+  cluster: 'CLUSTER', // if `host` is present, it will override the `cluster` option.
   host: 'HOST', // optional, defaults to api.pusherapp.com
   port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
-  cluster: 'CLUSTER', // optional, if `host` is present, it will override the `cluster` option.
 });
 ```
 
@@ -377,6 +391,9 @@ The `params` object can't contain following keys, as they are used to sign the r
 - auth_version
 - auth_signature
 - body_md5
+
+
+
 
 ## Testing
 

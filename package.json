@@ -25,6 +25,7 @@
     "request": "2.85.0"
   },
   "devDependencies": {
+    "@types/request": "^2.47.1",
     "expect.js": "=0.3.1",
     "express": "=3.11.0",
     "mocha": "=1.20.1",
@@ -45,6 +46,7 @@
   "license": "MIT",
   "repository": "git://github.com/pusher/pusher-rest-node",
   "main": "lib/pusher",
+  "typings": "index.d.ts",
   "engines": {
     "node": ">= 4.0.0"
   }

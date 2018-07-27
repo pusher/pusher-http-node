@@ -1,3 +1,11 @@
+## 2.1.1 (2018-07-27)
+
+[ADDED] typescript type declarations file
+
+## 2.0.1 (2018-07-04)
+
+no-op release to remove some files from npm
+
 ## 2.0.0 (2018-05-08)
 
 [FIXED] remove security vulnerability by updating requests.

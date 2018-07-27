@@ -1,3 +1,7 @@
+## 2.1.2 (2018-07-27)
+
+[FIXED] typescript dependency issue
+
 ## 2.1.1 (2018-07-27)
 
 [ADDED] typescript type declarations file

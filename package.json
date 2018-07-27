@@ -22,10 +22,10 @@
     }
   ],
   "dependencies": {
+    "@types/request": "^2.47.1",
     "request": "2.85.0"
   },
   "devDependencies": {
-    "@types/request": "^2.47.1",
     "expect.js": "=0.3.1",
     "express": "=3.11.0",
     "mocha": "=1.20.1",

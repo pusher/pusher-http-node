@@ -185,9 +185,10 @@ describe("Pusher", function() {
 
     it("should throw an error if called with more than 100 channels", function() {
       expect(function() {
-        let channels = [...Array(101).keys()].map(function(i) {
-          return i.toString();
-        });
+        var channels = [];
+        for(var i = 0; i < 101; i++) {
+          channels.push(i.toString());
+        }
         pusher.trigger(channels, "x", {});
       }).to.throwError(function(e) {
         expect(e).to.be.an(Error);

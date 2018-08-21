@@ -137,6 +137,8 @@ To trigger an event on multiple channels:
 pusher.trigger([ 'channel-1', 'channel-2' ], 'test_event', { message: "hello world" });
 ```
 
+You can trigger an event to at most 100 channels at once. Passing more than 100 channels will cause an exception to be thrown.
+
 #### Batch events
 
 If you wish to send multiple events in a single HTTP request, you can pass an array of events to `pusher.triggerBatch`. You can send up to a maximum of 10 events at once.
@@ -156,7 +158,7 @@ var events = [{
 pusher.triggerBatch(events);
 ```
 
-You can trigger an event to at most 10 channels at once. Passing more than 10 channels will cause an exception to be thrown.
+You can trigger a batch of up to 10 events.
 
 ### Excluding event recipients
 

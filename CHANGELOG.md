@@ -1,3 +1,7 @@
+## 2.1.3 (2018-08-21)
+
+[FIXED] incorrect channels limit when triggering
+
 ## 2.1.2 (2018-07-27)
 
 [FIXED] typescript dependency issue

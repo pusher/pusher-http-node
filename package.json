@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "@types/request": "^2.47.1",
-    "request": "2.85.0"
+    "request": "2.88.0"
   },
   "devDependencies": {
     "expect.js": "=0.3.1",

@@ -356,8 +356,9 @@ describe("Pusher", function() {
               var receivedPlaintextBytes = nacl.secretbox.open(ciphertext, nonce, channelSharedSecret);
               var decoder = new StringDecoder('utf8');
               var receivedPlaintextJson = decoder.write(receivedPlaintextBytes);
+              console.log("1 received plaintext json", typeofs(receivedPlaintextJson), JSON.stringify(receivedPlaintextJson));// debug travisci
               receivedPlaintextJson += decoder.end();
-              console.log("received plaintext json", JSON.stringify(receivedPlaintextJson));// debug travisci
+              console.log("2 received plaintext json", typeofs(receivedPlaintextJson), JSON.stringify(receivedPlaintextJson));// debug travisci
               var receivedPlaintext = JSON.parse(receivedPlaintextJson);
               return receivedPlaintext === sentPlaintext;
             }

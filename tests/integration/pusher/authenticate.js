@@ -124,5 +124,37 @@ describe("Pusher", function() {
         pusher.authenticate("111.222", "")
       }).to.throwException(/^Invalid channel name: ''$/);
     });
+
+    it("should throw an error for private-encrypted- channels", function() {
+      expect(function() {
+        pusher.authenticate("123.456", "private-encrypted-bla", "foo");
+      }).to.throwException('Cannot generate shared_secret because encryptionMasterKey is not set');
+    });
+  });
+});
+
+describe("Pusher with encryptionMasterKey", function() {
+  var pusher;
+
+  var testMasterKey = "01234567890123456789012345678901";
+
+  beforeEach(function() {
+    pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef", encryptionMasterKey: testMasterKey });
+  });
+
+  describe("#auth", function() {
+    it("should return a shared_secret for private-encrypted- channels", function() {
+      expect(pusher.authenticate("123.456", "private-encrypted-bla", "foo")).to.eql({
+        auth: "f00d:d8df1e524cf38fbde4f1dc38e6eaa4943e60412122801eed1f0e89c8a1268784",
+        channel_data: "\"foo\"",
+        shared_secret: "BYBsePpRCQkGPvbWu/5j8x+MmUF5sgPH5DmNBwkTzYs="
+      });
+    });
+    it("should not return a shared_secret for non-encrypted channels", function() {
+      expect(pusher.authenticate("123.456", "bla", "foo")).to.eql({
+        auth: "f00d:4c48fa1cb34537501eb3291b28c0b04de270008ae418bc3141f4f11680abe312",
+        channel_data: "\"foo\"",
+      });
+    });
   });
 });

@@ -357,6 +357,7 @@ describe("Pusher", function() {
               var decoder = new StringDecoder('utf8');
               var receivedPlaintextJson = decoder.write(receivedPlaintextBytes);
               receivedPlaintextJson += decoder.end();
+              console.log("received plaintext json", JSON.stringify(receivedPlaintextJson));// debug travisci
               var receivedPlaintext = JSON.parse(receivedPlaintextJson);
               return receivedPlaintext === sentPlaintext;
             }

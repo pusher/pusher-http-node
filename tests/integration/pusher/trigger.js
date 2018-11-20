@@ -1,5 +1,6 @@
 var expect = require("expect.js");
 var nock = require("nock");
+const nacl = require("tweetnacl");
 
 var Pusher = require("../../../lib/pusher");
 
@@ -300,9 +301,11 @@ describe("Pusher", function() {
 
   describe("Pusher with encryptionMasterKey", function() {
     var pusher;
+
+    var testMasterKey = "01234567890123456789012345678901";
   
     beforeEach(function() {
-      pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef", encryptionMasterKey: "01234567890123456789012345678901" });
+      pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef", encryptionMasterKey: testMasterKey });
       nock.disableNetConnect();
     });
   
@@ -329,7 +332,7 @@ describe("Pusher", function() {
       });
       
       it("should encrypt the body of an event triggered on a private-encrypted- channel", function(done) {
-        var plaintext = "Hello!";
+        var sentPlaintext = "Hello!";
 
         var mock = nock("http://api.pusherapp.com")
           .filteringPath(function(path) {
@@ -339,12 +342,25 @@ describe("Pusher", function() {
               .replace(/body_md5=[0-9a-f]{32}/, "body_md5=Z");
           })
           .post(
-            "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
-            { batch: [ { name: "event", data: /.*/, channel: "private-encrypted-bla" } ] }
+            "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
+            function (body) {
+              if (body.name !== "test_event") return false;
+              if (body.channels.length !== 1) return false;
+              var channel = body.channels[0];
+              if (channel !== "private-encrypted-bla") return false;
+              var encrypted = JSON.parse(body.data);
+              var nonce = Buffer.from(encrypted.nonce, 'base64');
+              var ciphertext = Buffer.from(encrypted.ciphertext, 'base64');
+              var channelSharedSecret = pusher.channelSharedSecret(channel);
+              var receivedPlaintextBytes = nacl.secretbox.open(ciphertext, nonce, channelSharedSecret);
+              var receivedPlaintextJson = new TextDecoder("utf-8").decode(receivedPlaintextBytes);
+              var receivedPlaintext = JSON.parse(receivedPlaintextJson);
+              return receivedPlaintext === sentPlaintext;
+            }
           )
           .reply(200, "{}");
   
-        pusher.trigger("private-encrypted-bla", "event", plaintext, done);
+        pusher.trigger("private-encrypted-bla", "test_event", sentPlaintext, done);
       });
     });
   });  

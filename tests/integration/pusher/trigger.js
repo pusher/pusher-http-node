@@ -1,6 +1,7 @@
 var expect = require("expect.js");
 var nock = require("nock");
 var nacl = require('tweetnacl');
+var StringDecoder = require('string_decoder').StringDecoder;
 
 var Pusher = require("../../../lib/pusher");
 
@@ -353,7 +354,9 @@ describe("Pusher", function() {
               var ciphertext = Buffer.from(encrypted.ciphertext, 'base64');
               var channelSharedSecret = pusher.channelSharedSecret(channel);
               var receivedPlaintextBytes = nacl.secretbox.open(ciphertext, nonce, channelSharedSecret);
-              var receivedPlaintextJson = new TextDecoder("utf-8").decode(receivedPlaintextBytes);
+              var decoder = new StringDecoder('utf8');
+              var receivedPlaintextJson = decoder.write(receivedPlaintextBytes);
+              receivedPlaintextJson += decoder.end();
               var receivedPlaintext = JSON.parse(receivedPlaintextJson);
               return receivedPlaintext === sentPlaintext;
             }

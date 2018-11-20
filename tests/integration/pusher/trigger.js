@@ -298,6 +298,57 @@ describe("Pusher", function() {
     });
   });
 
+  describe("Pusher with encryptionMasterKey", function() {
+    var pusher;
+  
+    beforeEach(function() {
+      pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef", encryptionMasterKey: "01234567890123456789012345678901" });
+      nock.disableNetConnect();
+    });
+  
+    afterEach(function() {
+      nock.cleanAll();
+      nock.enableNetConnect();
+    });
+  
+    describe("#trigger", function() {
+      it("should not encrypt the body of an event triggered on a single channel", function(done) {
+        var mock = nock("http://api.pusherapp.com")
+          .filteringPath(function(path) {
+            return path
+              .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+              .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+          })
+          .post(
+            "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=e95168baf497b2e54b2c6cadd41a6a3f&auth_signature=Y",
+            { name: "my_event", data: "{\"some\":\"data \"}", channels: ["one"] }
+          )
+          .reply(200, "{}");
+
+        pusher.trigger("one", "my_event", { some: "data "}, done);
+      });
+      
+      it("should encrypt the body of an event triggered on a private-encrypted- channel", function(done) {
+        var plaintext = "Hello!";
+
+        var mock = nock("http://api.pusherapp.com")
+          .filteringPath(function(path) {
+            return path
+              .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+              .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
+              .replace(/body_md5=[0-9a-f]{32}/, "body_md5=Z");
+          })
+          .post(
+            "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
+            { batch: [ { name: "event", data: /.*/, channel: "private-encrypted-bla" } ] }
+          )
+          .reply(200, "{}");
+  
+        pusher.trigger("private-encrypted-bla", "event", plaintext, done);
+      });
+    });
+  });  
+
   describe("#triggerBatch", function(){
     it("should trigger multiple events in a single call", function(done) {
       var mock = nock("http://api.pusherapp.com")

@@ -1,6 +1,6 @@
 var expect = require("expect.js");
 var nock = require("nock");
-const nacl = require("tweetnacl");
+var nacl = require('tweetnacl');
 
 var Pusher = require("../../../lib/pusher");
 

@@ -1,7 +1,7 @@
 var expect = require("expect.js");
 var nock = require("nock");
 var nacl = require('tweetnacl');
-var StringDecoder = require('string_decoder').StringDecoder;
+var naclUtil = require('tweetnacl-util');
 
 var Pusher = require("../../../lib/pusher");
 
@@ -350,15 +350,11 @@ describe("Pusher", function() {
               var channel = body.channels[0];
               if (channel !== "private-encrypted-bla") return false;
               var encrypted = JSON.parse(body.data);
-              var nonce = Buffer.from(encrypted.nonce, 'base64');
-              var ciphertext = Buffer.from(encrypted.ciphertext, 'base64');
+              var nonce = naclUtil.decodeBase64(encrypted.nonce);
+              var ciphertext = naclUtil.decodeBase64(encrypted.ciphertext);
               var channelSharedSecret = pusher.channelSharedSecret(channel);
               var receivedPlaintextBytes = nacl.secretbox.open(ciphertext, nonce, channelSharedSecret);
-              var decoder = new StringDecoder('utf8');
-              var receivedPlaintextJson = decoder.write(receivedPlaintextBytes);
-              console.log("1 received plaintext json", typeof(receivedPlaintextJson), JSON.stringify(receivedPlaintextJson));// debug travisci
-              receivedPlaintextJson += decoder.end();
-              console.log("2 received plaintext json", typeof(receivedPlaintextJson), JSON.stringify(receivedPlaintextJson));// debug travisci
+              var receivedPlaintextJson = naclUtil.encodeUTF8(receivedPlaintextBytes);
               var receivedPlaintext = JSON.parse(receivedPlaintextJson);
               return receivedPlaintext === sentPlaintext;
             }

@@ -23,12 +23,12 @@
   ],
   "dependencies": {
     "@types/request": "^2.47.1",
-    "request": "2.85.0"
+    "request": "2.88.0"
   },
   "devDependencies": {
     "expect.js": "=0.3.1",
     "express": "=3.11.0",
-    "mocha": "=1.20.1",
+    "mocha": "^1.21.5",
     "nock": "^9.6.1",
     "sinon": "=1.10.2",
     "webpack": "^1.12.9"

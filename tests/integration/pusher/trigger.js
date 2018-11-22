@@ -421,4 +421,49 @@ describe("Pusher with encryptionMasterKey", function() {
       pusher.trigger("private-encrypted-bla", "test_event", sentPlaintext, done);
     });
   });
+
+  describe("#triggerBatch", function(){
+    it("should encrypt the bodies of an events triggered on a private-encrypted- channels", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
+            .replace(/body_md5=[0-9a-f]{32}/, "body_md5=Z");
+        })
+        .post(
+          "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
+          function (body) {
+            if (body.batch.length !== 2) return false;
+            var event1 = body.batch[0];
+            if (event1.channel !== "integration") return false;
+            if (event1.name !== "event") return false;
+            if (event1.data !== "test") return false;
+            var event2 = body.batch[1];
+            if (event2.channel !== "private-encrypted-integration2") return false;
+            if (event2.name !== "event2") return false;
+            var encrypted = JSON.parse(event2.data);
+            var nonce = naclUtil.decodeBase64(encrypted.nonce);
+            var ciphertext = naclUtil.decodeBase64(encrypted.ciphertext);
+            var channelSharedSecret = pusher.channelSharedSecret(event2.channel);
+            var receivedPlaintextBytes = nacl.secretbox.open(ciphertext, nonce, channelSharedSecret);
+            var receivedPlaintextJson = naclUtil.encodeUTF8(receivedPlaintextBytes);
+            var receivedPlaintext = JSON.parse(receivedPlaintextJson);
+            return receivedPlaintext === 'test2';
+          }
+        )
+        .reply(200, "{}");
+
+      pusher.triggerBatch([{
+        channel: "integration",
+        name: "event",
+        data: "test"
+      },
+      {
+        channel: "private-encrypted-integration2",
+        name: "event2",
+        data: "test2"
+      }], done);
+    });
+  });
 });  

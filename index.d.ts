@@ -52,6 +52,7 @@ declare namespace Pusher {
     appId: string;
     key: string;
     secret: string;
+    useTLS?: boolean;
     encrypted?: boolean;
     proxy?: string;
     timeout?: number;

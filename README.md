@@ -52,10 +52,10 @@ var pusher = new Pusher({
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
-  encrypted: ENCRYPTED, // optional, defaults to false
+  useTLS: USE_TLS, // optional, defaults to false
   cluster: 'CLUSTER', // if `host` is present, it will override the `cluster` option.
   host: 'HOST', // optional, defaults to api.pusherapp.com
-  port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
+  port: PORT, // optional, defaults to 80 for non-TLS connections and 443 for TLS connections
 });
 ```
 
@@ -68,8 +68,8 @@ var pusher = Pusher.forCluster("CLUSTER", {
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
-  encrypted: ENCRYPTED, // optional, defaults to false
-  port: PORT, // optional, defaults to 80 for unencrypted and 443 for encrypted
+  useTLS: USE_TLS, // optional, defaults to false
+  port: PORT, // optional, defaults to 80 for non-TLS connections and 443 for TLS connections
 });
 ```
 

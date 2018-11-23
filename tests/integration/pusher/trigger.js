@@ -466,4 +466,4 @@ describe("Pusher with encryptionMasterKey", function() {
       }], done);
     });
   });
-});  
+});

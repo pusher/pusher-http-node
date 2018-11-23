@@ -1,3 +1,7 @@
+## 2.1.4 (2018-11-22)
+
+[UPGRADED] Upgraded versions of `request`, `nock`, and `mocha`
+
 ## 2.1.3 (2018-08-21)
 
 [FIXED] incorrect channels limit when triggering

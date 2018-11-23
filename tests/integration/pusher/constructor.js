@@ -33,9 +33,10 @@ describe("Pusher", function() {
       expect(pusher.config.scheme).to.equal("https");
     });
 
-    it("should use `useTLS` in favor of deprecated `encrypted`", function() {
-      var pusher = new Pusher({ useTLS: true, encrypted: false });
-      expect(pusher.config.scheme).to.equal("https");
+    it("should throw an exception if `useTLS` and `encrypted` are set", function() {
+      expect(function() {
+        new Pusher({ useTLS: true, encrypted: false });
+      }).to.throwException(/^Cannot set both `useTLS` and `encrypted` configuration options$/);
     });
 
     it("should default `host` to 'api.pusherapp.com'", function() {

@@ -18,13 +18,23 @@ describe("Pusher", function() {
       expect(pusher.config.token.secret).to.equal("fedcba0987654321");
     });
 
-    it("should default `encrypted` to false", function() {
+    it("should default `useTLS` to false", function() {
       var pusher = new Pusher({});
       expect(pusher.config.scheme).to.equal("http");
     });
 
-    it("should support `encrypted`", function() {
+    it("should support `useTLS`", function() {
+      var pusher = new Pusher({ useTLS: true });
+      expect(pusher.config.scheme).to.equal("https");
+    });
+
+    it("should support deprecated `encrypted`", function() {
       var pusher = new Pusher({ encrypted: true });
+      expect(pusher.config.scheme).to.equal("https");
+    });
+
+    it("should use `useTLS` in favor of deprecated `encrypted`", function() {
+      var pusher = new Pusher({ useTLS: true, encrypted: false });
       expect(pusher.config.scheme).to.equal("https");
     });
 
@@ -49,7 +59,7 @@ describe("Pusher", function() {
     });
 
     it("should default `port` to undefined", function() {
-      var pusher = new Pusher({ encrypted: true });
+      var pusher = new Pusher({ useTLS: true });
       expect(pusher.config.port).to.be(undefined);
     });
 
@@ -57,7 +67,7 @@ describe("Pusher", function() {
       var pusher = new Pusher({ port: 8080 });
       expect(pusher.config.port).to.equal(8080);
 
-      pusher = new Pusher({ encrypted: true, port: 8080 });
+      pusher = new Pusher({ useTLS: true, port: 8080 });
       expect(pusher.config.port).to.equal(8080);
     });
 

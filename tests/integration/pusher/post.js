@@ -109,7 +109,7 @@ describe("Pusher", function() {
         appId: 10000,
         key: "aaaa",
         secret: "beef",
-        encrypted: true,
+        useTLS: true,
         host: "example.com",
         port: 1234
       });

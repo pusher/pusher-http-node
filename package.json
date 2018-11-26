@@ -23,7 +23,9 @@
   ],
   "dependencies": {
     "@types/request": "^2.47.1",
-    "request": "2.88.0"
+    "request": "2.88.0",
+    "tweetnacl": "^1.0.0",
+    "tweetnacl-util": "^0.15.0"
   },
   "devDependencies": {
     "expect.js": "=0.3.1",

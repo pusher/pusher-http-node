@@ -1,5 +1,7 @@
 var expect = require("expect.js");
 var nock = require("nock");
+var nacl = require('tweetnacl');
+var naclUtil = require('tweetnacl-util');
 
 var Pusher = require("../../../lib/pusher");
 
@@ -353,4 +355,115 @@ describe("Pusher", function() {
       }], done);
     });
   })
+});
+
+describe("Pusher with encryptionMasterKey", function() {
+  var pusher;
+
+  var testMasterKey = "01234567890123456789012345678901";
+
+  beforeEach(function() {
+    pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef", encryptionMasterKey: testMasterKey });
+    nock.disableNetConnect();
+  });
+
+  afterEach(function() {
+    nock.cleanAll();
+    nock.enableNetConnect();
+  });
+
+  describe("#trigger", function() {
+    it("should not encrypt the body of an event triggered on a single channel", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y");
+        })
+        .post(
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=e95168baf497b2e54b2c6cadd41a6a3f&auth_signature=Y",
+          { name: "my_event", data: "{\"some\":\"data \"}", channels: ["one"] }
+        )
+        .reply(200, "{}");
+
+      pusher.trigger("one", "my_event", { some: "data "}, done);
+    });
+    
+    it("should encrypt the body of an event triggered on a private-encrypted- channel", function(done) {
+      var sentPlaintext = "Hello!";
+
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
+            .replace(/body_md5=[0-9a-f]{32}/, "body_md5=Z");
+        })
+        .post(
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
+          function (body) {
+            if (body.name !== "test_event") return false;
+            if (body.channels.length !== 1) return false;
+            var channel = body.channels[0];
+            if (channel !== "private-encrypted-bla") return false;
+            var encrypted = JSON.parse(body.data);
+            var nonce = naclUtil.decodeBase64(encrypted.nonce);
+            var ciphertext = naclUtil.decodeBase64(encrypted.ciphertext);
+            var channelSharedSecret = pusher.channelSharedSecret(channel);
+            var receivedPlaintextBytes = nacl.secretbox.open(ciphertext, nonce, channelSharedSecret);
+            var receivedPlaintextJson = naclUtil.encodeUTF8(receivedPlaintextBytes);
+            var receivedPlaintext = JSON.parse(receivedPlaintextJson);
+            return receivedPlaintext === sentPlaintext;
+          }
+        )
+        .reply(200, "{}");
+
+      pusher.trigger("private-encrypted-bla", "test_event", sentPlaintext, done);
+    });
+  });
+
+  describe("#triggerBatch", function(){
+    it("should encrypt the bodies of an events triggered on a private-encrypted- channels", function(done) {
+      var mock = nock("http://api.pusherapp.com")
+        .filteringPath(function(path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
+            .replace(/body_md5=[0-9a-f]{32}/, "body_md5=Z");
+        })
+        .post(
+          "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
+          function (body) {
+            if (body.batch.length !== 2) return false;
+            var event1 = body.batch[0];
+            if (event1.channel !== "integration") return false;
+            if (event1.name !== "event") return false;
+            if (event1.data !== "test") return false;
+            var event2 = body.batch[1];
+            if (event2.channel !== "private-encrypted-integration2") return false;
+            if (event2.name !== "event2") return false;
+            var encrypted = JSON.parse(event2.data);
+            var nonce = naclUtil.decodeBase64(encrypted.nonce);
+            var ciphertext = naclUtil.decodeBase64(encrypted.ciphertext);
+            var channelSharedSecret = pusher.channelSharedSecret(event2.channel);
+            var receivedPlaintextBytes = nacl.secretbox.open(ciphertext, nonce, channelSharedSecret);
+            var receivedPlaintextJson = naclUtil.encodeUTF8(receivedPlaintextBytes);
+            var receivedPlaintext = JSON.parse(receivedPlaintextJson);
+            return receivedPlaintext === 'test2';
+          }
+        )
+        .reply(200, "{}");
+
+      pusher.triggerBatch([{
+        channel: "integration",
+        name: "event",
+        data: "test"
+      },
+      {
+        channel: "private-encrypted-integration2",
+        name: "event2",
+        data: "test2"
+      }], done);
+    });
+  });
 });

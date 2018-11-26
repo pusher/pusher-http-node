@@ -56,6 +56,7 @@ var pusher = new Pusher({
   cluster: 'CLUSTER', // if `host` is present, it will override the `cluster` option.
   host: 'HOST', // optional, defaults to api.pusherapp.com
   port: PORT, // optional, defaults to 80 for non-TLS connections and 443 for TLS connections
+  encryptionMasterKey: ENCRYPTION_MASTER_KEY, // a 32 character long key used to derive secrets for end to end encryption (see below!)
 });
 ```
 
@@ -70,6 +71,7 @@ var pusher = Pusher.forCluster("CLUSTER", {
   secret: 'SECRET_KEY',
   useTLS: USE_TLS, // optional, defaults to false
   port: PORT, // optional, defaults to 80 for non-TLS connections and 443 for TLS connections
+  encryptionMasterKey: ENCRYPTION_MASTER_KEY, // a 32 character long key used to derive secrets for end to end encryption (see below!)
 });
 ```
 
@@ -168,6 +170,38 @@ In order to avoid the client that triggered the event from also receiving it, th
 var socketId = '1302.1081607';
 pusher.trigger(channel, event, data, socketId);
 ```
+
+### End-to-end encryption [BETA]
+
+This library supports end-to-end encryption of your private channels. This means that only you and your connected clients will be able to read your messages. Pusher cannot decrypt them. You can enable this feature by following these steps:
+
+1. You should first set up Private channels. This involves [creating an authentication endpoint on your server](https://pusher.com/docs/authenticating_users).
+
+2. Next, Specify your 32 character `encryption_master_key`. This is secret and you should never share this with anyone. Not even Pusher.
+
+   ```javascript
+   var pusher = new Pusher({
+     appId: 'APP_ID',
+     key: 'APP_KEY',
+     secret: 'SECRET_KEY',
+     useTLS: true,
+     encryptionMasterKey: 'abcdefghijklmnopqrstuvwxyzabcdef',
+   });
+   ```
+
+3. Channels where you wish to use end-to-end encryption should be prefixed with `private-encrypted-`.
+
+4. Subscribe to these channels in your client, and you're done! You can verify it is working by checking out the debug console on the [https://dashboard.pusher.com/](dashboard) and seeing the scrambled ciphertext.
+
+**Important note: This will __not__ encrypt messages on channels that are not prefixed by `private-encrypted-`.**
+
+**Limitation**: you cannot trigger a single event on multiple channels in a call to `trigger`, e.g.
+
+```javascript
+pusher.trigger([ 'channel-1', 'private-encrypted-channel-2' ], 'test_event', { message: "hello world" });
+```
+
+Rationale: the methods in this library map directly to individual Channels HTTP API requests. If we allowed triggering a single event on multiple channels (some encrypted, some unencrypted), then it would require two API requests: one where the event is encrypted to the encrypted channels, and one where the event is unencrypted for unencrypted channels.
 
 ### Push Notifications [BETA]
 

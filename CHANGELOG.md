@@ -1,3 +1,9 @@
+## 2.2.0 (2018-11-26)
+
+[ADDED] This release adds support for end-to-end encryption, a new feature for Channels. Read more [in our docs](https://pusher.com/docs/client_api_guide/client_encrypted_channels).
+
+[DEPRECATED] Renamed `encrypted` option to `useTLS` - `encrypted` will still work!
+
 ## 2.1.4 (2018-11-22)
 
 [UPGRADED] Upgraded versions of `request`, `nock`, and `mocha`

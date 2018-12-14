@@ -203,66 +203,6 @@ pusher.trigger([ 'channel-1', 'private-encrypted-channel-2' ], 'test_event', { m
 
 Rationale: the methods in this library map directly to individual Channels HTTP API requests. If we allowed triggering a single event on multiple channels (some encrypted, some unencrypted), then it would require two API requests: one where the event is encrypted to the encrypted channels, and one where the event is unencrypted for unencrypted channels.
 
-### Push Notifications [BETA]
-
-Pusher now allows sending native notifications to iOS and Android devices. Check out the [documentation](https://pusher.com/docs/push_notifications) for information on how to set up push notifications on Android and iOS. There is no additional setup required to use it with this library. It works out of the box wit the same Pusher instance. All you need are the same pusher credentials.
-
-#### Sending native pushes
-
-The native notifications Server API is hosted at `nativepush-cluster1.pusher.com` and only accepts https requests.
-
-You can send pushes by using the `notify` method, either globally or on the instance. The method takes three parameters:
-
-- `interests`: An Array of strings which represents the interests your devices are subscribed to. These are akin to channels in the DDN with less of an epehemeral nature. Note that currently, you can only send to, at most, _ten_ interests.
-- `data`: The content of the notification represented by a Hash. You must supply either the `gcm` or `apns` key. For a detailed list of the acceptable keys, take a look at the [docs](https://pusher.com/docs/push_notifications#payload).
-- `callback`: A callback function which is passed three arguments: a (possibly null) error, a request object, and a response object.
-
-Example:
-
-```js
-var data = {
-  apns: {
-    priority: 5,
-    aps: {
-      alert: {
-        body: 'tada'
-      }
-    }
-  }
-}
-
-pusher.notify(["my-favourite-interest"], data, function(error, req, res) {
-  console.log(error, req, res);
-})
-```
-
-#### Errors
-
-Push notification requests, once submitted to the service are executed asynchronously. To make reporting errors easier, you can supply a `webhook_url` field in the body of the request. This will be used by the service to send a webhook to the supplied URL if there are errors.
-
-For example:
-
-```js
-var data = {
-  "apns": {
-    "aps": {
-      "alert": {
-        "body": "hello"
-      }
-    }
-  },
-  'gcm': {
-    'notification': {
-      "title": "hello",
-      "icon": "icon"
-    }
-  },
-  "webhook_url": "http://yolo.com"
-}
-```
-
-**NOTE:** This is currently a BETA feature and there might be minor bugs and issues. Changes to the API will be kept to a minimum, but changes are expected. If you come across any bugs or issues, please do get in touch via [support](support@pusher.com) or create an issue here.
-
 ### Authenticating private channels
 
 To authorise your users to access private channels on Pusher, you can use the `authenticate` function:

@@ -1,4 +1,4 @@
-# Pusher Node.js REST library
+# Pusher Channels Node.js REST library
 
 In order to use this library, you need to have an account on <http://pusher.com>. After registering, you will need the application credentials for your app.
 
@@ -48,7 +48,7 @@ There are 3 ways to configure the client. First one is just using the Pusher con
 ```javascript
 var Pusher = require('pusher');
 
-var pusher = new Pusher({
+var channels_client = new Pusher({
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
@@ -65,7 +65,7 @@ For specific clusters, you can use the `forCluster` function. This is the same a
 ```javascript
 var Pusher = require('pusher');
 
-var pusher = Pusher.forCluster("CLUSTER", {
+var channels_client = Pusher.forCluster("CLUSTER", {
   appId: 'APP_ID',
   key: 'APP_KEY',
   secret: 'SECRET_KEY',
@@ -80,7 +80,7 @@ You can also specify auth and endpoint options by passing an URL:
 ```javascript
 var Pusher = require('pusher');
 
-var pusher = Pusher.forURL("SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID");
+var channels_client = Pusher.forURL("SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID");
 ```
 
 You can pass the optional second argument with options, as in `forCluster` function.
@@ -95,7 +95,7 @@ There are a few additional options that can be used in all above methods:
 ```javascript
 var Pusher = require('pusher');
 
-var pusher = new Pusher({
+var channels_client = new Pusher({
   // you can set other options in any of the 3 ways described above
   proxy: 'HTTP_PROXY_URL', // optional, URL to proxy the requests through
   timeout: TIMEOUT, // optional, timeout for all requests in milliseconds
@@ -109,7 +109,7 @@ var pusher = new Pusher({
 
 #### API requests
 
-Asynchronous methods on the Pusher class (`trigger`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with three arguments:
+Asynchronous methods on the Pusher Channels class (`trigger`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with three arguments:
 
 - error - if the request can't be performed or returns an error code, error will contain details, otherwise it will be null
 - request - the request object
@@ -128,7 +128,7 @@ To send an event to one or more channels use the trigger function. Channel names
 #### Single channel
 
 ```javascript
-pusher.trigger('channel-1', 'test_event', { message: "hello world" });
+channels_client.trigger('channel-1', 'test_event', { message: "hello world" });
 ```
 
 #### Multiple channels
@@ -136,14 +136,14 @@ pusher.trigger('channel-1', 'test_event', { message: "hello world" });
 To trigger an event on multiple channels:
 
 ```javascript
-pusher.trigger([ 'channel-1', 'channel-2' ], 'test_event', { message: "hello world" });
+channels_client.trigger([ 'channel-1', 'channel-2' ], 'test_event', { message: "hello world" });
 ```
 
 You can trigger an event to at most 100 channels at once. Passing more than 100 channels will cause an exception to be thrown.
 
 #### Batch events
 
-If you wish to send multiple events in a single HTTP request, you can pass an array of events to `pusher.triggerBatch`. You can send up to a maximum of 10 events at once.
+If you wish to send multiple events in a single HTTP request, you can pass an array of events to `channels_client.triggerBatch`. You can send up to a maximum of 10 events at once.
 
 ```javascript
 var events = [{
@@ -157,7 +157,7 @@ var events = [{
   data: {message: "hello another world"}
 }];
 
-pusher.triggerBatch(events);
+channels_client.triggerBatch(events);
 ```
 
 You can trigger a batch of up to 10 events.
@@ -168,7 +168,7 @@ In order to avoid the client that triggered the event from also receiving it, th
 
 ```javascript
 var socketId = '1302.1081607';
-pusher.trigger(channel, event, data, socketId);
+channels_client.trigger(channel, event, data, socketId);
 ```
 
 ### End-to-end encryption [BETA]
@@ -180,7 +180,7 @@ This library supports end-to-end encryption of your private channels. This means
 2. Next, Specify your 32 character `encryption_master_key`. This is secret and you should never share this with anyone. Not even Pusher.
 
    ```javascript
-   var pusher = new Pusher({
+   var channels_client = new Pusher({
      appId: 'APP_ID',
      key: 'APP_KEY',
      secret: 'SECRET_KEY',
@@ -198,7 +198,7 @@ This library supports end-to-end encryption of your private channels. This means
 **Limitation**: you cannot trigger a single event on multiple channels in a call to `trigger`, e.g.
 
 ```javascript
-pusher.trigger([ 'channel-1', 'private-encrypted-channel-2' ], 'test_event', { message: "hello world" });
+channels_client.trigger([ 'channel-1', 'private-encrypted-channel-2' ], 'test_event', { message: "hello world" });
 ```
 
 Rationale: the methods in this library map directly to individual Channels HTTP API requests. If we allowed triggering a single event on multiple channels (some encrypted, some unencrypted), then it would require two API requests: one where the event is encrypted to the encrypted channels, and one where the event is unencrypted for unencrypted channels.
@@ -208,7 +208,7 @@ Rationale: the methods in this library map directly to individual Channels HTTP 
 To authorise your users to access private channels on Pusher, you can use the `authenticate` function:
 
 ```javascript
-var auth = pusher.authenticate(socketId, channel);
+var auth = channels_client.authenticate(socketId, channel);
 ```
 
 For more information see: <http://pusher.com/docs/authenticating_users>
@@ -225,7 +225,7 @@ var channelData = {
 	  twitter_id: '@leggetter'
 	}
 };
-var auth = pusher.authenticate(socketId, channel, channelData);
+var auth = channels_client.authenticate(socketId, channel, channelData);
 ```
 
 The `auth` is then returned to the caller as JSON.
@@ -234,10 +234,10 @@ For more information see: <http://pusher.com/docs/authenticating_users>
 
 ### Application state
 
-It's possible to query the state of the application using the `pusher.get` function.
+It's possible to query the state of the application using the `channels_client.get` function.
 
 ```javascript
-pusher.get({ path: path, params: params }, callback);
+channels_client.get({ path: path, params: params }, callback);
 ```
 
 The `path` property identifies the resource that the request should be made to and the `params` property should be a map of additional query string key and value pairs.
@@ -251,7 +251,7 @@ Params can't include following keys:
 
 The following example provides the signature of the callback and an example of parsing the result:
 ```javascript
-pusher.get({ path: '/channels', params: {} }, function(error, request, response) {
+channels_client.get({ path: '/channels', params: {} }, function(error, request, response) {
 	if (response.statusCode === 200) {
 		var result = JSON.parse(response.body);
 		var channelsInfo = result.channels;
@@ -262,7 +262,7 @@ pusher.get({ path: '/channels', params: {} }, function(error, request, response)
 #### Get the list of channels in an application
 
 ```javascript
-pusher.get({ path: '/channels', params: params }, callback);
+channels_client.get({ path: '/channels', params: params }, callback);
 ```
 
 Information on the optional `params` and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channels).
@@ -270,7 +270,7 @@ Information on the optional `params` and the structure of the returned JSON is d
 #### Get the state of a channel
 
 ```javascript
-pusher.get({ path: '/channels/[channel_name]', params: params }, callback);
+channels_client.get({ path: '/channels/[channel_name]', params: params }, callback);
 ```
 
 Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channel).
@@ -278,7 +278,7 @@ Information on the optional `params` option property and the structure of the re
 #### Get the list of users in a presence channel
 
 ```javascript
-pusher.get({ path: '/channels/[channel_name]/users' }, callback);
+channels_client.get({ path: '/channels/[channel_name]/users' }, callback);
 ```
 
 The `channel_name` in the path must be a [presence channel](http://pusher.com/docs/presence). The structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-users).
@@ -288,7 +288,7 @@ The `channel_name` in the path must be a [presence channel](http://pusher.com/do
 The library provides a simple helper for WebHooks, which can be accessed via Pusher instances:
 
 ```javascript
-var webhook = pusher.webhook(request);
+var webhook = channels_client.webhook(request);
 ```
 
 Requests must expose following fields:
@@ -311,7 +311,7 @@ Validates the content type, body format and signature of the WebHook and returns
 Accepts an optional parameter containing additional application tokens (useful e.g. during migrations):
 
 ```javascript
-var webhook = pusher.webhook(request);
+var webhook = channels_client.webhook(request);
 // will check only the key and secret assigned to the pusher object:
 webhook.isValid();
 // will also check two additional tokens:
@@ -352,7 +352,7 @@ webhook.getTime();
 If you wanted to send the REST API requests manually (e.g. using a different HTTP client), you can use the `createSignedQueryString` method to generate the whole request query string that includes the auth keys and your parameters.
 
 ```javascript
-pusher.createSignedQueryString({
+channels_client.createSignedQueryString({
   method: "POST",                                              // the HTTP request method
   path: "/apps/3/events",                                      // the HTTP request path
   body: '{"name":"foo","channel":"donuts","data":"2-for-1"}',  // optional, the HTTP request body
@@ -380,13 +380,13 @@ you've got all required modules installed:
 
 ### Running the local test suite
 
-You can run local integration tests without setting up a Pusher app:
+You can run local integration tests without setting up a Pusher Channels app:
 
     node_modules/.bin/mocha tests/integration/**/*.js
 
 ### Running the complete test suite
 
-In order to run the full test suite, first you need a Pusher app. When starting
+In order to run the full test suite, first you need a Pusher Channels app. When starting
 mocha, you need to set the PUSHER_URL environment variable to contain your
 app credentials, like following:
 

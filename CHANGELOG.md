@@ -1,3 +1,7 @@
+## 2.2.1 (2019-07-02)
+
+no-op release to fix the description on https://www.npmjs.com/package/pusher
+
 ## 2.2.0 (2018-11-26)
 
 [ADDED] This release adds support for end-to-end encryption, a new feature for Channels. Read more [in our docs](https://pusher.com/docs/client_api_guide/client_encrypted_channels).

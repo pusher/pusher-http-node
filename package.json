@@ -1,7 +1,7 @@
 {
   "name": "pusher",
   "description": "Node.js client to interact with the Pusher Channels REST API",
-  "version": "2.2.1",
+  "version": "2.2.0",
   "author": "Pusher <support@pusher.com>",
   "contributors": [
     {

@@ -33,6 +33,7 @@ describe("Pusher (integration)", function() {
           expect(proxy.requests).to.equal(1);
           expect(error).to.be(null);
           expect(response.statusCode).to.equal(200);
+          console.log(response.body)
           expect(JSON.parse(response.body).channels).to.be.an(Object);
           done();
         });

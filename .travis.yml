@@ -1,8 +1,14 @@
 language: node_js
 node_js:
+  - "node" # means latest stable
+  - "12"
+  - "11"
   - "10"
   - "8"
+  - "9"
+  - "7"
   - "6"
+  - "5"
   - "4"
 install:
   - npm install

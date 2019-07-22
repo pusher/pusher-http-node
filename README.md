@@ -2,6 +2,14 @@
 
 In order to use this library, you need to have an account on <https://pusher.com/channels>. After registering, you will need the application credentials for your app.
 
+## Supported platforms
+
+This SDK supports **Node.js** version 6+.
+
+We test the library against a selection of Node.js versions which we update over time. Please refer to [travis.yml](https://github.com/pusher/pusher-http-node/blob/master/.travis.yml) for the set of versions that are currently tested with CI.
+
+If you find any compatibility issues, please [raise an issue](https://github.com/pusher/pusher-http-node/issues/new) in the repository or contact support at [support@pusher.com](support@pusher.com). We will happily investigate reported problems ❤️.
+
 ## Installation
 
 You need to be running at least Node.js 4 to use this library.

@@ -116,7 +116,7 @@ describe("Pusher", function() {
           params: { foo: "bar", baz: 123454321 }
         });
         // Date.now is mocked, so the signature can be hardcoded
-        expect(queryString).to.match(/^(.*&)?auth_signature=8df535ace13ffd2e77b023f251ba9a6b0c4e5c307b3cc6a2ca42d559109db7c8(&.*)?$/);
+          expect(queryString).to.match(/^(.*&)?auth_signature=8df535ace13ffd2e77b023f251ba9a6b0c4e5c307b3cc6a2ca42d559109db7c8(&.*)?$/);
       });
 
       it("should raise an expcetion when overriding the auth_key param", function() {

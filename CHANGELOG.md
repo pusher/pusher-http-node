@@ -1,3 +1,9 @@
+## 2.2.2 (2019-07-31)
+
+[FIXED] an issue where a function that generated signatures behaved differently in different versions of node. Improved the underlying compare function to unify behaviour between versions.
+
+[ADDED] Supported platforms to the Readme and TravisCI config.
+
 ## 2.2.1 (2019-07-03)
 
 no-op release to fix the description on https://www.npmjs.com/package/pusher

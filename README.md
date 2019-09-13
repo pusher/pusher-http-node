@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/pusher/pusher-http-node.svg?branch=master)](https://travis-ci.org/pusher/pusher-http-node)
+[![npm version](https://badge.fury.io/js/pusher.svg)](https://badge.fury.io/js/pusher)
+
 # Pusher Channels Node.js REST library
 
 In order to use this library, you need to have an account on <https://pusher.com/channels>. After registering, you will need the application credentials for your app.

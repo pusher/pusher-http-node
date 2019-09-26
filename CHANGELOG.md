@@ -1,3 +1,8 @@
+## 3.0.0 (2019-09-26)
+[REMOVED] Support for Node versions < 8
+
+[UPGRADED] Upgraded versions of `nock`, and `mocha`
+
 ## 2.2.2 (2019-07-31)
 
 [FIXED] an issue where a function that generated signatures behaved differently in different versions of node. Improved the underlying compare function to unify behaviour between versions.

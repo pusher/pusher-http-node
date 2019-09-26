@@ -15,7 +15,7 @@ If you find any compatibility issues, please [raise an issue](https://github.com
 
 ## Installation
 
-You need to be running at least Node.js 4 to use this library.
+You need to be running at least Node.js 8 to use this library.
 
 ```
 $ npm install pusher

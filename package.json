@@ -30,8 +30,8 @@
   "devDependencies": {
     "expect.js": "=0.3.1",
     "express": "=3.11.0",
-    "mocha": "^1.21.5",
-    "nock": "^9.6.1",
+    "mocha": "^6.2.0",
+    "nock": "^11.3.5",
     "sinon": "=1.10.2",
     "webpack": "^1.12.9"
   },

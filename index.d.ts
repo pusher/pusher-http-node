@@ -57,6 +57,7 @@ declare namespace Pusher {
     proxy?: string;
     timeout?: number;
     keepAlive?: boolean;
+    encryptionMasterKey?: string;
   }
   interface ClusterOptions extends BaseOptions {
     cluster: string;
@@ -100,6 +101,7 @@ declare namespace Pusher {
   export interface AuthResponse {
     channel_data?: string;
     auth: string;
+    shared_secret: string;
   }
 
   export interface PresenceChannelData {

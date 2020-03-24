@@ -379,9 +379,6 @@ The `params` object can't contain following keys, as they are used to sign the r
 - auth_signature
 - body_md5
 
-
-
-
 ## Testing
 
 The tests run using [Mocha](http://mochajs.org/). Make sure
@@ -393,7 +390,7 @@ you've got all required modules installed:
 
 You can run local integration tests without setting up a Pusher Channels app:
 
-    node_modules/.bin/mocha tests/integration/**/*.js
+    npm run local-test
 
 ### Running the complete test suite
 
@@ -401,7 +398,7 @@ In order to run the full test suite, first you need a Pusher Channels app. When 
 mocha, you need to set the PUSHER_URL environment variable to contain your
 app credentials, like following:
 
-    `PUSHER_URL='http://KEY:SECRET@api-CLUSTER.pusher.com/apps/APP_ID' node_modules/.bin/mocha $(find tests)`
+    PUSHER_URL='http://KEY:SECRET@api-CLUSTER.pusher.com/apps/APP_ID' npm test
 
 ## Credits
 

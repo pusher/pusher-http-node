@@ -36,7 +36,8 @@
     "webpack": "^1.12.9"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha tests/integration/**/*.js",
+    "local-test": "node_modules/.bin/mocha tests/integration/**/*.js",
+    "test": "node_modules/.bin/mocha tests/{integration,remote}/**/*.js",
     "parse-build": "echo 'Creating build for Parse Cloud.' && webpack --config=./parse.webpack.js",
     "prepublish": "npm run parse-build"
   },

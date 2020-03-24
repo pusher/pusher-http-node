@@ -29,11 +29,12 @@
   },
   "devDependencies": {
     "expect.js": "=0.3.1",
-    "express": "=3.11.0",
+    "express": "^4.17.1",
     "mocha": "^6.2.0",
-    "nock": "^11.3.5",
+    "nock": "^12.0.3",
     "sinon": "=1.10.2",
-    "webpack": "^1.12.9"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
   "scripts": {
     "local-test": "node_modules/.bin/mocha tests/integration/**/*.js",

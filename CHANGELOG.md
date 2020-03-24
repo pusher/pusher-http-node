@@ -1,4 +1,9 @@
+## next
+
+[UPGRADED] development dependencies
+
 ## 3.0.0 (2019-09-26)
+
 [REMOVED] Support for Node versions < 8
 
 [UPGRADED] Upgraded versions of `nock`, and `mocha`

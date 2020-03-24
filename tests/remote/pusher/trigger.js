@@ -21,7 +21,7 @@ describe("Pusher (integration)", function() {
   });
 
   describe("#triggerBatch", function() {
-    it("should return code 200", function(){
+    it("should return code 200", function(done) {
       pusher.triggerBatch([{
         channel: "integration",
         name: "event",

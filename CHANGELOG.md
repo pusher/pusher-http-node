@@ -2,6 +2,9 @@
 
 [UPGRADED] development dependencies
 
+[ADDED] encryptionMasterKeyBase64 constructor parameter to make it easier to use the full range of 32 byte binary values in encryption key
+[DEPRECATED] encryptionMasterKey constructor parameter - use encryptionMasterKeyBase64
+
 ## 3.0.0 (2019-09-26)
 
 [REMOVED] Support for Node versions < 8

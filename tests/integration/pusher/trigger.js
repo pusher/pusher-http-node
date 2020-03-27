@@ -360,10 +360,15 @@ describe("Pusher", function() {
 describe("Pusher with encryptionMasterKey", function() {
   var pusher;
 
-  var testMasterKey = "01234567890123456789012345678901";
+  var testMasterKey = Buffer.from("01234567890123456789012345678901", "binary").toString("base64");
 
   beforeEach(function() {
-    pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef", encryptionMasterKey: testMasterKey });
+    pusher = new Pusher({
+      appId: 1234,
+      key: "f00d",
+      secret: "beef",
+      encryptionMasterKeyBase64: testMasterKey
+    });
     nock.disableNetConnect();
   });
 
@@ -388,7 +393,7 @@ describe("Pusher with encryptionMasterKey", function() {
 
       pusher.trigger("one", "my_event", { some: "data "}, done);
     });
-    
+
     it("should encrypt the body of an event triggered on a private-encrypted- channel", function(done) {
       var sentPlaintext = "Hello!";
 

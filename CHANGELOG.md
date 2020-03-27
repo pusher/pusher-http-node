@@ -1,4 +1,4 @@
-## next
+## 3.0.1 (2020-03-27)
 
 [UPGRADED] development dependencies
 

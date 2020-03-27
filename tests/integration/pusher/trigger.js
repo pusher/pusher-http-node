@@ -366,8 +366,7 @@ describe("Pusher with encryptionMasterKey", function() {
     pusher = new Pusher({
       appId: 1234,
       key: "f00d",
-      secret:
-      "beef",
+      secret: "beef",
       encryptionMasterKeyBase64: testMasterKey
     });
     nock.disableNetConnect();

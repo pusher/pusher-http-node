@@ -104,6 +104,7 @@ declare namespace Pusher {
 
   export interface PresenceChannelData {
     user_id: string;
+    user_info: { [key: string]: string };
   }
 
   export interface WebHookRequest {

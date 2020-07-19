@@ -41,7 +41,8 @@
     "local-test": "node_modules/.bin/mocha tests/integration/**/*.js",
     "test": "node_modules/.bin/mocha tests/{integration,remote}/**/*.js",
     "parse-build": "echo 'Creating build for Parse Cloud.' && webpack --config=./parse.webpack.js",
-    "prepublish": "npm run parse-build"
+    "fetch-build": "echo 'Creating build for Fetch.' && webpack --config=./fetch.webpack.js",
+    "prepublish": "npm run parse-build && npm run fetch-build"
   },
   "keywords": [
     "pusher",

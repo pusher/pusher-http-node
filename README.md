@@ -38,6 +38,21 @@ To import `Pusher`:
 var Pusher = require('cloud/modules/node_modules/pusher/parse');
 ```
 
+### Fetch
+
+Particularly useful for use in a [Cloudflare Worker](https://workers.cloudflare.com/), you can use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) instead of `request`:
+
+Then to build the file bundle for Fetch:
+
+    $ cd node_modules/pusher
+    $ npm i
+
+To import `Pusher`:
+
+```js
+var Pusher = require('pusher/fetch');
+```
+
 ## Importing
 
 It's possible to use pusher-http-node with typescript or javascript.

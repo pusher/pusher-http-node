@@ -30,13 +30,13 @@ describe("Pusher", function () {
         )
         .reply(200, "{}")
 
-      pusher.post(
-        {
+      pusher
+        .post({
           path: "/test",
           body: { foo: "one", bar: [1, 2, 3], baz: 4321 },
-        },
-        done
-      )
+        })
+        .then(() => done())
+        .catch(done)
     })
 
     it("should set the request content type to application/json", function (done) {
@@ -58,10 +58,13 @@ describe("Pusher", function () {
         )
         .reply(201, '{"returned key": 101010101}')
 
-      pusher.post({ path: "/test", body: {} }, done)
+      pusher
+        .post({ path: "/test", body: {} })
+        .then(() => done())
+        .catch(done)
     })
 
-    it("should call back with the result", function (done) {
+    it("should resolve to the response", function (done) {
       var mock = nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
@@ -74,19 +77,19 @@ describe("Pusher", function () {
         )
         .reply(201, '{"returned key": 101010101}')
 
-      pusher.post({ path: "/test", body: {} }, function (
-        error,
-        request,
-        response
-      ) {
-        expect(error).to.be(null)
-        expect(response.statusCode).to.equal(201)
-        expect(response.body).to.equal('{"returned key": 101010101}')
-        done()
-      })
+      pusher
+        .post({ path: "/test", body: {} })
+        .then(response => {
+          expect(response.status).to.equal(201)
+          return response.text().then(body => {
+            expect(body).to.equal('{"returned key": 101010101}')
+            done()
+          })
+        })
+        .catch(done)
     })
 
-    it("should call back with a RequestError if Pusher responds with 4xx", function (done) {
+    it("should reject with a RequestError if Pusher responds with 4xx", function (done) {
       var mock = nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
@@ -99,17 +102,13 @@ describe("Pusher", function () {
         )
         .reply(403, "NOPE")
 
-      pusher.post({ path: "/test", body: {} }, function (
-        error,
-        request,
-        response
-      ) {
+      pusher.post({ path: "/test", body: {} }).catch(error => {
         expect(error).to.be.a(Pusher.RequestError)
         expect(error.message).to.equal("Unexpected status code 403")
         expect(error.url).to.match(
           /^http:\/\/api.pusherapp.com\/apps\/10000\/test\?auth_key=aaaa&auth_timestamp=[0-9]+&auth_version=1\.0&body_md5=99914b932bd37a50b983c5e7c90ae93b&auth_signature=[a-f0-9]+$/
         )
-        expect(error.statusCode).to.equal(403)
+        expect(error.status).to.equal(403)
         expect(error.body).to.equal("NOPE")
         done()
       })
@@ -136,7 +135,10 @@ describe("Pusher", function () {
         )
         .reply(201, '{"returned key": 101010101}')
 
-      pusher.post({ path: "/test", body: {} }, done)
+      pusher
+        .post({ path: "/test", body: {} })
+        .then(() => done())
+        .catch(done)
     })
 
     it("should respect the timeout when specified", function (done) {
@@ -159,23 +161,15 @@ describe("Pusher", function () {
         .delayConnection(101)
         .reply(200)
 
-      pusher.post({ path: "/test", body: {} }, function (
-        error,
-        request,
-        response
-      ) {
-        var expectedError = new Error("ESOCKETTIMEDOUT")
-        expectedError.code = "ESOCKETTIMEDOUT"
-        expectedError.connect = false
-
+      pusher.post({ path: "/test", body: {} }).catch(error => {
         expect(error).to.be.a(Pusher.RequestError)
         expect(error.message).to.equal("Request failed with an error")
-        expect(error.error).to.eql(expectedError)
+        expect(error.error.name).to.eql("AbortError")
         expect(error.url).to.match(
           /^http:\/\/api.pusherapp.com\/apps\/10000\/test\?auth_key=aaaa&auth_timestamp=[0-9]+&auth_version=1\.0&body_md5=99914b932bd37a50b983c5e7c90ae93b&auth_signature=[a-f0-9]+$/
         )
-        expect(error.statusCode).to.equal(null)
-        expect(error.body).to.equal(null)
+        expect(error.status).to.equal(undefined)
+        expect(error.body).to.equal(undefined)
         done()
       })
     })

@@ -1,4 +1,5 @@
 var expect = require("expect.js")
+var HttpsProxyAgent = require("https-proxy-agent")
 
 var Pusher = require("../../../lib/pusher")
 
@@ -77,14 +78,15 @@ describe("Pusher", function () {
       expect(pusher.config.port).to.equal(8080)
     })
 
-    it("should default `proxy` to `undefined`", function () {
-      var pusher = new Pusher({})
-      expect(pusher.config.proxy).to.be(undefined)
+    it("should default `agent` to `undefined`", function () {
+      const pusher = new Pusher({})
+      expect(pusher.config.agent).to.be(undefined)
     })
 
-    it("should support `proxy`", function () {
-      var pusher = new Pusher({ proxy: "https://test:tset@example.com" })
-      expect(pusher.config.proxy).to.equal("https://test:tset@example.com")
+    it("should support `agent`", function () {
+      const agent = new HttpsProxyAgent("https://test:tset@example.com")
+      const pusher = new Pusher({ agent })
+      expect(pusher.config.agent).to.equal(agent)
     })
 
     it("should default `timeout` to `undefined`", function () {

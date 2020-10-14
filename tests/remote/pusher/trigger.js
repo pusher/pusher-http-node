@@ -11,23 +11,23 @@ describe("Pusher (integration)", function () {
 
   describe("#trigger", function () {
     it("should return code 200", function (done) {
-      pusher.trigger("integration", "event", "test", null, function (
-        error,
-        request,
-        response
-      ) {
-        expect(error).to.be(null)
-        expect(response.statusCode).to.equal(200)
-        expect(JSON.parse(response.body)).to.eql({})
-        done()
-      })
+      pusher
+        .trigger("integration", "event", "test", null)
+        .then(response => {
+          expect(response.status).to.equal(200)
+          return response.json().then(body => {
+            expect(body).to.eql({})
+            done()
+          })
+        })
+        .catch(done)
     })
   })
 
   describe("#triggerBatch", function () {
     it("should return code 200", function (done) {
-      pusher.triggerBatch(
-        [
+      pusher
+        .triggerBatch([
           {
             channel: "integration",
             name: "event",
@@ -38,14 +38,15 @@ describe("Pusher (integration)", function () {
             name: "event2",
             data: "test2",
           },
-        ],
-        function (error, request, response) {
-          expect(error).to.be(null)
-          expect(response.statusCode).to.equal(200)
-          expect(JSON.parse(response.body)).to.eql({})
-          done()
-        }
-      )
+        ])
+        .then(response => {
+          expect(response.status).to.equal(200)
+          return response.json().then(body => {
+            expect(body).to.eql({})
+            done()
+          })
+        })
+        .catch(done)
     })
   })
 })

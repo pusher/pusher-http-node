@@ -3,12 +3,12 @@ var net = require("net")
 var url = require("url")
 
 function handleInit(client) {
-  inBuffer = new Buffer("")
+  inBuffer = Buffer.from("")
 
   function onData(chunk) {
     inBuffer = Buffer.concat([inBuffer, chunk])
 
-    var lines = splitBufferOnce(inBuffer, new Buffer("\r\n"))
+    var lines = splitBufferOnce(inBuffer, Buffer.from("\r\n"))
     if (lines[1] === null) {
       // still reading the first line
       return
@@ -50,12 +50,12 @@ function handleInit(client) {
 
 function handleConnectInit(client, hostname, port, inBuffer) {
   function advanceIfHeadersWereSent() {
-    var blocks = splitBufferOnce(inBuffer, new Buffer("\r\n\r\n"))
+    var blocks = splitBufferOnce(inBuffer, Buffer.from("\r\n\r\n"))
     if (blocks[1] !== null) {
       // discard the headers
       unbind()
       handleConnecting(client, hostname, port, blocks[1], function () {
-        client.write(new Buffer("HTTP/1.0 200 Connection established\r\n\r\n"))
+        client.write(Buffer.from("HTTP/1.0 200 Connection established\r\n\r\n"))
       })
     }
   }

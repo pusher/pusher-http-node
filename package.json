@@ -32,7 +32,7 @@
     "expect.js": "=0.3.1",
     "express": "^4.17.1",
     "https-proxy-agent": "^5.0.0",
-    "mocha": "^6.2.0",
+    "mocha": "^7.2.0",
     "nock": "^12.0.3",
     "prettier": "2.1.2",
     "sinon": "=1.10.2",
@@ -43,7 +43,11 @@
     "local-test": "node_modules/.bin/mocha tests/integration/**/*.js",
     "test": "node_modules/.bin/mocha tests/{integration,remote}/**/*.js"
   },
-  "keywords": ["pusher", "websockets", "realtime"],
+  "keywords": [
+    "pusher",
+    "websockets",
+    "realtime"
+  ],
   "license": "MIT",
   "repository": "git://github.com/pusher/pusher-rest-node",
   "main": "lib/pusher",

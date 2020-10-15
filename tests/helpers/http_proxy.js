@@ -1,24 +1,23 @@
-var http = require("http")
-var net = require("net")
-var url = require("url")
+const net = require("net")
+const url = require("url")
 
 function handleInit(client) {
-  inBuffer = Buffer.from("")
+  let inBuffer = Buffer.from("")
 
   function onData(chunk) {
     inBuffer = Buffer.concat([inBuffer, chunk])
 
-    var lines = splitBufferOnce(inBuffer, Buffer.from("\r\n"))
+    const lines = splitBufferOnce(inBuffer, Buffer.from("\r\n"))
     if (lines[1] === null) {
       // still reading the first line
       return
     }
 
-    var firstLine = lines[0].toString()
+    const firstLine = lines[0].toString()
 
-    var requestInfo = firstLine.match(/([A-Z]+) (.*) HTTP\/1\.1/)
-    var method = requestInfo[1]
-    var destination = requestInfo[2]
+    const requestInfo = firstLine.match(/([A-Z]+) (.*) HTTP\/1\.1/)
+    const method = requestInfo[1]
+    const destination = requestInfo[2]
 
     unbind()
     if (method === "CONNECT") {
@@ -29,7 +28,7 @@ function handleInit(client) {
         inBuffer
       )
     } else {
-      var destinationUrl = url.parse(destination)
+      const destinationUrl = url.parse(destination)
       handleConnecting(
         client,
         destinationUrl.hostname,
@@ -50,7 +49,7 @@ function handleInit(client) {
 
 function handleConnectInit(client, hostname, port, inBuffer) {
   function advanceIfHeadersWereSent() {
-    var blocks = splitBufferOnce(inBuffer, Buffer.from("\r\n\r\n"))
+    const blocks = splitBufferOnce(inBuffer, Buffer.from("\r\n\r\n"))
     if (blocks[1] !== null) {
       // discard the headers
       unbind()
@@ -77,7 +76,7 @@ function handleConnectInit(client, hostname, port, inBuffer) {
 }
 
 function handleConnecting(client, hostname, port, inBuffer, callback) {
-  server = net.connect(port, hostname)
+  const server = net.connect(port, hostname)
 
   function onConnected() {
     unbind()
@@ -143,7 +142,7 @@ function handleConnected(client, server, inBuffer, callback) {
 }
 
 function start(callback) {
-  var proxy = {}
+  const proxy = {}
 
   proxy.requests = 0
   proxy.server = net.createServer(function (connection) {
@@ -161,8 +160,8 @@ function stop(proxy, callback) {
 }
 
 function splitBufferOnce(buffer, searchValue) {
-  for (var i = 0; i < buffer.length - searchValue.length + 1; i++) {
-    for (var j = 0; j < searchValue.length; j++) {
+  for (let i = 0; i < buffer.length - searchValue.length + 1; i++) {
+    for (let j = 0; j < searchValue.length; j++) {
       if (buffer[i + j] !== searchValue[j]) {
         break
       }

@@ -1,10 +1,10 @@
-var expect = require("expect.js")
-var nock = require("nock")
+const expect = require("expect.js")
+const nock = require("nock")
 
-var Pusher = require("../../../lib/pusher")
+const Pusher = require("../../../lib/pusher")
 
 describe("Pusher", function () {
-  var pusher
+  let pusher
 
   beforeEach(function () {
     pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "tofu" })
@@ -18,7 +18,7 @@ describe("Pusher", function () {
 
   describe("#post", function () {
     it("should set the correct path and include the body", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -40,7 +40,7 @@ describe("Pusher", function () {
     })
 
     it("should set the request content type to application/json", function (done) {
-      var mock = nock("http://api.pusherapp.com", {
+      nock("http://api.pusherapp.com", {
         reqheaders: {
           "content-type": "application/json",
           host: "api.pusherapp.com",
@@ -65,7 +65,7 @@ describe("Pusher", function () {
     })
 
     it("should resolve to the response", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -79,9 +79,9 @@ describe("Pusher", function () {
 
       pusher
         .post({ path: "/test", body: {} })
-        .then(response => {
+        .then((response) => {
           expect(response.status).to.equal(201)
-          return response.text().then(body => {
+          return response.text().then((body) => {
             expect(body).to.equal('{"returned key": 101010101}')
             done()
           })
@@ -90,7 +90,7 @@ describe("Pusher", function () {
     })
 
     it("should reject with a RequestError if Pusher responds with 4xx", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -102,7 +102,7 @@ describe("Pusher", function () {
         )
         .reply(403, "NOPE")
 
-      pusher.post({ path: "/test", body: {} }).catch(error => {
+      pusher.post({ path: "/test", body: {} }).catch((error) => {
         expect(error).to.be.a(Pusher.RequestError)
         expect(error.message).to.equal("Unexpected status code 403")
         expect(error.url).to.match(
@@ -115,7 +115,7 @@ describe("Pusher", function () {
     })
 
     it("should respect the encryption, host and port config", function (done) {
-      var pusher = new Pusher({
+      const pusher = new Pusher({
         appId: 10000,
         key: "aaaa",
         secret: "tofu",
@@ -123,7 +123,7 @@ describe("Pusher", function () {
         host: "example.com",
         port: 1234,
       })
-      var mock = nock("https://example.com:1234")
+      nock("https://example.com:1234")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -142,13 +142,13 @@ describe("Pusher", function () {
     })
 
     it("should respect the timeout when specified", function (done) {
-      var pusher = new Pusher({
+      const pusher = new Pusher({
         appId: 10000,
         key: "aaaa",
         secret: "tofu",
         timeout: 100,
       })
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -161,7 +161,7 @@ describe("Pusher", function () {
         .delayConnection(101)
         .reply(200)
 
-      pusher.post({ path: "/test", body: {} }).catch(error => {
+      pusher.post({ path: "/test", body: {} }).catch((error) => {
         expect(error).to.be.a(Pusher.RequestError)
         expect(error.message).to.equal("Request failed with an error")
         expect(error.error.name).to.eql("AbortError")

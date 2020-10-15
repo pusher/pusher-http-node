@@ -1,10 +1,10 @@
-var express = require("express")
-var Pusher = require("../lib/pusher")
+const express = require("express")
+const Pusher = require("../lib/pusher")
 
 // provide auth details via the PUSHER_URL environment variable
-var pusher = new Pusher({ url: process.env["PUSHER_URL"] })
+const pusher = new Pusher({ url: process.env["PUSHER_URL"] })
 
-var app = express()
+const app = express()
 app.use(function (req, res, next) {
   req.rawBody = ""
   req.setEncoding("utf8")
@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
 })
 
 app.post("/webhook", function (req, res) {
-  var webhook = pusher.webhook(req)
+  const webhook = pusher.webhook(req)
   console.log("data:", webhook.getData())
   console.log("events:", webhook.getEvents())
   console.log("time:", webhook.getTime())

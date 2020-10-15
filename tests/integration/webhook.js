@@ -1,11 +1,11 @@
-var expect = require("expect.js")
+const expect = require("expect.js")
 
-var Pusher = require("../../lib/pusher")
-var Token = require("../../lib/token")
-var WebHook = require("../../lib/webhook")
+const Pusher = require("../../lib/pusher")
+const Token = require("../../lib/token")
+const WebHook = require("../../lib/webhook")
 
 describe("WebHook", function () {
-  var token
+  let token
 
   beforeEach(function () {
     token = new Token("123456789", "tofu")
@@ -13,7 +13,7 @@ describe("WebHook", function () {
 
   describe("#isValid", function () {
     it("should return true for a webhook with correct signature", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "x-pusher-key": "123456789",
           "x-pusher-signature":
@@ -29,7 +29,7 @@ describe("WebHook", function () {
     })
 
     it("should return false for a webhook with incorrect key", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "x-pusher-key": "000",
           "x-pusher-signature":
@@ -45,7 +45,7 @@ describe("WebHook", function () {
     })
 
     it("should return false for a webhook with incorrect signature", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "x-pusher-key": "123456789",
           "x-pusher-signature": "000",
@@ -60,7 +60,7 @@ describe("WebHook", function () {
     })
 
     it("should return true if webhook is signed with the extra token", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "x-pusher-key": "1234",
           "x-pusher-signature":
@@ -76,7 +76,7 @@ describe("WebHook", function () {
     })
 
     it("should return true if webhook is signed with one of the extra tokens", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "x-pusher-key": "3",
           "x-pusher-signature":
@@ -100,7 +100,7 @@ describe("WebHook", function () {
 
   describe("#isContentTypeValid", function () {
     it("should return true if content type is `application/json`", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "content-type": "application/json",
         },
@@ -110,7 +110,7 @@ describe("WebHook", function () {
     })
 
     it("should return false if content type is not `application/json`", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "content-type": "application/weird",
         },
@@ -122,7 +122,7 @@ describe("WebHook", function () {
 
   describe("#isBodyValid", function () {
     it("should return true if content type is `application/json` and body is valid JSON", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "content-type": "application/json",
         },
@@ -132,7 +132,7 @@ describe("WebHook", function () {
     })
 
     it("should return false if content type is `application/json` and body is not valid JSON", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "content-type": "application/json",
         },
@@ -142,7 +142,7 @@ describe("WebHook", function () {
     })
 
     it("should return false if content type is not `application/json`", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "content-type": "application/weird",
         },
@@ -154,7 +154,7 @@ describe("WebHook", function () {
 
   describe("#getData", function () {
     it("should return a parsed JSON body", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: { "content-type": "application/json" },
         rawBody: JSON.stringify({ foo: 9 }),
       })
@@ -162,8 +162,8 @@ describe("WebHook", function () {
     })
 
     it("should throw an error if content type is not `application/json`", function () {
-      var body = JSON.stringify({ foo: 9 })
-      var webhook = new WebHook(token, {
+      const body = JSON.stringify({ foo: 9 })
+      const webhook = new WebHook(token, {
         headers: {
           "content-type": "application/weird",
           "x-pusher-signature": "f000000",
@@ -182,7 +182,7 @@ describe("WebHook", function () {
     })
 
     it("should throw an error if body is not valid JSON", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: {
           "content-type": "application/json",
           "x-pusher-signature": "b00",
@@ -202,7 +202,7 @@ describe("WebHook", function () {
 
   describe("#getTime", function () {
     it("should return a correct date object", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: { "content-type": "application/json" },
         rawBody: JSON.stringify({ time_ms: 1403172023361 }),
       })
@@ -212,7 +212,7 @@ describe("WebHook", function () {
 
   describe("#getEvents", function () {
     it("should return an array of events", function () {
-      var webhook = new WebHook(token, {
+      const webhook = new WebHook(token, {
         headers: { "content-type": "application/json" },
         rawBody: JSON.stringify({
           events: [1, 2, 3],

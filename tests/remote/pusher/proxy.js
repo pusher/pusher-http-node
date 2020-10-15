@@ -1,14 +1,14 @@
-var expect = require("expect.js")
+const expect = require("expect.js")
 
-var HttpsProxyAgent = require("https-proxy-agent")
+const HttpsProxyAgent = require("https-proxy-agent")
 
-var http_proxy = require("../../helpers/http_proxy")
-var Pusher = require("../../../lib/pusher")
+const http_proxy = require("../../helpers/http_proxy")
+const Pusher = require("../../../lib/pusher")
 
 describe("Pusher (integration)", function () {
   describe("with configured proxy", function () {
-    var pusher
-    var proxy
+    let pusher
+    let proxy
 
     before(function (done) {
       proxy = http_proxy.start(done)
@@ -33,10 +33,10 @@ describe("Pusher (integration)", function () {
         expect(proxy.requests).to.equal(0)
         pusher
           .get({ path: "/channels" })
-          .then(response => {
+          .then((response) => {
             expect(proxy.requests).to.equal(1)
             expect(response.status).to.equal(200)
-            response.json().then(body => {
+            response.json().then((body) => {
               expect(body.channels).to.be.an(Object)
               done()
             })
@@ -50,10 +50,10 @@ describe("Pusher (integration)", function () {
         expect(proxy.requests).to.equal(0)
         pusher
           .trigger("integration", "event", "test", null)
-          .then(response => {
+          .then((response) => {
             expect(proxy.requests).to.equal(1)
             expect(response.status).to.equal(200)
-            response.json().then(body => {
+            response.json().then((body) => {
               expect(body).to.eql({})
               done()
             })

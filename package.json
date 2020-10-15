@@ -29,6 +29,7 @@
     "tweetnacl-util": "^0.15.0"
   },
   "devDependencies": {
+    "eslint": "^7.11.0",
     "expect.js": "=0.3.1",
     "express": "^4.17.1",
     "https-proxy-agent": "^5.0.0",
@@ -40,8 +41,10 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "local-test": "node_modules/.bin/mocha tests/integration/**/*.js",
-    "test": "node_modules/.bin/mocha tests/{integration,remote}/**/*.js"
+    "local-test": "npx mocha 'tests/integration/**/*.js'",
+    "test": "npx mocha 'tests/{integration,remote}/**/*.js'",
+    "lint": "npx eslint . && npx prettier --check .",
+    "format": "npx prettier --write ."
   },
   "keywords": [
     "pusher",

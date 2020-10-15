@@ -1,17 +1,17 @@
-var expect = require("expect.js")
-var sinon = require("sinon")
+const expect = require("expect.js")
+const sinon = require("sinon")
 
-var Pusher = require("../../../lib/pusher")
+const Pusher = require("../../../lib/pusher")
 
 describe("Pusher", function () {
-  var pusher
+  let pusher
 
   beforeEach(function () {
     pusher = new Pusher({ appId: 1234, key: "f00d", secret: "tofu" })
   })
 
   describe("#createSignedQueryString", function () {
-    var clock
+    let clock
 
     beforeEach(function () {
       clock = sinon.useFakeTimers(1234567890000, "Date")
@@ -23,7 +23,7 @@ describe("Pusher", function () {
 
     describe("when signing a body", function () {
       it("should set the auth_key param to the app key", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           body: "example body",
@@ -32,7 +32,7 @@ describe("Pusher", function () {
       })
 
       it("should set the auth_timestamp param to the current timestamp (in seconds)", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           body: "example body",
@@ -42,7 +42,7 @@ describe("Pusher", function () {
       })
 
       it("should set the auth_version param to 1.0", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           body: "example body",
@@ -51,7 +51,7 @@ describe("Pusher", function () {
       })
 
       it("should set the body_md5 param to a correct hash", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           body: "example body",
@@ -62,7 +62,7 @@ describe("Pusher", function () {
       })
 
       it("should set the auth_signature to a correct hash", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           body: "example body",
@@ -76,7 +76,7 @@ describe("Pusher", function () {
 
     describe("when signing params", function () {
       it("should set the auth_key param to the app key", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           params: { foo: "bar" },
@@ -85,7 +85,7 @@ describe("Pusher", function () {
       })
 
       it("should set the auth_timestamp param to the current timestamp (in seconds)", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           params: { foo: "bar" },
@@ -95,7 +95,7 @@ describe("Pusher", function () {
       })
 
       it("should set the auth_version param to 1.0", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           params: { foo: "bar" },
@@ -104,7 +104,7 @@ describe("Pusher", function () {
       })
 
       it("should set all given params", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           params: { foo: "bar", baz: 123454321 },
@@ -114,7 +114,7 @@ describe("Pusher", function () {
       })
 
       it("should set the auth_signature to a correct hash", function () {
-        var queryString = pusher.createSignedQueryString({
+        const queryString = pusher.createSignedQueryString({
           method: "GET",
           path: "/event",
           params: { foo: "bar", baz: 123454321 },

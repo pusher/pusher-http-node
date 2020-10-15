@@ -40,9 +40,9 @@ All external APIs should have types in index.d.ts.
 There are 3 ways to configure the client. First one is just using the Pusher constructor:
 
 ```javascript
-var Pusher = require("pusher")
+const Pusher = require("pusher")
 
-var pusher = new Pusher({
+const pusher = new Pusher({
   appId: "APP_ID",
   key: "APP_KEY",
   secret: "SECRET_KEY",
@@ -57,9 +57,9 @@ var pusher = new Pusher({
 For specific clusters, you can use the `forCluster` function. This is the same as using the `cluster` option in the constructor.
 
 ```javascript
-var Pusher = require("pusher")
+const Pusher = require("pusher")
 
-var pusher = Pusher.forCluster("CLUSTER", {
+const pusher = Pusher.forCluster("CLUSTER", {
   appId: "APP_ID",
   key: "APP_KEY",
   secret: "SECRET_KEY",
@@ -72,9 +72,11 @@ var pusher = Pusher.forCluster("CLUSTER", {
 You can also specify auth and endpoint options by passing an URL:
 
 ```javascript
-var Pusher = require("pusher")
+const Pusher = require("pusher")
 
-var pusher = Pusher.forURL("SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID")
+const pusher = Pusher.forURL(
+  "SCHEME://APP_KEY:SECRET_KEY@HOST:PORT/apps/APP_ID"
+)
 ```
 
 You can pass the optional second argument with options, as in `forCluster` function.
@@ -87,9 +89,9 @@ variable to such URL, if you have the Pusher addon installed.
 There are a few additional options that can be used in all above methods:
 
 ```javascript
-var Pusher = require("pusher")
+const Pusher = require("pusher")
 
-var pusher = new Pusher({
+const pusher = new Pusher({
   // you can set other options in any of the 3 ways described above
   proxy: "HTTP_PROXY_URL", // optional, URL to proxy the requests through
   timeout: TIMEOUT, // optional, timeout for all requests in milliseconds
@@ -138,7 +140,7 @@ You can trigger an event to at most 100 channels at once. Passing more than 100 
 If you wish to send multiple events in a single HTTP request, you can pass an array of events to `pusher.triggerBatch`. You can send up to a maximum of 10 events at once.
 
 ```javascript
-var events = [
+const events = [
   {
     channel: "channel-1",
     name: "test-event-1",
@@ -161,7 +163,7 @@ You can trigger a batch of up to 10 events.
 In order to avoid the client that triggered the event from also receiving it, the `trigger` function takes an optional `socketId` parameter. For more informaiton see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.
 
 ```javascript
-var socketId = "1302.1081607"
+const socketId = "1302.1081607"
 pusher.trigger(channel, event, data, socketId)
 ```
 
@@ -181,7 +183,7 @@ This library supports end-to-end encryption of your private channels. This means
    ```
 
    ```javascript
-   var pusher = new Pusher({
+   const pusher = new Pusher({
      appId: "APP_ID",
      key: "APP_KEY",
      secret: "SECRET_KEY",
@@ -211,7 +213,7 @@ Rationale: the methods in this library map directly to individual Channels HTTP 
 To authorise your users to access private channels on Pusher Channels, you can use the `authenticate` function:
 
 ```javascript
-var auth = pusher.authenticate(socketId, channel)
+const auth = pusher.authenticate(socketId, channel)
 ```
 
 For more information see: <http://pusher.com/docs/authenticating_users>
@@ -221,14 +223,14 @@ For more information see: <http://pusher.com/docs/authenticating_users>
 Using presence channels is similar to private channels, but you can specify extra data to identify that particular user:
 
 ```javascript
-var channelData = {
+const channelData = {
   user_id: 'unique_user_id',
   user_info: {
     name: 'Phil Leggetter'
     twitter_id: '@leggetter'
   }
 };
-var auth = pusher.authenticate(socketId, channel, channelData);
+const auth = pusher.authenticate(socketId, channel, channelData);
 ```
 
 The `auth` is then returned to the caller as JSON.
@@ -304,7 +306,7 @@ The `channel_name` in the path must be a [presence channel](http://pusher.com/do
 The library provides a simple helper for WebHooks, which can be accessed via Pusher instances:
 
 ```javascript
-var webhook = pusher.webhook(request)
+const webhook = pusher.webhook(request)
 ```
 
 Requests must expose following fields:
@@ -329,7 +331,7 @@ Validates the content type, body format and signature of the WebHook and returns
 Accepts an optional parameter containing additional application tokens (useful e.g. during migrations):
 
 ```javascript
-var webhook = pusher.webhook(request)
+const webhook = pusher.webhook(request)
 // will check only the key and secret assigned to the pusher object:
 webhook.isValid()
 // will also check two additional tokens:

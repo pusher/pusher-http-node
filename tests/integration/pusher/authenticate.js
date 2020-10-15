@@ -1,9 +1,9 @@
-var expect = require("expect.js")
+const expect = require("expect.js")
 
-var Pusher = require("../../../lib/pusher")
+const Pusher = require("../../../lib/pusher")
 
 describe("Pusher", function () {
-  var pusher
+  let pusher
 
   beforeEach(function () {
     pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "tofu" })
@@ -11,7 +11,7 @@ describe("Pusher", function () {
 
   describe("#auth", function () {
     it("should prefix the signature with the app key", function () {
-      var pusher = new Pusher({ appId: 10000, key: "1234", secret: "tofu" })
+      let pusher = new Pusher({ appId: 10000, key: "1234", secret: "tofu" })
       expect(pusher.authenticate("123.456", "test")).to.eql({
         auth:
           "1234:efa6cf7644a0b35cba36aa0f776f3cbf7bb60e95ea2696bde1dbe8403b61bd7c",
@@ -47,7 +47,7 @@ describe("Pusher", function () {
     })
 
     it("should return correct authentication signatures for different secrets", function () {
-      var pusher = new Pusher({ appId: 10000, key: "11111", secret: "1" })
+      let pusher = new Pusher({ appId: 10000, key: "11111", secret: "1" })
       expect(pusher.authenticate("123.456", "test")).to.eql({
         auth:
           "11111:584828bd6e80b2d177d2b28fde07b8e170abf87ccb5a791a50c933711fb8eb28",
@@ -147,9 +147,9 @@ describe("Pusher", function () {
 })
 
 describe("Pusher with encryptionMasterKey", function () {
-  var pusher
+  let pusher
 
-  var testMasterKey = "01234567890123456789012345678901"
+  const testMasterKey = "01234567890123456789012345678901"
 
   beforeEach(function () {
     pusher = new Pusher({

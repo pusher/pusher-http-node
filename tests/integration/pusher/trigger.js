@@ -1,12 +1,12 @@
-var expect = require("expect.js")
-var nock = require("nock")
-var nacl = require("tweetnacl")
-var naclUtil = require("tweetnacl-util")
+const expect = require("expect.js")
+const nock = require("nock")
+const nacl = require("tweetnacl")
+const naclUtil = require("tweetnacl-util")
 
-var Pusher = require("../../../lib/pusher")
+const Pusher = require("../../../lib/pusher")
 
 describe("Pusher", function () {
-  var pusher
+  let pusher
 
   beforeEach(function () {
     pusher = new Pusher({ appId: 1234, key: "f00d", secret: "tofu" })
@@ -20,7 +20,7 @@ describe("Pusher", function () {
 
   describe("#trigger", function () {
     it("should send the event when promise isn't handled", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      const mock = nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -45,7 +45,7 @@ describe("Pusher", function () {
     })
 
     it("should send the event to a single channel", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -64,7 +64,7 @@ describe("Pusher", function () {
     })
 
     it("should send the event to multiple channels", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -87,7 +87,7 @@ describe("Pusher", function () {
     })
 
     it("should serialize arrays into JSON", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -106,7 +106,7 @@ describe("Pusher", function () {
     })
 
     it("should not serialize strings into JSON", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -125,7 +125,7 @@ describe("Pusher", function () {
     })
 
     it("should add socket_id to the request body", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -149,7 +149,7 @@ describe("Pusher", function () {
     })
 
     it("should resolve to the response", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -167,7 +167,7 @@ describe("Pusher", function () {
 
       pusher
         .trigger("test_channel", "my_event", { some: "data " })
-        .then(response => {
+        .then((response) => {
           expect(response.status).to.equal(200)
           done()
         })
@@ -175,7 +175,7 @@ describe("Pusher", function () {
     })
 
     it("should reject with a RequestError if Pusher responds with 4xx", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -193,7 +193,7 @@ describe("Pusher", function () {
 
       pusher
         .trigger("test_channel", "my_event", { some: "data " })
-        .catch(error => {
+        .catch((error) => {
           expect(error).to.be.a(Pusher.RequestError)
           expect(error.message).to.equal("Unexpected status code 400")
           expect(error.url).to.match(
@@ -206,7 +206,7 @@ describe("Pusher", function () {
     })
 
     it("should allow channel names with special characters: _ - = @ , . ;", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -224,7 +224,7 @@ describe("Pusher", function () {
 
       pusher
         .trigger("test_-=@,.;channel", "my_event", { some: "data " })
-        .then(response => {
+        .then((response) => {
           expect(response.status).to.equal(200)
           done()
         })
@@ -233,8 +233,8 @@ describe("Pusher", function () {
 
     it("should throw an error if called with more than 100 channels", function () {
       expect(function () {
-        var channels = []
-        for (var i = 0; i < 101; i++) {
+        const channels = []
+        for (let i = 0; i < 101; i++) {
           channels.push(i.toString())
         }
         pusher.trigger(channels, "x", {})
@@ -265,7 +265,7 @@ describe("Pusher", function () {
     })
 
     it("should throw an error if channel name is longer than 200 characters", function () {
-      var channel = new Array(202).join("x") // 201 characters
+      const channel = new Array(202).join("x") // 201 characters
       expect(function () {
         pusher.trigger(channel, "test")
       }).to.throwError(function (e) {
@@ -275,7 +275,7 @@ describe("Pusher", function () {
     })
 
     it("should throw an error if event name is longer than 200 characters", function () {
-      var event = new Array(202).join("x") // 201 characters
+      const event = new Array(202).join("x") // 201 characters
       expect(function () {
         pusher.trigger("test", event)
       }).to.throwError(function (e) {
@@ -285,7 +285,7 @@ describe("Pusher", function () {
     })
 
     it("should respect the encryption, host and port config", function (done) {
-      var pusher = new Pusher({
+      const pusher = new Pusher({
         appId: 1234,
         key: "f00d",
         secret: "tofu",
@@ -293,7 +293,7 @@ describe("Pusher", function () {
         host: "example.com",
         port: 1234,
       })
-      var mock = nock("https://example.com:1234")
+      nock("https://example.com:1234")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -317,13 +317,13 @@ describe("Pusher", function () {
     })
 
     it("should respect the timeout when specified", function (done) {
-      var pusher = new Pusher({
+      const pusher = new Pusher({
         appId: 1234,
         key: "f00d",
         secret: "tofu",
         timeout: 100,
       })
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -343,7 +343,7 @@ describe("Pusher", function () {
 
       pusher
         .trigger("test_channel", "my_event", { some: "data " }, "123.567")
-        .catch(error => {
+        .catch((error) => {
           expect(error).to.be.a(Pusher.RequestError)
           expect(error.message).to.equal("Request failed with an error")
           expect(error.error.name).to.eql("AbortError")
@@ -359,7 +359,7 @@ describe("Pusher", function () {
 
   describe("#triggerBatch", function () {
     it("should trigger multiple events in a single call", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -394,7 +394,7 @@ describe("Pusher", function () {
     })
 
     it("should stringify data before posting", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -443,9 +443,9 @@ describe("Pusher", function () {
 })
 
 describe("Pusher with encryptionMasterKey", function () {
-  var pusher
+  let pusher
 
-  var testMasterKey = Buffer.from(
+  const testMasterKey = Buffer.from(
     "01234567890123456789012345678901",
     "binary"
   ).toString("base64")
@@ -467,7 +467,7 @@ describe("Pusher with encryptionMasterKey", function () {
 
   describe("#trigger", function () {
     it("should not encrypt the body of an event triggered on a single channel", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -486,9 +486,9 @@ describe("Pusher with encryptionMasterKey", function () {
     })
 
     it("should encrypt the body of an event triggered on a private-encrypted- channel", function (done) {
-      var sentPlaintext = "Hello!"
+      const sentPlaintext = "Hello!"
 
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -500,21 +500,21 @@ describe("Pusher with encryptionMasterKey", function () {
           function (body) {
             if (body.name !== "test_event") return false
             if (body.channels.length !== 1) return false
-            var channel = body.channels[0]
+            const channel = body.channels[0]
             if (channel !== "private-encrypted-bla") return false
-            var encrypted = JSON.parse(body.data)
-            var nonce = naclUtil.decodeBase64(encrypted.nonce)
-            var ciphertext = naclUtil.decodeBase64(encrypted.ciphertext)
-            var channelSharedSecret = pusher.channelSharedSecret(channel)
-            var receivedPlaintextBytes = nacl.secretbox.open(
+            const encrypted = JSON.parse(body.data)
+            const nonce = naclUtil.decodeBase64(encrypted.nonce)
+            const ciphertext = naclUtil.decodeBase64(encrypted.ciphertext)
+            const channelSharedSecret = pusher.channelSharedSecret(channel)
+            const receivedPlaintextBytes = nacl.secretbox.open(
               ciphertext,
               nonce,
               channelSharedSecret
             )
-            var receivedPlaintextJson = naclUtil.encodeUTF8(
+            const receivedPlaintextJson = naclUtil.encodeUTF8(
               receivedPlaintextBytes
             )
-            var receivedPlaintext = JSON.parse(receivedPlaintextJson)
+            const receivedPlaintext = JSON.parse(receivedPlaintextJson)
             return receivedPlaintext === sentPlaintext
           }
         )
@@ -529,7 +529,7 @@ describe("Pusher with encryptionMasterKey", function () {
 
   describe("#triggerBatch", function () {
     it("should encrypt the bodies of an events triggered on a private-encrypted- channels", function (done) {
-      var mock = nock("http://api.pusherapp.com")
+      nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
             .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
@@ -540,27 +540,29 @@ describe("Pusher with encryptionMasterKey", function () {
           "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
           function (body) {
             if (body.batch.length !== 2) return false
-            var event1 = body.batch[0]
+            const event1 = body.batch[0]
             if (event1.channel !== "integration") return false
             if (event1.name !== "event") return false
             if (event1.data !== "test") return false
-            var event2 = body.batch[1]
+            const event2 = body.batch[1]
             if (event2.channel !== "private-encrypted-integration2")
               return false
             if (event2.name !== "event2") return false
-            var encrypted = JSON.parse(event2.data)
-            var nonce = naclUtil.decodeBase64(encrypted.nonce)
-            var ciphertext = naclUtil.decodeBase64(encrypted.ciphertext)
-            var channelSharedSecret = pusher.channelSharedSecret(event2.channel)
-            var receivedPlaintextBytes = nacl.secretbox.open(
+            const encrypted = JSON.parse(event2.data)
+            const nonce = naclUtil.decodeBase64(encrypted.nonce)
+            const ciphertext = naclUtil.decodeBase64(encrypted.ciphertext)
+            const channelSharedSecret = pusher.channelSharedSecret(
+              event2.channel
+            )
+            const receivedPlaintextBytes = nacl.secretbox.open(
               ciphertext,
               nonce,
               channelSharedSecret
             )
-            var receivedPlaintextJson = naclUtil.encodeUTF8(
+            const receivedPlaintextJson = naclUtil.encodeUTF8(
               receivedPlaintextBytes
             )
-            var receivedPlaintext = JSON.parse(receivedPlaintextJson)
+            const receivedPlaintext = JSON.parse(receivedPlaintextJson)
             return receivedPlaintext === "test2"
           }
         )

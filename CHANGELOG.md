@@ -5,13 +5,13 @@
 - `trigger`, `triggerBatch`, `get`, and `post` return a promise which resolves
   to a [`Response`](https://github.com/node-fetch/node-fetch#class-response) (as provided by [node-fetch](https://github.com/node-fetch/node-fetch)),
   or rejects to a `RequestError`. Of particular note:
-    - `Response` has a `status` where is used to have a `statusCode`.
-    - `RequestError` has a `status` where is used to have a `statusCode` to
-      mirror the above.
-    - `Response` has
-      [`json`](https://github.com/node-fetch/node-fetch#bodyjson),
-      [`text`](https://github.com/node-fetch/node-fetch#bodytext), etc to
-      access the body where before it exposed `body` as a string.
+  - `Response` has a `status` where is used to have a `statusCode`.
+  - `RequestError` has a `status` where is used to have a `statusCode` to
+    mirror the above.
+  - `Response` has
+    [`json`](https://github.com/node-fetch/node-fetch#bodyjson),
+    [`text`](https://github.com/node-fetch/node-fetch#bodytext), etc to
+    access the body where before it exposed `body` as a string.
 
 [BREAKING CHANGE] The `Pusher` constructor no longer accepts `proxy` or `keepAlive`, but instead accepts [`agent`](https://nodejs.org/api/https.html#https_class_https_agent).
 

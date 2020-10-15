@@ -1,10 +1,10 @@
-var expect = require("expect.js")
+const expect = require("expect.js")
 
-var Pusher = require("../../../lib/pusher")
-var WebHook = require("../../../lib/webhook")
+const Pusher = require("../../../lib/pusher")
+const WebHook = require("../../../lib/webhook")
 
 describe("Pusher", function () {
-  var pusher
+  let pusher
 
   beforeEach(function () {
     pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "tofu" })

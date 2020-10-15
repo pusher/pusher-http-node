@@ -1,9 +1,9 @@
-var expect = require("expect.js")
-var NotificationClient = require("../../../lib/notification_client")
-var nock = require("nock")
+const expect = require("expect.js")
+const NotificationClient = require("../../../lib/notification_client")
+const nock = require("nock")
 
 describe("NativeNotificationClient", function () {
-  var client
+  let client
 
   beforeEach(function () {
     client = new NotificationClient({
@@ -21,7 +21,7 @@ describe("NativeNotificationClient", function () {
   })
 
   xit("should send in the success case", function (done) {
-    var mock = nock("nativepush-cluster1.pusher.com:80")
+    const mock = nock("nativepush-cluster1.pusher.com:80")
     client.notify(
       ["yolo"],
       {

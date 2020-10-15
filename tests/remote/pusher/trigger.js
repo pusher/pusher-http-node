@@ -1,9 +1,9 @@
-var expect = require("expect.js")
+const expect = require("expect.js")
 
-var Pusher = require("../../../lib/pusher")
+const Pusher = require("../../../lib/pusher")
 
 describe("Pusher (integration)", function () {
-  var pusher
+  let pusher
 
   beforeEach(function () {
     pusher = new Pusher.forURL(process.env.PUSHER_URL)
@@ -13,9 +13,9 @@ describe("Pusher (integration)", function () {
     it("should return code 200", function (done) {
       pusher
         .trigger("integration", "event", "test", null)
-        .then(response => {
+        .then((response) => {
           expect(response.status).to.equal(200)
-          return response.json().then(body => {
+          return response.json().then((body) => {
             expect(body).to.eql({})
             done()
           })
@@ -39,9 +39,9 @@ describe("Pusher (integration)", function () {
             data: "test2",
           },
         ])
-        .then(response => {
+        .then((response) => {
           expect(response.status).to.equal(200)
-          return response.json().then(body => {
+          return response.json().then((body) => {
             expect(body).to.eql({})
             done()
           })

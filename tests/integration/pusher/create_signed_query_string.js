@@ -7,7 +7,7 @@ describe("Pusher", function () {
   var pusher
 
   beforeEach(function () {
-    pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef" })
+    pusher = new Pusher({ appId: 1234, key: "f00d", secret: "tofu" })
   })
 
   describe("#createSignedQueryString", function () {
@@ -69,7 +69,7 @@ describe("Pusher", function () {
         })
         // Date.now is mocked, so the signature can be hardcoded
         expect(queryString).to.match(
-          /^(.*&)?auth_signature=89323a7f200fdefaa992e73e0953534dbb94c4dd2450514bcb4721b28b14fb26(&.*)?$/
+          /^(.*&)?auth_signature=a650196dc427ebe837226f8565ca9232198c6d1b9455eaa72374a9dc0b620e7b(&.*)?$/
         )
       })
     })
@@ -121,7 +121,7 @@ describe("Pusher", function () {
         })
         // Date.now is mocked, so the signature can be hardcoded
         expect(queryString).to.match(
-          /^(.*&)?auth_signature=8df535ace13ffd2e77b023f251ba9a6b0c4e5c307b3cc6a2ca42d559109db7c8(&.*)?$/
+          /^(.*&)?auth_signature=d8bdbd31911fb7400a14fbd36fd7de053494725b64400ae5856deafe304b34a9(&.*)?$/
         )
       })
 

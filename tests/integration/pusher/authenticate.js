@@ -6,43 +6,43 @@ describe("Pusher", function () {
   var pusher
 
   beforeEach(function () {
-    pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "beef" })
+    pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "tofu" })
   })
 
   describe("#auth", function () {
     it("should prefix the signature with the app key", function () {
-      var pusher = new Pusher({ appId: 10000, key: "1234", secret: "beef" })
+      var pusher = new Pusher({ appId: 10000, key: "1234", secret: "tofu" })
       expect(pusher.authenticate("123.456", "test")).to.eql({
         auth:
-          "1234:d16bec9b73b4b3b9186bc5ce87daddc14e6afa714f663fd35839f94be1707ea3",
+          "1234:efa6cf7644a0b35cba36aa0f776f3cbf7bb60e95ea2696bde1dbe8403b61bd7c",
       })
 
-      pusher = new Pusher({ appId: 10000, key: "abcdef", secret: "beef" })
+      pusher = new Pusher({ appId: 10000, key: "abcdef", secret: "tofu" })
       expect(pusher.authenticate("123.456", "test")).to.eql({
         auth:
-          "abcdef:d16bec9b73b4b3b9186bc5ce87daddc14e6afa714f663fd35839f94be1707ea3",
+          "abcdef:efa6cf7644a0b35cba36aa0f776f3cbf7bb60e95ea2696bde1dbe8403b61bd7c",
       })
     })
 
     it("should return correct authentication signatures for different socket ids", function () {
       expect(pusher.authenticate("123.456", "test")).to.eql({
         auth:
-          "aaaa:d16bec9b73b4b3b9186bc5ce87daddc14e6afa714f663fd35839f94be1707ea3",
+          "aaaa:efa6cf7644a0b35cba36aa0f776f3cbf7bb60e95ea2696bde1dbe8403b61bd7c",
       })
       expect(pusher.authenticate("321.654", "test")).to.eql({
         auth:
-          "aaaa:69858dbfae85099306caa764f698d4e29970d93baa746a6df6788c92c0ec4409",
+          "aaaa:f6ecb0a17d3e4f68aca28f1673197a7608587c09deb0208faa4b5519aee0a777",
       })
     })
 
     it("should return correct authentication signatures for different channels", function () {
       expect(pusher.authenticate("123.456", "test1")).to.eql({
         auth:
-          "aaaa:2e8533af473c22fbf5456375ace186413bcdd64513edefc60657d7327c1a43af",
+          "aaaa:d5ab857f805433cb50562da96afa41688d7742a3c3a021ed15a4d991a4d8cf94",
       })
       expect(pusher.authenticate("123.456", "test2")).to.eql({
         auth:
-          "aaaa:c26e4dce5ab543b2deac513708ea03e91aac2cd1caa4cdd261fc7739ba09cfbe",
+          "aaaa:43affa6a09af1fb9ce1cadf176171346beaf7366673ec1e5920f68b3e97a466d",
       })
     })
 
@@ -68,11 +68,11 @@ describe("Pusher", function () {
     it("should return correct authentication signatures with and without the channel data", function () {
       expect(pusher.authenticate("123.456", "test")).to.eql({
         auth:
-          "aaaa:d16bec9b73b4b3b9186bc5ce87daddc14e6afa714f663fd35839f94be1707ea3",
+          "aaaa:efa6cf7644a0b35cba36aa0f776f3cbf7bb60e95ea2696bde1dbe8403b61bd7c",
       })
       expect(pusher.authenticate("123.456", "test", { foo: "bar" })).to.eql({
         auth:
-          "aaaa:4ec8fab54df3950d32d95a579e46b53060ea3579bc678842a80b7c530f90d439",
+          "aaaa:f41faf9ead2ea76772cc6b1168363057459f02499ae4d92e88229dc7f4efa2d4",
         channel_data: '{"foo":"bar"}',
       })
     })
@@ -80,7 +80,7 @@ describe("Pusher", function () {
     it("should return correct authentication signature with utf-8 in channel data", function () {
       expect(pusher.authenticate("1.1", "test", "ą§¶™€łü€ß£")).to.eql({
         auth:
-          "aaaa:0d392e309f194ebfd063409e2a35d1e5f0fb0148e6ff5e9e92233816a70f2a12",
+          "aaaa:2a229263e89d9c50524fd80c2e88be2843379f6931e28995e2cc214282c9db0c",
         channel_data: '"ą§¶™€łü€ß£"',
       })
     })
@@ -155,7 +155,7 @@ describe("Pusher with encryptionMasterKey", function () {
     pusher = new Pusher({
       appId: 1234,
       key: "f00d",
-      secret: "beef",
+      secret: "tofu",
       encryptionMasterKey: testMasterKey,
     })
   })
@@ -166,7 +166,7 @@ describe("Pusher with encryptionMasterKey", function () {
         pusher.authenticate("123.456", "private-encrypted-bla", "foo")
       ).to.eql({
         auth:
-          "f00d:d8df1e524cf38fbde4f1dc38e6eaa4943e60412122801eed1f0e89c8a1268784",
+          "f00d:962c48b78bf93d98ff4c92ee7dff04865821455b7b401e9d60a9e0a90af2c105",
         channel_data: '"foo"',
         shared_secret: "BYBsePpRCQkGPvbWu/5j8x+MmUF5sgPH5DmNBwkTzYs=",
       })
@@ -174,7 +174,7 @@ describe("Pusher with encryptionMasterKey", function () {
     it("should not return a shared_secret for non-encrypted channels", function () {
       expect(pusher.authenticate("123.456", "bla", "foo")).to.eql({
         auth:
-          "f00d:4c48fa1cb34537501eb3291b28c0b04de270008ae418bc3141f4f11680abe312",
+          "f00d:013ad3da0d88e0df6ae0a8184bef50b9c3933f2344499e6e3d1ad67fad799e20",
         channel_data: '"foo"',
       })
     })

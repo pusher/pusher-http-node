@@ -7,7 +7,7 @@ describe("Pusher", function () {
   var pusher
 
   beforeEach(function () {
-    pusher = new Pusher({ appId: 999, key: "111111", secret: "beef" })
+    pusher = new Pusher({ appId: 999, key: "111111", secret: "tofu" })
     nock.disableNetConnect()
   })
 
@@ -93,7 +93,7 @@ describe("Pusher", function () {
       var pusher = new Pusher({
         appId: 999,
         key: "111111",
-        secret: "beef",
+        secret: "tofu",
         useTLS: true,
         host: "example.com",
         port: 1234,
@@ -119,7 +119,7 @@ describe("Pusher", function () {
       var pusher = new Pusher({
         appId: 999,
         key: "111111",
-        secret: "beef",
+        secret: "tofu",
         timeout: 100,
       })
       var mock = nock("http://api.pusherapp.com")

@@ -8,7 +8,7 @@ describe("WebHook", function () {
   var token
 
   beforeEach(function () {
-    token = new Token("123456789", "beef")
+    token = new Token("123456789", "tofu")
   })
 
   describe("#isValid", function () {
@@ -17,7 +17,7 @@ describe("WebHook", function () {
         headers: {
           "x-pusher-key": "123456789",
           "x-pusher-signature":
-            "df1465f5ff93f83238152fd002cb904f9562d39569e68f00a6bfa0d8ccf88334",
+            "c17257e92037cd7de407ebc1ed174ceb7b2e518db127f44411b9ffc4f5b28cc5",
           "content-type": "application/json",
         },
         rawBody: JSON.stringify({
@@ -64,7 +64,7 @@ describe("WebHook", function () {
         headers: {
           "x-pusher-key": "1234",
           "x-pusher-signature":
-            "df1465f5ff93f83238152fd002cb904f9562d39569e68f00a6bfa0d8ccf88334",
+            "c17257e92037cd7de407ebc1ed174ceb7b2e518db127f44411b9ffc4f5b28cc5",
           "content-type": "application/json",
         },
         rawBody: JSON.stringify({
@@ -72,7 +72,7 @@ describe("WebHook", function () {
           events: [{ channel: "test_channel", name: "channel_vacated" }],
         }),
       })
-      expect(webhook.isValid(new Token("1234", "beef"))).to.be(true)
+      expect(webhook.isValid(new Token("1234", "tofu"))).to.be(true)
     })
 
     it("should return true if webhook is signed with one of the extra tokens", function () {
@@ -80,7 +80,7 @@ describe("WebHook", function () {
         headers: {
           "x-pusher-key": "3",
           "x-pusher-signature":
-            "df1465f5ff93f83238152fd002cb904f9562d39569e68f00a6bfa0d8ccf88334",
+            "c17257e92037cd7de407ebc1ed174ceb7b2e518db127f44411b9ffc4f5b28cc5",
           "content-type": "application/json",
         },
         rawBody: JSON.stringify({
@@ -92,7 +92,7 @@ describe("WebHook", function () {
         webhook.isValid([
           new Token("1", "nope"),
           new Token("2", "not really"),
-          new Token("3", "beef"),
+          new Token("3", "tofu"),
         ])
       ).to.be(true)
     })

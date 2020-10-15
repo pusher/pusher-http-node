@@ -9,7 +9,7 @@ describe("Pusher", function () {
   var pusher
 
   beforeEach(function () {
-    pusher = new Pusher({ appId: 1234, key: "f00d", secret: "beef" })
+    pusher = new Pusher({ appId: 1234, key: "f00d", secret: "tofu" })
     nock.disableNetConnect()
   })
 
@@ -288,7 +288,7 @@ describe("Pusher", function () {
       var pusher = new Pusher({
         appId: 1234,
         key: "f00d",
-        secret: "beef",
+        secret: "tofu",
         useTLS: true,
         host: "example.com",
         port: 1234,
@@ -320,7 +320,7 @@ describe("Pusher", function () {
       var pusher = new Pusher({
         appId: 1234,
         key: "f00d",
-        secret: "beef",
+        secret: "tofu",
         timeout: 100,
       })
       var mock = nock("http://api.pusherapp.com")
@@ -454,7 +454,7 @@ describe("Pusher with encryptionMasterKey", function () {
     pusher = new Pusher({
       appId: 1234,
       key: "f00d",
-      secret: "beef",
+      secret: "tofu",
       encryptionMasterKeyBase64: testMasterKey,
     })
     nock.disableNetConnect()

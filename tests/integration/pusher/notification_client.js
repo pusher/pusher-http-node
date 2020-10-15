@@ -9,7 +9,7 @@ describe("NativeNotificationClient", function () {
     client = new NotificationClient({
       appId: 1234,
       key: "f00d",
-      secret: "beef",
+      secret: "tofu",
     })
     nock.cleanAll()
     nock.disableNetConnect()

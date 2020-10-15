@@ -7,7 +7,7 @@ describe("Pusher", function () {
   var pusher
 
   beforeEach(function () {
-    pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "beef" })
+    pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "tofu" })
   })
 
   describe("#webhook", function () {

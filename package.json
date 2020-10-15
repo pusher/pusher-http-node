@@ -41,15 +41,9 @@
   },
   "scripts": {
     "local-test": "node_modules/.bin/mocha tests/integration/**/*.js",
-    "test": "node_modules/.bin/mocha tests/{integration,remote}/**/*.js",
-    "parse-build": "echo 'Creating build for Parse Cloud.' && webpack --config=./parse.webpack.js",
-    "prepublish": "npm run parse-build"
+    "test": "node_modules/.bin/mocha tests/{integration,remote}/**/*.js"
   },
-  "keywords": [
-    "pusher",
-    "websockets",
-    "realtime"
-  ],
+  "keywords": ["pusher", "websockets", "realtime"],
   "license": "MIT",
   "repository": "git://github.com/pusher/pusher-rest-node",
   "main": "lib/pusher",

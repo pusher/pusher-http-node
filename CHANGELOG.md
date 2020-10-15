@@ -31,6 +31,8 @@ const pusher = new Pusher.forURL(process.env.PUSHER_URL, {
 })
 ```
 
+[REMOVED] Specific Parse Cloud build. I don't believe it is required any more, but please open an issue if there are any problems using this release on Parse Cloud!
+
 ## 3.0.1 (2020-03-27)
 
 [UPGRADED] development dependencies

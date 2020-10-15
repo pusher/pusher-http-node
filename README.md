@@ -120,11 +120,7 @@ var pusher = new Pusher({
 
 #### API requests
 
-Asynchronous methods on the `Pusher` class (`trigger`, `get` and `post`) take an optional callback as the last argument. After performing the request, the callback is called with three arguments:
-
-- error - if the request can't be performed or returns an error code, error will contain details, otherwise it will be null
-- request - the request object
-- response - the response object - can be undefined if response was not received
+Asynchronous methods on the `Pusher` class (`trigger`, `get` and `post`) return a promise that resolves to a [`Response`](https://github.com/node-fetch/node-fetch#class-response), or rejects with an error.
 
 All operational errors are wrapped into a Pusher.RequestError object.
 
@@ -261,7 +257,7 @@ For more information see: <http://pusher.com/docs/authenticating_users>
 It's possible to query the state of the application using the `pusher.get` function.
 
 ```javascript
-pusher.get({ path: path, params: params }, callback)
+pusher.get({ path: path, params: params })
 ```
 
 The `path` property identifies the resource that the request should be made to and the `params` property should be a map of additional query string key and value pairs.
@@ -274,25 +270,32 @@ Params can't include following keys:
 - auth_signature
 - body_md5
 
-The following example provides the signature of the callback and an example of parsing the result:
+The following example shows how to handle the result of a `get`:
 
 ```javascript
-pusher.get({ path: "/channels", params: {} }, function (
-  error,
-  request,
-  response
-) {
-  if (response.statusCode === 200) {
-    var result = JSON.parse(response.body)
-    var channelsInfo = result.channels
-  }
+pusher
+  .get({ path: "/channels", params: {} })
+  .then(response => {
+    if (response.status !== 200) {
+      throw Error("unexpected status")
+    }
+    // Parse the response body as JSON
+    return response.json()
+  )
+  .then(body => {
+    const channelsInfo = body.channels
+    // Do something with channelsInfo
+  })
+  .catch(error => {
+    // Handle error
+  })
 })
 ```
 
 #### Get the list of channels in an application
 
 ```javascript
-pusher.get({ path: "/channels", params: params }, callback)
+pusher.get({ path: "/channels", params: params })
 ```
 
 Information on the optional `params` and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channels).
@@ -300,7 +303,7 @@ Information on the optional `params` and the structure of the returned JSON is d
 #### Get the state of a channel
 
 ```javascript
-pusher.get({ path: "/channels/[channel_name]", params: params }, callback)
+pusher.get({ path: "/channels/[channel_name]", params: params })
 ```
 
 Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channel).
@@ -308,7 +311,7 @@ Information on the optional `params` option property and the structure of the re
 #### Get the list of users in a presence channel
 
 ```javascript
-pusher.get({ path: "/channels/[channel_name]/users" }, callback)
+pusher.get({ path: "/channels/[channel_name]/users" })
 ```
 
 The `channel_name` in the path must be a [presence channel](http://pusher.com/docs/presence). The structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-users).

@@ -1,4 +1,4 @@
-## Unreleased
+## 4.0.0 (2020-10-20)
 
 [BREAKING CHANGE] Methods that previously took callbacks now return promises.
 

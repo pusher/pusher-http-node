@@ -19,31 +19,6 @@ describe("Pusher", function () {
   })
 
   describe("#trigger", function () {
-    it("should send the event when promise isn't handled", function (done) {
-      const mock = nock("http://api.pusherapp.com")
-        .filteringPath(function (path) {
-          return path
-            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
-            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
-        })
-        .post(
-          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=cf87d666b4a829a54fc44b313584b2d7&auth_signature=Y",
-          {
-            name: "my_event",
-            data: '{"some":"data "}',
-            channels: ["test_channel"],
-          }
-        )
-        .reply(200, "{}")
-
-      pusher.trigger("test_channel", "my_event", { some: "data " })
-      setTimeout(function () {
-        // we have no promise handlers in this test, so we wait until the next tick
-        expect(mock.isDone()).to.be(true)
-        done()
-      }, 0)
-    })
-
     it("should send the event to a single channel", function (done) {
       nock("http://api.pusherapp.com")
         .filteringPath(function (path) {

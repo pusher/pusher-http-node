@@ -1,42 +1,52 @@
-var expect = require("expect.js");
+const expect = require("expect.js")
 
-var Pusher = require("../../../lib/pusher");
+const Pusher = require("../../../lib/pusher")
 
-describe("Pusher (integration)", function() {
-  var pusher;
+describe("Pusher (integration)", function () {
+  let pusher
 
-  beforeEach(function() {
-    pusher = new Pusher.forURL(process.env.PUSHER_URL);
-  });
+  beforeEach(function () {
+    pusher = new Pusher.forURL(process.env.PUSHER_URL)
+  })
 
-  describe("#trigger", function() {
-    it("should return code 200", function(done) {
-      pusher.trigger("integration", "event", "test", null, function(error, request, response) {
-        expect(error).to.be(null);
-        expect(response.statusCode).to.equal(200);
-        expect(JSON.parse(response.body)).to.eql({});
-        done();
-      });
-    });
-  });
+  describe("#trigger", function () {
+    it("should return code 200", function (done) {
+      pusher
+        .trigger("integration", "event", "test", null)
+        .then((response) => {
+          expect(response.status).to.equal(200)
+          return response.json().then((body) => {
+            expect(body).to.eql({})
+            done()
+          })
+        })
+        .catch(done)
+    })
+  })
 
-  describe("#triggerBatch", function() {
-    it("should return code 200", function(done) {
-      pusher.triggerBatch([{
-        channel: "integration",
-        name: "event",
-        data: "test"
-      },
-      {
-        channel: "integration2",
-        name: "event2",
-        data: "test2"
-      }], function(error, request, response){
-        expect(error).to.be(null);
-        expect(response.statusCode).to.equal(200);
-        expect(JSON.parse(response.body)).to.eql({});
-        done();
-      });
-    });
-  });
-});
+  describe("#triggerBatch", function () {
+    it("should return code 200", function (done) {
+      pusher
+        .triggerBatch([
+          {
+            channel: "integration",
+            name: "event",
+            data: "test",
+          },
+          {
+            channel: "integration2",
+            name: "event2",
+            data: "test2",
+          },
+        ])
+        .then((response) => {
+          expect(response.status).to.equal(200)
+          return response.json().then((body) => {
+            expect(body).to.eql({})
+            done()
+          })
+        })
+        .catch(done)
+    })
+  })
+})

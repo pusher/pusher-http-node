@@ -1,24 +1,24 @@
-var expect = require("expect.js");
+const expect = require("expect.js")
 
-var Pusher = require("../../../lib/pusher");
-var WebHook = require("../../../lib/webhook");
+const Pusher = require("../../../lib/pusher")
+const WebHook = require("../../../lib/webhook")
 
-describe("Pusher", function() {
-  var pusher;
+describe("Pusher", function () {
+  let pusher
 
-  beforeEach(function() {
-    pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "beef" });
-  });
+  beforeEach(function () {
+    pusher = new Pusher({ appId: 10000, key: "aaaa", secret: "tofu" })
+  })
 
-  describe("#webhook", function() {
-    it("should return a WebHook instance", function() {
-      expect(pusher.webhook({ headers: {}, body: "" })).to.be.a(WebHook);
-    });
+  describe("#webhook", function () {
+    it("should return a WebHook instance", function () {
+      expect(pusher.webhook({ headers: {}, body: "" })).to.be.a(WebHook)
+    })
 
-    it("should pass the token to the WebHook", function() {
-      expect(
-        pusher.webhook({ headers: {}, body: "" }).token
-      ).to.be(pusher.config.token);
-    });
-  });
-});
+    it("should pass the token to the WebHook", function () {
+      expect(pusher.webhook({ headers: {}, body: "" }).token).to.be(
+        pusher.config.token
+      )
+    })
+  })
+})

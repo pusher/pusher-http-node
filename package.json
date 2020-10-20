@@ -22,26 +22,29 @@
     }
   ],
   "dependencies": {
-    "@types/request": "^2.47.1",
-    "request": "2.88.0",
+    "abort-controller": "^3.0.0",
+    "is-base64": "^1.1.0",
+    "node-fetch": "^2.6.1",
     "tweetnacl": "^1.0.0",
-    "tweetnacl-util": "^0.15.0",
-    "is-base64": "^1.1.0"
+    "tweetnacl-util": "^0.15.0"
   },
   "devDependencies": {
+    "eslint": "^7.11.0",
     "expect.js": "=0.3.1",
     "express": "^4.17.1",
-    "mocha": "^6.2.0",
+    "https-proxy-agent": "^5.0.0",
+    "mocha": "^7.2.0",
     "nock": "^12.0.3",
+    "prettier": "2.1.2",
     "sinon": "=1.10.2",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "local-test": "node_modules/.bin/mocha tests/integration/**/*.js",
-    "test": "node_modules/.bin/mocha tests/{integration,remote}/**/*.js",
-    "parse-build": "echo 'Creating build for Parse Cloud.' && webpack --config=./parse.webpack.js",
-    "prepublish": "npm run parse-build"
+    "local-test": "npx mocha 'tests/integration/**/*.js'",
+    "test": "npx mocha 'tests/{integration,remote}/**/*.js'",
+    "lint": "npx eslint . && npx prettier --check .",
+    "format": "npx prettier --write ."
   },
   "keywords": [
     "pusher",

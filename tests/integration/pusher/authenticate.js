@@ -149,14 +149,14 @@ describe("Pusher", function () {
 describe("Pusher with encryptionMasterKey", function () {
   let pusher
 
-  const testMasterKey = "01234567890123456789012345678901"
+  const testMasterKeyBase64 = "zyrm8pvV2C9fJcBfhyXzvxbJVN/H7QLmbe0xJi1GhPU="
 
   beforeEach(function () {
     pusher = new Pusher({
       appId: 1234,
       key: "f00d",
       secret: "tofu",
-      encryptionMasterKey: testMasterKey,
+      encryptionMasterKeyBase64: testMasterKeyBase64,
     })
   })
 
@@ -168,7 +168,7 @@ describe("Pusher with encryptionMasterKey", function () {
         auth:
           "f00d:962c48b78bf93d98ff4c92ee7dff04865821455b7b401e9d60a9e0a90af2c105",
         channel_data: '"foo"',
-        shared_secret: "BYBsePpRCQkGPvbWu/5j8x+MmUF5sgPH5DmNBwkTzYs=",
+        shared_secret: "nlr49ISQHz91yS3cy/yWmW8wFMNeTnNL5tNHnbPJcLQ=",
       })
     })
     it("should not return a shared_secret for non-encrypted channels", function () {

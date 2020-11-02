@@ -4,8 +4,7 @@ import * as Pusher from "pusher"
 
 const pusher = Pusher.forURL(process.env.PUSHER_URL, {
   encryptionMasterKeyBase64: Buffer.from(
-    "01234567890123456789012345678901",
-    "binary"
+    "01234567890123456789012345678901"
   ).toString("base64"),
   agent: new Agent({ keepAlive: true }),
 })

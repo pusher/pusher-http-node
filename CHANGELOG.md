@@ -1,3 +1,7 @@
+## 4.0.1 (2020-11-09)
+
+[FIXED] The type definitions had drifted out of sync with the implementation.
+
 ## 4.0.0 (2020-10-20)
 
 [BREAKING CHANGE] Methods that previously took callbacks now return promises.

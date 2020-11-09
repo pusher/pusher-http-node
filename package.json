@@ -29,6 +29,8 @@
     "tweetnacl-util": "^0.15.0"
   },
   "devDependencies": {
+    "@types/node": "^14.14.6",
+    "@types/node-fetch": "^2.5.7",
     "eslint": "^7.11.0",
     "expect.js": "=0.3.1",
     "express": "^4.17.1",

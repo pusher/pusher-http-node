@@ -1,3 +1,4 @@
+import { Agent } from "http"
 import { Response } from "node-fetch"
 
 export = Pusher
@@ -47,7 +48,7 @@ declare namespace Pusher {
     useTLS?: boolean
     encrypted?: boolean
     timeout?: number
-    agent?: http.Agent
+    agent?: Agent
     encryptionMasterKeyBase64?: string
   }
   interface ClusterOptions extends BaseOptions {
@@ -135,7 +136,7 @@ declare namespace Pusher {
   }
 
   export class WebHook {
-    constructor(token: Token, request: request.Request)
+    constructor(token: Token, request: WebHookRequest)
 
     isValid(extraTokens?: Token | Array<Token>): boolean
     isContentTypeValid(): boolean
@@ -145,5 +146,5 @@ declare namespace Pusher {
     getTime(): Date
   }
 
-  export type Response = Response
+  export { Response }
 }

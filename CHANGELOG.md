@@ -1,3 +1,7 @@
+## 4.0.2 (2020-11-30)
+
+[FIXED] Workaround for a [Webpack bug](https://github.com/webpack/webpack/issues/4742) (thanks @JJ-Kidd)
+
 ## 4.0.1 (2020-11-09)
 
 [FIXED] The type definitions had drifted out of sync with the implementation.

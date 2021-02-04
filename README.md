@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pusher/pusher-http-node.svg?branch=master)](https://travis-ci.org/pusher/pusher-http-node)
+[![Build Status](https://github.com/pusher/pusher-http-node/workflows/Tests/badge.svg)](https://github.com/pusher/pusher-http-node/actions?query=workflow%3ATests+branch%3Amaster)
 [![npm version](https://badge.fury.io/js/pusher.svg)](https://badge.fury.io/js/pusher)
 
 # Pusher Channels Node.js REST library
@@ -15,7 +15,7 @@ If you find any compatibility issues, please [raise an issue](https://github.com
 
 ## Installation
 
-You need to be running at least Node.js 8 to use this library.
+You need to be running at least Node.js 10 to use this library.
 
 ```
 $ npm install pusher

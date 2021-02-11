@@ -160,11 +160,43 @@ You can trigger a batch of up to 10 events.
 
 ### Excluding event recipients
 
-In order to avoid the client that triggered the event from also receiving it, the `trigger` function takes an optional `socketId` parameter. For more informaiton see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.
+In order to avoid the client that triggered the event from also receiving it, a `socket_id` parameter can be added to the `params` object. For more information see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.
 
 ```javascript
-const socketId = "1302.1081607"
-pusher.trigger(channel, event, data, socketId)
+pusher.trigger(channel, event, data, { socket_id: "1302.1081607" })
+
+pusher.triggerBatch([
+  { channel: channel, name: name, data: data, socket_id: "1302.1081607" },
+])
+```
+
+### Fetch subscriber and user counts at the time of batch publish
+
+For the channels that were published to, you can request for the number of subscribers or user to be returned in the response body.
+
+```javascript
+pusher
+  .trigger(channel, event, data, { info: "user_count,subscription_count" })
+  .then(response => {
+    if (response.status !== 200) {
+      throw Error("unexpected status")
+    }
+    // Parse the response body as JSON
+    return response.json()
+  )
+  .then(body => {
+    const channelsInfo = body.channels
+    // Do something with channelsInfo
+  })
+  .catch(error => {
+    // Handle error
+  })
+
+pusher
+  .triggerBatch([{ channel: channel, name: name, data: data, info: "user_count,subscription_count" }])
+  .then(response => {
+    // As above
+  })
 ```
 
 ### End-to-end encryption [BETA]

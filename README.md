@@ -170,13 +170,15 @@ pusher.triggerBatch([
 ])
 ```
 
-### Fetch subscriber and user counts at the time of batch publish
+### Fetch subscriber and user counts at the time of publish
 
 For the channels that were published to, you can request for the number of subscribers or user to be returned in the response body.
 
+#### Regular triggering
+
 ```javascript
 pusher
-  .trigger(channel, event, data, { info: "user_count,subscription_count" })
+  .trigger("presence-my-channel", "event", "test", { info: "user_count,subscription_count" })
   .then(response => {
     if (response.status !== 200) {
       throw Error("unexpected status")
@@ -191,11 +193,47 @@ pusher
   .catch(error => {
     // Handle error
   })
+```
 
+#### Batch triggering
+
+```javascript
+const batch = [
+  {
+    channel: "my-channel",
+    name: "event",
+    data: "test1",
+    info: "subscription_count",
+  },
+  {
+    channel: "presence-my-channel",
+    name: "event",
+    data: "test2",
+    info: "user_count,subscription_count",
+  },
+]
 pusher
-  .triggerBatch([{ channel: channel, name: name, data: data, info: "user_count,subscription_count" }])
-  .then(response => {
-    // As above
+  .triggerBatch(batch)
+  .then((response) => {
+    if (response.status !== 200) {
+      throw Error("unexpected status")
+    }
+    // Parse the response body as JSON
+    return response.json()
+  })
+  .then((body) => {
+    body.batch.forEach((attributes, i) => {
+      process.stdout.write(
+        `channel: ${batch[i].channel}, name: ${batch[i].name}, subscription_count: ${attributes.subscription_count}`
+      )
+      if ("user_count" in attributes) {
+        process.stdout.write(`, user_count: ${attributes.user_count}`)
+      }
+      process.stdout.write("\n")
+    })
+  })
+  .catch((error) => {
+    console.error(error)
   })
 ```
 

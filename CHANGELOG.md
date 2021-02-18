@@ -1,3 +1,8 @@
+## 5.0.0 (2021-02-18)
+
+[BREAKING CHANGE] `trigger` now accepts a `params` _object_ instead of a `socket_id` as the third parameter.
+[ADDED] Support for requesting channel attributes as part of a `trigger` and `triggerBatch` request via an `info` parameter.
+
 ## 4.0.2 (2020-11-30)
 
 [FIXED] Workaround for a [Webpack bug](https://github.com/webpack/webpack/issues/4742) (thanks @JJ-Kidd)

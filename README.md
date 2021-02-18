@@ -170,7 +170,7 @@ pusher.triggerBatch([
 ])
 ```
 
-### Fetch subscriber and user counts at the time of publish
+### Fetch subscriber and user counts at the time of publish [[EXPERIMENTAL](https://pusher.com/docs/lab#experimental-program)]
 
 For the channels that were published to, you can request for the number of subscribers or user to be returned in the response body.
 

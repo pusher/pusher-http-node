@@ -10,7 +10,7 @@ declare class Pusher {
     channel: string | Array<string>,
     event: string,
     data: any,
-    socketId?: string
+    params?: Pusher.TriggerParams
   ): Promise<Response>
 
   trigger(
@@ -61,10 +61,17 @@ declare namespace Pusher {
 
   export type Options = ClusterOptions | HostOptions
 
+  export interface TriggerParams {
+    socket_id?: string
+    info?: string
+  }
+
   export interface BatchEvent {
     channel: string
     name: string
     data: any
+    socket_id?: string
+    info?: string
   }
 
   type ReservedParams =

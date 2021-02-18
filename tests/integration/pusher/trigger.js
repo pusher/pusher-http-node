@@ -99,7 +99,7 @@ describe("Pusher", function () {
         .catch(done)
     })
 
-    it("should add socket_id to the request body", function (done) {
+    it("should add params to the request body", function (done) {
       nock("http://api.pusherapp.com")
         .filteringPath(function (path) {
           return path
@@ -107,18 +107,23 @@ describe("Pusher", function () {
             .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
         })
         .post(
-          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=0478e1ed73804ae1be97cfa6554cf039&auth_signature=Y",
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=2e4f053f1c325dedbe21abd8f1852b53&auth_signature=Y",
           {
             name: "my_event",
             data: '{"some":"data "}',
             channels: ["test_channel"],
             socket_id: "123.567",
+            info: "user_count,subscription_count",
           }
         )
         .reply(200, "{}")
 
+      const params = {
+        socket_id: "123.567",
+        info: "user_count,subscription_count",
+      }
       pusher
-        .trigger("test_channel", "my_event", { some: "data " }, "123.567")
+        .trigger("test_channel", "my_event", { some: "data " }, params)
         .then(() => done())
         .catch(done)
     })
@@ -131,20 +136,31 @@ describe("Pusher", function () {
             .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
         })
         .post(
-          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=cf87d666b4a829a54fc44b313584b2d7&auth_signature=Y",
+          "/apps/1234/events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=d3a47b3241328a6432adf60c8e91b6fb&auth_signature=Y",
           {
             name: "my_event",
             data: '{"some":"data "}',
             channels: ["test_channel"],
+            info: "subscription_count",
           }
         )
-        .reply(200, "OK")
+        .reply(200, '{"channels":{"test_channel":{"subscription_count":123}}}')
 
       pusher
-        .trigger("test_channel", "my_event", { some: "data " })
+        .trigger(
+          "test_channel",
+          "my_event",
+          { some: "data " },
+          { info: "subscription_count" }
+        )
         .then((response) => {
           expect(response.status).to.equal(200)
-          done()
+          return response.text().then((body) => {
+            expect(body).to.equal(
+              '{"channels":{"test_channel":{"subscription_count":123}}}'
+            )
+            done()
+          })
         })
         .catch(done)
     })
@@ -286,7 +302,12 @@ describe("Pusher", function () {
         .reply(200, "{}")
 
       pusher
-        .trigger("test_channel", "my_event", { some: "data " }, "123.567")
+        .trigger(
+          "test_channel",
+          "my_event",
+          { some: "data " },
+          { socket_id: "123.567" }
+        )
         .then(() => done())
         .catch(done)
     })
@@ -317,7 +338,12 @@ describe("Pusher", function () {
         .reply(200)
 
       pusher
-        .trigger("test_channel", "my_event", { some: "data " }, "123.567")
+        .trigger(
+          "test_channel",
+          "my_event",
+          { some: "data " },
+          { socket_id: "123.567" }
+        )
         .catch((error) => {
           expect(error).to.be.a(Pusher.RequestError)
           expect(error.message).to.equal("Request failed with an error")

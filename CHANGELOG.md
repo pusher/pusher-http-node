@@ -1,6 +1,7 @@
 ## 5.0.0 (2021-02-18)
 
 [BREAKING CHANGE] `trigger` now accepts a `params` _object_ instead of a `socket_id` as the third parameter.
+
 [ADDED] Support for requesting channel attributes as part of a `trigger` and `triggerBatch` request via an `info` parameter.
 
 ## 4.0.2 (2020-11-30)
@@ -51,6 +52,7 @@ const pusher = new Pusher.forURL(process.env.PUSHER_URL, {
 [UPGRADED] development dependencies
 
 [ADDED] encryptionMasterKeyBase64 constructor parameter to make it easier to use the full range of 32 byte binary values in encryption key
+
 [DEPRECATED] encryptionMasterKey constructor parameter - use encryptionMasterKeyBase64
 
 ## 3.0.0 (2019-09-26)

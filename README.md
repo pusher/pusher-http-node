@@ -237,7 +237,7 @@ pusher
   })
 ```
 
-### End-to-end encryption [BETA]
+### End-to-end encryption
 
 This library supports end-to-end encryption of your private channels. This means that only you and your connected clients will be able to read your messages. Pusher cannot decrypt them. You can enable this feature by following these steps:
 

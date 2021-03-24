@@ -130,6 +130,7 @@ declare namespace Pusher {
     event: string
     data: string
     socket_id: string
+    user_id?: string
   }
 
   interface WebHookData {

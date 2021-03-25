@@ -1,6 +1,6 @@
 ## 5.0.0 (2021-02-18)
 
-[BREAKING CHANGE] `trigger` now accepts a `params` _object_ instead of a `socket_id` as the third parameter.
+[BREAKING CHANGE] `trigger` now accepts a `params` _object_ instead of a `socket_id` as the 4th parameter.
 
 [ADDED] Support for requesting channel attributes as part of a `trigger` and `triggerBatch` request via an `info` parameter.
 

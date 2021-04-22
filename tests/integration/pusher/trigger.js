@@ -447,8 +447,7 @@ describe("Pusher with encryptionMasterKey", function () {
   let pusher
 
   const testMasterKey = Buffer.from(
-    "01234567890123456789012345678901",
-    "binary"
+    "01234567890123456789012345678901"
   ).toString("base64")
 
   beforeEach(function () {

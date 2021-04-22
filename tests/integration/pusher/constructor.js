@@ -102,7 +102,7 @@ describe("Pusher", function () {
     it("should support `encryptionMasterKey` of 32 bytes", function () {
       const key = "01234567890123456789012345678901"
       const pusher = new Pusher({ encryptionMasterKey: key })
-      expect(pusher.config.encryptionMasterKey).to.equal(key)
+      expect(pusher.config.encryptionMasterKey.toString()).to.equal(key)
     })
 
     it("should reject `encryptionMasterKey` of 31 bytes", function () {
@@ -121,14 +121,14 @@ describe("Pusher", function () {
 
     it("should support `encryptionMasterKeyBase64` which decodes to 32 bytes", function () {
       const key = "01234567890123456789012345678901"
-      const keyBase64 = Buffer.from(key, "binary").toString("base64")
+      const keyBase64 = Buffer.from(key).toString("base64")
       const pusher = new Pusher({ encryptionMasterKeyBase64: keyBase64 })
-      expect(pusher.config.encryptionMasterKey).to.equal(key)
+      expect(pusher.config.encryptionMasterKey.toString()).to.equal(key)
     })
 
     it("should reject `encryptionMasterKeyBase64` which decodes to 31 bytes", function () {
       const key = "0123456789012345678901234567890"
-      const keyBase64 = Buffer.from(key, "binary").toString("base64")
+      const keyBase64 = Buffer.from(key).toString("base64")
       expect(function () {
         new Pusher({ encryptionMasterKeyBase64: keyBase64 })
       }).to.throwException(/31 bytes/)
@@ -136,7 +136,7 @@ describe("Pusher", function () {
 
     it("should reject `encryptionMasterKeyBase64` which decodes to 33 bytes", function () {
       const key = "012345678901234567890123456789012"
-      const keyBase64 = Buffer.from(key, "binary").toString("base64")
+      const keyBase64 = Buffer.from(key).toString("base64")
       expect(function () {
         new Pusher({ encryptionMasterKeyBase64: keyBase64 })
       }).to.throwException(/33 bytes/)

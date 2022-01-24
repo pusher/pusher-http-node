@@ -7,9 +7,9 @@ In order to use this library, you need to have an account on <https://pusher.com
 
 ## Supported platforms
 
-This SDK supports **Node.js** version 8+.
+This SDK supports **Node.js** version 10+.
 
-We test the library against a selection of Node.js versions which we update over time. Please refer to [travis.yml](https://github.com/pusher/pusher-http-node/blob/master/.travis.yml) for the set of versions that are currently tested with CI.
+We test the library against a selection of Node.js versions which we update over time. Please refer to [test.yml](https://github.com/pusher/pusher-http-node/blob/master/.github/workflows/test.yml) for the set of versions that are currently tested with CI.
 
 If you find any compatibility issues, please [raise an issue](https://github.com/pusher/pusher-http-node/issues/new) in the repository or contact support at [support@pusher.com](support@pusher.com). We will happily investigate reported problems ❤️.
 

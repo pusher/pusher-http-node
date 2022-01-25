@@ -1,3 +1,8 @@
+## 5.0.1 (2022-01-24)
+
+[FIXED] Incorrect `require` on `version.js` was causing a compilation error in Webpack
+[FIXED] Inconsistent encoding for shared secret between other SDKs
+
 ## 5.0.0 (2021-02-18)
 
 [BREAKING CHANGE] `trigger` now accepts a `params` _object_ instead of a `socket_id` as the third parameter.

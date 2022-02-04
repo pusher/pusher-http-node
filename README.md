@@ -241,7 +241,7 @@ pusher
 
 This library supports end-to-end encryption of your private channels. This means that only you and your connected clients will be able to read your messages. Pusher cannot decrypt them. You can enable this feature by following these steps:
 
-1. You should first set up Private channels. This involves [creating an authentication endpoint on your server](https://pusher.com/docs/authenticating_users).
+1. You should first set up Private channels. This involves [creating an authorisation endpoint on your server](https://pusher.com/docs/authenticating_users).
 
 2. Next, generate your 32 byte master encryption key, encode it as base64 and pass it to the Pusher constructor.
 
@@ -278,17 +278,32 @@ pusher.trigger(["channel-1", "private-encrypted-channel-2"], "test_event", {
 
 Rationale: the methods in this library map directly to individual Channels HTTP API requests. If we allowed triggering a single event on multiple channels (some encrypted, some unencrypted), then it would require two API requests: one where the event is encrypted to the encrypted channels, and one where the event is unencrypted for unencrypted channels.
 
-### Authenticating private channels
+### Authenticating users
 
-To authorise your users to access private channels on Pusher Channels, you can use the `authenticate` function:
+To authenticate users during sign in, you can use the `authenticateUser` function:
 
 ```javascript
-const auth = pusher.authenticate(socketId, channel)
+const userData = {
+  id: "unique_user_id",
+  user_name: "John Doe",
+  user_image: "https://...",
+}
+const auth = pusher.authenticateUser(socketId, userData)
+```
+
+The `userData` parameter must contain an `id` property with a non empty string. For more information see: <http://pusher.com/docs/authenticating_users>
+
+### Private channel authorisation
+
+To authorise your users to access private channels on Pusher Channels, you can use the `authorizeChannel` function:
+
+```javascript
+const auth = pusher.authorizeChannel(socketId, channel)
 ```
 
 For more information see: <http://pusher.com/docs/authenticating_users>
 
-### Authenticating presence channels
+### Presence channel authorisation
 
 Using presence channels is similar to private channels, but you can specify extra data to identify that particular user:
 
@@ -300,7 +315,7 @@ const channelData = {
     twitter_id: '@leggetter'
   }
 };
-const auth = pusher.authenticate(socketId, channel, channelData);
+const auth = pusher.authorizeChannel(socketId, channel, channelData);
 ```
 
 The `auth` is then returned to the caller as JSON.

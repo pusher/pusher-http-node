@@ -285,8 +285,8 @@ To authenticate users during sign in, you can use the `authenticateUser` functio
 ```javascript
 const userData = {
   id: "unique_user_id",
-  user_name: "John Doe",
-  user_image: "https://...",
+  name: "John Doe",
+  image: "https://...",
 }
 const auth = pusher.authenticateUser(socketId, userData)
 ```

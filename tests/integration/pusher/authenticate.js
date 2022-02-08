@@ -56,7 +56,7 @@ describe("Pusher", function () {
       })
     })
 
-    it("should return correct authentication signature with utf-8 in channel data", function () {
+    it("should return correct authentication signature with utf-8 in user data", function () {
       expect(pusher.authenticateUser("1.1", { id: "ą§¶™€łü€ß£" })).to.eql({
         auth:
           "aaaa:620494cee53d6c568b49598313194088afda37218f0d059af03c0c898ed61ff4",

@@ -2,8 +2,10 @@ const expect = require("expect.js")
 const nock = require("nock")
 const nacl = require("tweetnacl")
 const naclUtil = require("tweetnacl-util")
+const sinon = require("sinon")
 
 const Pusher = require("../../../lib/pusher")
+const events = require("../../../lib/events")
 
 describe("Pusher", function () {
   let pusher
@@ -439,6 +441,28 @@ describe("Pusher", function () {
         ])
         .then(() => done())
         .catch(done)
+    })
+  })
+
+  describe("#sendToUser", function () {
+    it("should trigger an event on #server-to-user-{userId}", function () {
+      sinon.stub(events, "trigger")
+      pusher.sendToUser("abc123", "halo", { foo: "bar" })
+      expect(events.trigger.called).to.be(true)
+      expect(events.trigger.getCall(0).args[1]).eql(["#server-to-user-abc123"])
+      expect(events.trigger.getCall(0).args[2]).equal("halo")
+      expect(events.trigger.getCall(0).args[3]).eql({ foo: "bar" })
+      events.trigger.restore()
+    })
+
+    it("should throw an error if event name is longer than 200 characters", function () {
+      const event = new Array(202).join("x") // 201 characters
+      expect(function () {
+        pusher.sendToUser("abc123", event, { foo: "bar" })
+      }).to.throwError(function (e) {
+        expect(e).to.be.an(Error)
+        expect(e.message).to.equal("Too long event name: '" + event + "'")
+      })
     })
   })
 })

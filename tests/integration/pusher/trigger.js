@@ -455,6 +455,24 @@ describe("Pusher", function () {
       events.trigger.restore()
     })
 
+    it("should throw an error if user id is empty", function () {
+      expect(function () {
+        pusher.sendToUser("", "halo", { foo: "bar" })
+      }).to.throwError(function (e) {
+        expect(e).to.be.an(Error)
+        expect(e.message).to.equal("Invalid user id: ''")
+      })
+    })
+
+    it("should throw an error if user id is not a string", function () {
+      expect(function () {
+        pusher.sendToUser(123, "halo", { foo: "bar" })
+      }).to.throwError(function (e) {
+        expect(e).to.be.an(Error)
+        expect(e.message).to.equal("Invalid user id: '123'")
+      })
+    })
+
     it("should throw an error if event name is longer than 200 characters", function () {
       const event = new Array(202).join("x") // 201 characters
       expect(function () {

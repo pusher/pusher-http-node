@@ -118,13 +118,13 @@ describe("Pusher", function () {
     it("should raise an exception if user data doesn't have a valid id field", function () {
       expect(function () {
         pusher.authenticateUser("111.222", {})
-      }).to.throwException(/^Invalid user data. Invalid id 'undefined'$/)
+      }).to.throwException(/^Invalid user id: 'undefined'$/)
       expect(function () {
         pusher.authenticateUser("111.222", { id: "" })
-      }).to.throwException(/^Invalid user data. Invalid id ''$/)
+      }).to.throwException(/^Invalid user id: ''$/)
       expect(function () {
         pusher.authenticateUser("111.222", { id: 123 })
-      }).to.throwException(/^Invalid user data. Invalid id '123'$/)
+      }).to.throwException(/^Invalid user id: '123'$/)
     })
   })
 

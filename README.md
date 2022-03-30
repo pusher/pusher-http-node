@@ -293,6 +293,18 @@ const auth = pusher.authenticateUser(socketId, userData)
 
 The `userData` parameter must contain an `id` property with a non empty string. For more information see: <http://pusher.com/docs/authenticating_users>
 
+### Terminating user connections
+
+In order to terminate a user's connections, the user must have been authenticated. Check the [Server user authentication docs](http://pusher.com/docs/authenticating_users) for the information on how to create a user authentication endpoint.
+
+To terminate all connections established by a given user, you can use the `terminateUserConnections` function:
+
+```javascript
+pusher.terminateUserConnections(userId)
+```
+
+Please note, that it only terminates the user's active connections. This means, if nothing else is done, the user will be able to reconnect. For more information see: [Terminating user connections docs](https://pusher.com/docs/channels/server_api/terminating-user-connections/).
+
 ### Private channel authorisation
 
 To authorise your users to access private channels on Pusher Channels, you can use the `authorizeChannel` function:

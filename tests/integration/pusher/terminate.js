@@ -46,7 +46,8 @@ describe("Pusher", function () {
 
     expect(pusher.post.called).to.be(true)
     expect(pusher.post.getCall(0).args[0]).eql({
-      path: `/apps/${pusher.appId}/users/${userId}/kick`,
+      path: `/users/${userId}/kick`,
+      body: {},
     })
     pusher.post.restore()
     done()

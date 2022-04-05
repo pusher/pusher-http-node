@@ -37,7 +37,7 @@ describe("Pusher", function () {
     })
   })
 
-  it("should call /kick endpoint", function (done) {
+  it("should call /terminate_connections endpoint", function (done) {
     sinon.stub(pusher, "post")
     pusher.appId = 1234
     const userId = "testUserId"
@@ -46,7 +46,7 @@ describe("Pusher", function () {
 
     expect(pusher.post.called).to.be(true)
     expect(pusher.post.getCall(0).args[0]).eql({
-      path: `/users/${userId}/kick`,
+      path: `/users/${userId}/terminate_connections`,
       body: {},
     })
     pusher.post.restore()

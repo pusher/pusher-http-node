@@ -241,7 +241,7 @@ pusher
 
 This library supports end-to-end encryption of your private channels. This means that only you and your connected clients will be able to read your messages. Pusher cannot decrypt them. You can enable this feature by following these steps:
 
-1. You should first set up Private channels. This involves [creating an authorisation endpoint on your server](https://pusher.com/docs/authenticating_users).
+1. You should first set up Private channels. This involves [creating an authorization endpoint on your server](https://pusher.com/docs/authenticating_users).
 
 2. Next, generate your 32 byte master encryption key, encode it as base64 and pass it to the Pusher constructor.
 

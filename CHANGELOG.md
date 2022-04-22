@@ -1,3 +1,10 @@
+## 5.1.0-beta (2022-04-22)
+
+[ADDED] Support for terminating user connections based on user id
+[ADDED] Support for sending messages to users based on user id
+[ADDED] Support for implementing user authentication endpoints
+[DEPRECATED] authenticate function is deprecated. The same functionality (and interface) is now provided by authorizeChannel
+
 ## 5.0.1 (2022-01-24)
 
 [FIXED] Incorrect `require` on `version.js` was causing a compilation error in Webpack

@@ -54,7 +54,7 @@
     "realtime"
   ],
   "license": "MIT",
-  "repository": "git://github.com/pusher/pusher-rest-node",
+  "repository": "git://github.com/pusher/pusher-http-node",
   "main": "lib/pusher",
   "typings": "index.d.ts",
   "engines": {

@@ -44,11 +44,7 @@ declare class Pusher {
     userData: Pusher.UserChannelData
   ): Pusher.UserAuthResponse
 
-  sendToUser(
-    userId: string,
-    event: string,
-    data: any
-  ): Promise<Response>
+  sendToUser(userId: string, event: string, data: any): Promise<Response>
 
   terminateUserConnections(userId: string): Promise<Response>
 
@@ -196,3 +192,4 @@ declare namespace Pusher {
 
   export { Response }
 }
+

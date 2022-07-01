@@ -192,4 +192,3 @@ declare namespace Pusher {
 
   export { Response }
 }
-

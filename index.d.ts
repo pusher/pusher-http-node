@@ -24,11 +24,29 @@ declare class Pusher {
   get(opts: Pusher.GetOptions): Promise<Response>
   post(opts: Pusher.PostOptions): Promise<Response>
 
+  /**
+   * @deprecated Use authorizeChannel
+   */
   authenticate(
     socketId: string,
     channel: string,
     data?: Pusher.PresenceChannelData
-  ): Pusher.AuthResponse
+  ): Pusher.ChannelAuthResponse
+
+  authorizeChannel(
+    socketId: string,
+    channel: string,
+    data?: Pusher.PresenceChannelData
+  ): Pusher.ChannelAuthResponse
+
+  authenticateUser(
+    socketId: string,
+    userData: Pusher.UserChannelData
+  ): Pusher.UserAuthResponse
+
+  sendToUser(userId: string, event: string, data: any): Promise<Response>
+
+  terminateUserConnections(userId: string): Promise<Response>
 
   webhook(request: Pusher.WebHookRequest): Pusher.WebHook
   createSignedQueryString(opts: Pusher.SignedQueryStringOptions): string
@@ -106,10 +124,24 @@ declare namespace Pusher {
     params?: Params
   }
 
+  /**
+   * @deprecated Use ChannelAuthResponse
+   */
   export interface AuthResponse {
     auth: string
     channel_data?: string
     shared_secret?: string
+  }
+
+  export interface ChannelAuthResponse {
+    auth: string
+    channel_data?: string
+    shared_secret?: string
+  }
+
+  export interface UserAuthResponse {
+    auth: string
+    user_data: string
   }
 
   export interface PresenceChannelData {
@@ -117,6 +149,11 @@ declare namespace Pusher {
     user_info?: {
       [key: string]: any
     }
+  }
+
+  export interface UserChannelData {
+    id: string
+    [key: string]: any
   }
 
   export interface WebHookRequest {
@@ -155,3 +192,4 @@ declare namespace Pusher {
 
   export { Response }
 }
+

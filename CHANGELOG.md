@@ -1,3 +1,7 @@
+## 5.1.1-beta (2022-06-01)
+
+[FIXED] Updated typescript types with new user features.
+
 ## 5.1.0-beta (2022-04-22)
 
 [ADDED] Support for terminating user connections based on user id

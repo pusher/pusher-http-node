@@ -127,7 +127,7 @@ describe("Pusher", function () {
       }).to.throwException(/^Invalid user id: '123'$/)
     })
 
-    it("should return correct authentication signatures user data with watchlist", function () {
+    it("should return correct authentication signatures for user data with watchlist", function () {
       expect(
         pusher.authenticateUser("123.456", {
           id: "45678",
@@ -158,7 +158,7 @@ describe("Pusher", function () {
       })
     })
 
-    it("should raise an exception if watchlist is not a valid array", function () {
+    it("should raise an exception if is not a valid array of valid user ids", function () {
       expect(function () {
         pusher.authenticateUser("111.222", { id: "123", watchlist: null })
       }).to.throwException(/^Watchlist must be an array: 'null'$/)

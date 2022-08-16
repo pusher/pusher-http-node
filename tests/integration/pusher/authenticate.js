@@ -126,6 +126,55 @@ describe("Pusher", function () {
         pusher.authenticateUser("111.222", { id: 123 })
       }).to.throwException(/^Invalid user id: '123'$/)
     })
+
+    it("should return correct authentication signatures for user data with watchlist", function () {
+      expect(
+        pusher.authenticateUser("123.456", {
+          id: "45678",
+          watchlist: ["123", "456", "789"],
+        })
+      ).to.eql({
+        auth:
+          "aaaa:4ae1d85df7f5865e1624a6c2087b3f84ae3aacb7fbf4bebb4e7661cf8f2d72c9",
+        user_data: JSON.stringify({
+          id: "45678",
+          watchlist: ["123", "456", "789"],
+        }),
+      })
+      expect(
+        pusher.authenticateUser("123.456", {
+          id: "55555",
+          user_name: "test",
+          watchlist: ["123"],
+        })
+      ).to.eql({
+        auth:
+          "aaaa:750f12f49fb1266b9ddabcc9c9708cf6b633338f743e789518ad6ab720fafa37",
+        user_data: JSON.stringify({
+          id: "55555",
+          user_name: "test",
+          watchlist: ["123"],
+        }),
+      })
+    })
+
+    it("should raise an exception if is not a valid array of valid user ids", function () {
+      expect(function () {
+        pusher.authenticateUser("111.222", { id: "123", watchlist: null })
+      }).to.throwException(/^Watchlist must be an array: 'null'$/)
+      expect(function () {
+        pusher.authenticateUser("111.222", { id: "123", watchlist: "abc" })
+      }).to.throwException(/^Watchlist must be an array: 'abc'$/)
+      expect(function () {
+        pusher.authenticateUser("111.222", { id: "123", watchlist: ["abc", 1] })
+      }).to.throwException(/^Invalid user id: '1'$/)
+      expect(function () {
+        pusher.authenticateUser("111.222", {
+          id: "123",
+          watchlist: ["abc", ""],
+        })
+      }).to.throwException(/^Invalid user id: ''$/)
+    })
   })
 
   describe("#authenticate", function () {

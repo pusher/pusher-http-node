@@ -153,6 +153,7 @@ declare namespace Pusher {
 
   export interface UserChannelData {
     id: string
+    watchlist?: Array<string>
     [key: string]: any
   }
 

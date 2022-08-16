@@ -1,7 +1,7 @@
+# Pusher Channels Node.js REST library
+
 [![Build Status](https://github.com/pusher/pusher-http-node/workflows/Tests/badge.svg)](https://github.com/pusher/pusher-http-node/actions?query=workflow%3ATests+branch%3Amaster)
 [![npm version](https://badge.fury.io/js/pusher.svg)](https://badge.fury.io/js/pusher)
-
-# Pusher Channels Node.js REST library
 
 In order to use this library, you need to have an account on <https://pusher.com/channels>. After registering, you will need the application credentials for your app.
 
@@ -17,8 +17,8 @@ If you find any compatibility issues, please [raise an issue](https://github.com
 
 You need to be running at least Node.js 10 to use this library.
 
-```
-$ npm install pusher
+```shell
+npm install pusher
 ```
 
 ## Importing
@@ -84,7 +84,7 @@ You can pass the optional second argument with options, as in `forCluster` funct
 This is useful for example on Heroku, which sets the PUSHER_URL environment
 variable to such URL, if you have the Pusher addon installed.
 
-#### Additional options
+### Additional options
 
 There are a few additional options that can be used in all above methods:
 
@@ -109,7 +109,7 @@ Asynchronous methods on the `Pusher` class (`trigger`, `get` and `post`) return 
 
 All operational errors are wrapped into a Pusher.RequestError object.
 
-#### WebHooks
+#### WebHook errors
 
 In case accessing data for invalid WebHooks, an Pusher.WebHookError exception will be thrown from the called method. It is recommended to validate the WebHook before interpreting it.
 
@@ -266,7 +266,7 @@ This library supports end-to-end encryption of your private channels. This means
 
 4. Subscribe to these channels in your client, and you're done! You can verify it is working by checking out the debug console on the [https://dashboard.pusher.com/](dashboard) and seeing the scrambled ciphertext.
 
-**Important note: This will **not** encrypt messages on channels that are not prefixed by `private-encrypted-`.**
+**Important note: This will not encrypt messages on channels that are not prefixed by `private-encrypted-`.**
 
 **Limitation**: you cannot trigger a single event on multiple channels in a call to `trigger`, e.g.
 
@@ -493,13 +493,17 @@ The `params` object can't contain following keys, as they are used to sign the r
 The tests run using [Mocha](http://mochajs.org/). Make sure
 you've got all required modules installed:
 
+```shell
     npm install
+```
 
 ### Running the local test suite
 
 You can run local integration tests without setting up a Pusher Channels app:
 
+```shell
     npm run local-test
+```
 
 ### Running the complete test suite
 
@@ -507,7 +511,9 @@ In order to run the full test suite, first you need a Pusher Channels app. When 
 mocha, you need to set the PUSHER_URL environment variable to contain your
 app credentials, like following:
 
+```shell
     PUSHER_URL='http://KEY:SECRET@api-CLUSTER.pusher.com/apps/APP_ID' npm test
+```
 
 ## Credits
 

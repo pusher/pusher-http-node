@@ -158,6 +158,14 @@ pusher.triggerBatch(events)
 
 You can trigger a batch of up to 10 events.
 
+#### Sending events to Authenticated Users
+
+Events can be triggered to (Authenticated Users)[#Authenticating users] 
+
+```javascript
+pusher.sendToUser("user-1", "test_event", { message: "hello world" })
+```
+
 ### Excluding event recipients
 
 In order to avoid the client that triggered the event from also receiving it, a `socket_id` parameter can be added to the `params` object. For more information see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.

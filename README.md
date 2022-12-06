@@ -160,7 +160,7 @@ You can trigger a batch of up to 10 events.
 
 #### Sending events to Authenticated Users
 
-Events can be triggered to [Authenticated Users](#Authenticating users) 
+Events can be triggered to [Authenticated Users](#Authenticating-users) 
 
 ```javascript
 pusher.sendToUser("user-1", "test_event", { message: "hello world" })

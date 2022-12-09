@@ -1,3 +1,8 @@
+# Changelog
+
+## 5.1.2
+
+- [CHANGED] Add types/node-fetch to dependencies.
 ## 5.1.1-beta (2022-06-01)
 
 [FIXED] Updated typescript types with new user features.

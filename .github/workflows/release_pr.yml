@@ -35,8 +35,6 @@ jobs:
         run: |
           echo "$(jq '.version = "${{ steps.bump.outputs.new_version }}"' package.json)" > package.json
 
-          make build_all
-
-          git add package.json CHANGELOG.md dist/
+          git add package.json CHANGELOG.md
           git commit -m "Bump to version ${{ steps.bump.outputs.new_version }}"
           git push

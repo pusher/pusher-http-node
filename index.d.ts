@@ -174,9 +174,13 @@ declare namespace Pusher {
     events: Array<Event>
   }
 
-  export interface Token {
+  export class Token {
     key: string
     secret: string
+    constructor(key: string, secret: string)
+
+    sign(): string
+    verfiy(): boolean
   }
 
   export class WebHook {

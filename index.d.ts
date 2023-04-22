@@ -179,8 +179,8 @@ declare namespace Pusher {
     secret: string
     constructor(key: string, secret: string)
 
-    sign(): string
-    verify(): boolean
+    private sign(): string
+    private verify(): boolean
   }
 
   export class WebHook {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.3
+
+[FIXED] Parsing of the extraTokens in webhook's isValid method
+
 ## 5.1.2
 
 - [CHANGED] Add types/node-fetch to dependencies.

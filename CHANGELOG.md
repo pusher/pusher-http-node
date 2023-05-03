@@ -1,8 +1,13 @@
 # Changelog
 
+## 5.1.3
+
+[FIXED] Parsing of the extraTokens in webhook's isValid method
+
 ## 5.1.2
 
 - [CHANGED] Add types/node-fetch to dependencies.
+
 ## 5.1.1-beta (2022-06-01)
 
 [FIXED] Updated typescript types with new user features.
@@ -90,7 +95,7 @@ const pusher = new Pusher.forURL(process.env.PUSHER_URL, {
 
 ## 2.2.1 (2019-07-03)
 
-no-op release to fix the description on https://www.npmjs.com/package/pusher
+no-op release to fix the description on <https://www.npmjs.com/package/pusher>
 
 ## 2.2.0 (2018-11-26)
 

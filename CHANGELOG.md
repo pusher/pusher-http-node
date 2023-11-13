@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.2.0
+
+- [CHANGED] Remove old notification references. It's no longer being used
+
 ## 5.1.3
 
 [FIXED] Parsing of the extraTokens in webhook's isValid method

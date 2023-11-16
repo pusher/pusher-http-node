@@ -74,7 +74,7 @@ declare namespace Pusher {
   }
   interface HostOptions extends BaseOptions {
     host: string
-    port?: string
+    port?: number
   }
 
   export type Options = ClusterOptions | HostOptions

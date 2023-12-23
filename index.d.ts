@@ -6,20 +6,20 @@ export = Pusher
 declare class Pusher {
   constructor(opts: Pusher.Options)
 
-  trigger(
+  trigger<T = any>(
     channel: string | Array<string>,
     event: string,
-    data: any,
+    data: T,
     params?: Pusher.TriggerParams
   ): Promise<Response>
 
-  trigger(
+  trigger<T = any>(
     channel: string | Array<string>,
     event: string,
-    data: any
+    data: T
   ): Promise<Response>
 
-  triggerBatch(events: Array<Pusher.BatchEvent>): Promise<Response>
+  triggerBatch<T = any>(events: Array<Pusher.BatchEvent<T>>): Promise<Response>
 
   get(opts: Pusher.GetOptions): Promise<Response>
   post(opts: Pusher.PostOptions): Promise<Response>
@@ -44,7 +44,7 @@ declare class Pusher {
     userData: Pusher.UserChannelData
   ): Pusher.UserAuthResponse
 
-  sendToUser(userId: string, event: string, data: any): Promise<Response>
+  sendToUser<T = any>(userId: string, event: string, data: T): Promise<Response>
 
   terminateUserConnections(userId: string): Promise<Response>
 
@@ -84,10 +84,10 @@ declare namespace Pusher {
     info?: string
   }
 
-  export interface BatchEvent {
+  export interface BatchEvent<T = any> {
     channel: string
     name: string
-    data: any
+    data: T
     socket_id?: string
     info?: string
   }

@@ -193,7 +193,7 @@ pusher
     }
     // Parse the response body as JSON
     return response.json()
-  )
+  })
   .then(body => {
     const channelsInfo = body.channels
     // Do something with channelsInfo

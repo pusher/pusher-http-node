@@ -88,16 +88,22 @@ variable to such URL, if you have the Pusher addon installed.
 
 There are a few additional options that can be used in all above methods:
 
-```javascript
-const Pusher = require("pusher")
+- To configure a proxy, use [`https://www.npmjs.com/package/https-proxy-agent`](https://www.npmjs.com/package/https-proxy-agent) or similar:
 
-const pusher = new Pusher({
-  // you can set other options in any of the 3 ways described above
-  proxy: "HTTP_PROXY_URL", // optional, URL to proxy the requests through
-  timeout: TIMEOUT, // optional, timeout for all requests in milliseconds
-  keepAlive: KEEP_ALIVE, // optional, enables keep-alive, defaults to false
+```js
+const pusher = new Pusher.forURL(process.env.PUSHER_URL, {
+  agent: new HttpsProxyAgent("http://localhost:8321"),
 })
 ```
+
+- To configure keep alive:
+
+```js
+const pusher = new Pusher.forURL(process.env.PUSHER_URL, {
+  agent: new https.Agent({ keepAlive: true }),
+})
+```
+
 
 ## Usage
 

@@ -1,6 +1,8 @@
 [![Build Status](https://github.com/pusher/pusher-http-node/workflows/Tests/badge.svg)](https://github.com/pusher/pusher-http-node/actions?query=workflow%3ATests+branch%3Amaster)
 [![npm version](https://badge.fury.io/js/pusher.svg)](https://badge.fury.io/js/pusher)
 
+For reporting issues, bugs, and feature requests, please feel free to open a pull request or open an issue. If you do not receive a timely response, feel free to check our [support portal](https://docs.bird.com/pusher).
+
 # Pusher Channels Node.js REST library
 
 In order to use this library, you need to have an account on <https://pusher.com/channels>. After registering, you will need the application credentials for your app.

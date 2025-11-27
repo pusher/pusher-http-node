@@ -190,5 +190,31 @@ declare namespace Pusher {
     getTime(): Date
   }
 
+  export class RequestError extends Error {
+    constructor(
+      message: string,
+      url: string,
+      error: Error,
+      status?: number,
+      body?: string
+    )
+    url: string
+    error: Error
+    status?: number
+    body?: string
+  }
+
+  export class WebHookError extends Error {
+    constructor(
+      message: string,
+      contentType: string,
+      body: string,
+      signature: string
+    )
+    contentType: string
+    body: string
+    signature: string
+  }
+
   export { Response }
 }

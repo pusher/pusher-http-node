@@ -1,8 +1,8 @@
 # Changelog
 
-## 5.3.0
+## 5.3.1
 
-- [CHANGED] Describe your change here. Look at CHANGELOG.md to see the format.
+- [CHANGED] Fix Github Actions.
 
 ## 5.2.0
 

@@ -64,19 +64,10 @@ jobs:
     needs: create-github-release
     steps:
       - uses: actions/checkout@v4
-      - uses: flood-io/is-published-on-npm@8478347e2650eb228d303975415458183d0a37e4
-        id: is-published
-      - run: echo "This version is already published on NPM"
-        if: ${{ steps.is-published.outputs.published == 'true' }}
-      - uses: actions/setup-node@v2
-        if: ${{ steps.is-published.outputs.published == 'false' }}
+      - uses: actions/setup-node@v4
         with:
           node-version: "14"
-          registry-url: https://registry.npmjs.org/
       - run: npm install
-        if: ${{ steps.is-published.outputs.published == 'false' }}
       - run: npm publish --access public
-        if: ${{ steps.is-published.outputs.published == 'false' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

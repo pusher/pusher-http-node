@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.0
+
+- [CHANGED] Describe your change here. Look at CHANGELOG.md to see the format.
+
 ## 5.2.0
 
 - [CHANGED] Remove old notification references. It's no longer being used

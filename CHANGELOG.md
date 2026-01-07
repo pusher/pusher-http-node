@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.1
+
+- [CHANGED] Fix Github Actions.
+
 ## 5.2.0
 
 - [CHANGED] Remove old notification references. It's no longer being used

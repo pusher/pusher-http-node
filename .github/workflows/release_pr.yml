@@ -11,13 +11,16 @@ jobs:
     name: Prepare release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PUSHER_CI_GITHUB_PRIVATE_TOKEN }}
+          fetch-depth: 0
       - name: Get current version
         shell: bash
         run: |
           CURRENT_VERSION=$(jq -r '.version' package.json)
           echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           repository: pusher/actions
           token: ${{ secrets.PUSHER_CI_GITHUB_PRIVATE_TOKEN }}
@@ -26,11 +29,12 @@ jobs:
         id: bump
         with:
           current_version: ${{ env.CURRENT_VERSION }}
-      - uses: actions/setup-node@v2
+          token: ${{ secrets.PUSHER_CI_GITHUB_PRIVATE_TOKEN }}
+      - uses: actions/setup-node@v4
         with:
-          node-version: "14"
+          node-version: "20"
       - run: npm install
-      - name: Push
+      - name: Commit and push version bump
         shell: bash
         run: |
           echo "$(jq '.version = "${{ steps.bump.outputs.new_version }}"' package.json)" > package.json

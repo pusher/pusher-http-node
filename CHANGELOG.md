@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.2
+
+- [Added] missing error types for Typescript support
+
 ## 5.3.1
 
 - [CHANGED] Fix Github Actions.

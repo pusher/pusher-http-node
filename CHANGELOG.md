@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.3.3
+
+- [FIXED] Bump node-fetch to ^2.7.0, express to ^4.22.1, eslint to ^7.32.0, mocha to ^9.2.2
+- [FIXED] Pin transitive dependencies via overrides: cipher-base, cookie, elliptic, form-data, lodash, pbkdf2, qs, sha.js, tar
+
 ## 5.3.2
 
 - [Added] missing error types for Typescript support

@@ -1,7 +1,7 @@
 {
   "name": "pusher",
   "description": "Node.js client to interact with the Pusher Channels REST API",
-  "version": "5.3.2",
+  "version": "5.3.3",
   "author": "Pusher <support@pusher.com>",
   "contributors": [
     {
@@ -24,23 +24,34 @@
   "dependencies": {
     "abort-controller": "^3.0.0",
     "is-base64": "^1.1.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.7.0",
     "tweetnacl": "^1.0.0",
     "tweetnacl-util": "^0.15.0",
     "@types/node-fetch": "^2.5.7"
   },
   "devDependencies": {
     "@types/node": "^14.14.6",
-    "eslint": "^7.11.0",
+    "eslint": "^7.32.0",
     "expect.js": "=0.3.1",
-    "express": "^4.17.1",
+    "express": "^4.22.1",
     "https-proxy-agent": "^5.0.0",
-    "mocha": "^7.2.0",
+    "mocha": "^9.2.2",
     "nock": "^12.0.3",
     "prettier": "2.1.2",
     "sinon": "=1.10.2",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
+  },
+  "overrides": {
+    "cipher-base": "^1.0.6",
+    "cookie": "^0.7.1",
+    "elliptic": "^6.6.1",
+    "form-data": "^3.0.4",
+    "lodash": "^4.17.23",
+    "pbkdf2": "^3.1.5",
+    "qs": "^6.14.0",
+    "sha.js": "^2.4.12",
+    "tar": "^6.2.1"
   },
   "scripts": {
     "local-test": "npx mocha 'tests/integration/**/*.js'",

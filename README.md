@@ -170,7 +170,7 @@ pusher.sendToUser("user-1", "test_event", { message: "hello world" })
 
 ### Excluding event recipients
 
-In order to avoid the client that triggered the event from also receiving it, a `socket_id` parameter can be added to the `params` object. For more information see: <http://pusher.com/docs/publisher_api_guide/publisher_excluding_recipients>.
+In order to avoid the client that triggered the event from also receiving it, a `socket_id` parameter can be added to the `params` object. For more information see: <https://pusher.com/docs/channels/server_api/excluding-event-recipients/>.
 
 ```javascript
 pusher.trigger(channel, event, data, { socket_id: "1302.1081607" })
@@ -390,7 +390,7 @@ pusher
 pusher.get({ path: "/channels", params: params })
 ```
 
-Information on the optional `params` and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channels).
+Information on the optional `params` and the structure of the returned JSON is defined in the [REST API reference](https://pusher.com/docs/channels/library_auth_reference/rest-api/#method-get-channels).
 
 #### Get the state of a channel
 
@@ -398,7 +398,7 @@ Information on the optional `params` and the structure of the returned JSON is d
 pusher.get({ path: "/channels/[channel_name]", params: params })
 ```
 
-Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-channel).
+Information on the optional `params` option property and the structure of the returned JSON is defined in the [REST API reference](https://pusher.com/docs/channels/library_auth_reference/rest-api/#method-get-channel).
 
 #### Get the list of users in a presence channel
 
@@ -406,7 +406,7 @@ Information on the optional `params` option property and the structure of the re
 pusher.get({ path: "/channels/[channel_name]/users" })
 ```
 
-The `channel_name` in the path must be a [presence channel](http://pusher.com/docs/presence). The structure of the returned JSON is defined in the [REST API reference](http://pusher.com/docs/rest_api#method-get-users).
+The `channel_name` in the path must be a [presence channel](https://pusher.com/docs/channels/using_channels/presence-channels/). The structure of the returned JSON is defined in the [REST API reference](https://pusher.com/docs/channels/library_auth_reference/rest-api/#method-get-users).
 
 ### WebHooks
 

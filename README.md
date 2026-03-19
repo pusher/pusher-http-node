@@ -92,12 +92,13 @@ There are a few additional options that can be used in all above methods:
 
 ```javascript
 const Pusher = require("pusher")
+const http = require("http")
 
 const pusher = new Pusher({
   // you can set other options in any of the 3 ways described above
   proxy: "HTTP_PROXY_URL", // optional, URL to proxy the requests through
   timeout: TIMEOUT, // optional, timeout for all requests in milliseconds
-  keepAlive: KEEP_ALIVE, // optional, enables keep-alive, defaults to false
+  agent: new http.Agent({ keepAlive: true }), // optional, enables keep-alive
 })
 ```
 

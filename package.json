@@ -69,6 +69,6 @@
   "main": "lib/pusher",
   "typings": "index.d.ts",
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 10.0.0"
   }
 }

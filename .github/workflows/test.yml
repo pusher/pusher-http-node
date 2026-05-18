@@ -11,16 +11,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [10.x, 10.x, 12.x, 14.x]
+        node: [18.x, 20.x, 22.x]
 
     name: Node.js ${{ matrix.node }} Test
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
 

@@ -1,11 +1,5 @@
 # Changelog
 
-## 5.3.4
-
-- [SECURITY] Redact the encryption master key value from config validation error messages
-- [FIXED] Update CI Node.js test matrix to 18/20/22 and fix gyp build failure
-- [CHANGED] Pin GitHub Actions to commit SHAs and bump actions/checkout, actions/setup-node, actions/stale, and softprops/action-gh-release
-
 ## 5.3.3
 
 - [FIXED] Bump node-fetch to ^2.7.0, express to ^4.22.1, eslint to ^7.32.0, mocha to ^9.2.2

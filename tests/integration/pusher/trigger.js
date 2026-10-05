@@ -442,6 +442,51 @@ describe("Pusher", function () {
         .then(() => done())
         .catch(done)
     })
+
+    it("should not modify the events passed in", function (done) {
+      nock("http://api.pusherapp.com")
+        .filteringPath(function (path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
+            .replace(/body_md5=[0-9a-f]{32}/, "body_md5=Z")
+        })
+        .post(
+          "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
+          {
+            batch: [
+              {
+                channel: "integration",
+                name: "event",
+                data: '{"hello":"world"}',
+              },
+            ],
+          }
+        )
+        .reply(200, "{}")
+
+      const batch = [
+        {
+          channel: "integration",
+          name: "event",
+          data: { hello: "world" },
+        },
+      ]
+
+      pusher
+        .triggerBatch(batch)
+        .then(() => {
+          expect(batch).to.eql([
+            {
+              channel: "integration",
+              name: "event",
+              data: { hello: "world" },
+            },
+          ])
+          done()
+        })
+        .catch(done)
+    })
   })
 
   describe("#sendToUser", function () {
@@ -624,6 +669,64 @@ describe("Pusher with encryptionMasterKey", function () {
           },
         ])
         .then(() => done())
+        .catch(done)
+    })
+
+    it("should not modify the events passed in, so a batch can be triggered again", function (done) {
+      const bodies = []
+      nock("http://api.pusherapp.com")
+        .filteringPath(function (path) {
+          return path
+            .replace(/auth_timestamp=[0-9]+/, "auth_timestamp=X")
+            .replace(/auth_signature=[0-9a-f]{64}/, "auth_signature=Y")
+            .replace(/body_md5=[0-9a-f]{32}/, "body_md5=Z")
+        })
+        .post(
+          "/apps/1234/batch_events?auth_key=f00d&auth_timestamp=X&auth_version=1.0&body_md5=Z&auth_signature=Y",
+          function (body) {
+            bodies.push(body)
+            return true
+          }
+        )
+        .times(2)
+        .reply(200, "{}")
+
+      const decrypt = function (event) {
+        const encrypted = JSON.parse(event.data)
+        const plaintextBytes = nacl.secretbox.open(
+          naclUtil.decodeBase64(encrypted.ciphertext),
+          naclUtil.decodeBase64(encrypted.nonce),
+          pusher.channelSharedSecret(event.channel)
+        )
+        return JSON.parse(naclUtil.encodeUTF8(plaintextBytes))
+      }
+
+      const batch = [
+        {
+          channel: "integration",
+          name: "event",
+          data: { hello: "world" },
+        },
+        {
+          channel: "private-encrypted-integration2",
+          name: "event2",
+          data: { hello2: "another world" },
+        },
+      ]
+
+      pusher
+        .triggerBatch(batch)
+        .then(() => pusher.triggerBatch(batch))
+        .then(() => {
+          expect(bodies.length).to.equal(2)
+          bodies.forEach(function (body) {
+            expect(body.batch[0].data).to.equal('{"hello":"world"}')
+            expect(decrypt(body.batch[1])).to.eql({ hello2: "another world" })
+          })
+          expect(batch[0].data).to.eql({ hello: "world" })
+          expect(batch[1].data).to.eql({ hello2: "another world" })
+          done()
+        })
         .catch(done)
     })
   })

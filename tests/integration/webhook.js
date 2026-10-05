@@ -59,6 +59,34 @@ describe("WebHook", function () {
       expect(webhook.isValid()).to.be(false)
     })
 
+    it("should return false for a webhook with no signature header", function () {
+      const webhook = new WebHook(token, {
+        headers: {
+          "x-pusher-key": "123456789",
+          "content-type": "application/json",
+        },
+        rawBody: JSON.stringify({
+          time_ms: 1403175510755,
+          events: [{ channel: "test_channel", name: "channel_vacated" }],
+        }),
+      })
+      expect(webhook.isValid()).to.be(false)
+    })
+
+    it("should return false for a webhook with no signature header when checking extra tokens", function () {
+      const webhook = new WebHook(token, {
+        headers: {
+          "x-pusher-key": "1234",
+          "content-type": "application/json",
+        },
+        rawBody: JSON.stringify({
+          time_ms: 1403175510755,
+          events: [{ channel: "test_channel", name: "channel_vacated" }],
+        }),
+      })
+      expect(webhook.isValid(new Token("1234", "tofu"))).to.be(false)
+    })
+
     it("should return true if webhook is signed with the extra token", function () {
       const webhook = new WebHook(token, {
         headers: {
